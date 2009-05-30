@@ -1,5 +1,5 @@
 #summary Usage of macdependency
-#labels Phase-Deploy
+#labels Phase-Deploy,Featured
 = Download & Installation =
 You can either download the binary from the download section, which I provide in form of a dmg-file. You can mount that on your filesystem. The dmg-file contains only the bundle macdependency which you can copy to your applications folder /Applications or anywhere else.
 
