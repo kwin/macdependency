@@ -13,7 +13,6 @@ MachOFile::MachOFile(const MachOFile& file, bool reversedByteOrder) :
 {
 }
 
-
 MachOFile::~MachOFile() {
     file->release();
 }

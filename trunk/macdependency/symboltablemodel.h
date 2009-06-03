@@ -24,7 +24,7 @@ private:
         NumberOfColumns
     };
     static const QString columnLabels[];
-    std::vector<SymbolTableEntry*>* symbolTableEntries;
+    const std::vector<const SymbolTableEntry*>* symbolTableEntries;
     const bool shouldDemangleNames;
 };
 

@@ -6,6 +6,6 @@ GenericCommand::GenericCommand(MachOHeader* header) :
     file.readBytes((char*)&command, sizeof(command));
 }
 
-unsigned int GenericCommand::getSize() {
+unsigned int GenericCommand::getSize() const {
     return file.getUint32(command.cmdsize);
 }

@@ -26,7 +26,7 @@ MachOHeader* MachOHeader::getHeader(MachOFile& file, uint32_t magic) {
 }
 
 // for every header create a new filehandler with correct byte order
-MachOHeader::MachOHeader(MachOFile& file, bool reversedBO) :
+MachOHeader::MachOHeader(const MachOFile& file, bool reversedBO) :
         file(file, reversedBO), offset(this->file.getPosition())
 {
 }
@@ -35,8 +35,8 @@ MachOHeader::~MachOHeader() {
 
 }
 
-MachOHeader::CpuType MachOHeader::getCpuType() {
-     MachOHeader::CpuType cpuType;
+MachOHeader::CpuType MachOHeader::getCpuType() const {
+    MachOHeader::CpuType cpuType;
     unsigned int cpu = getInternalCpuType();
     switch(cpu) {
         case CPU_TYPE_POWERPC:
@@ -52,13 +52,12 @@ MachOHeader::CpuType MachOHeader::getCpuType() {
             cpuType = MachOHeader::CpuTypeX8664;
             break;
         default:
-            throw MachOException("Invalid CPU type");
-
+            cpuType = MachOHeader::CpuTypeOther;
     }
     return cpuType;
 }
 
-MachOHeader::FileType MachOHeader::getFileType() {
+MachOHeader::FileType MachOHeader::getFileType() const {
     unsigned int fileType = getInternalFileType();
     if (fileType > NumFileTypes || fileType < 1) {
         throw MachOException("Invalid file type");

@@ -51,6 +51,8 @@ private:
     void loadSymbolTable(MachOArchitecture* architecture, QModelIndex& selected);
     void loadLibraries(MachOArchitecture* architecture);
     void resetWidgets();
+    void resetFileInformation();
+    void resetArchitectureInformation();
     int setFileInformation(MachO* file, MachOArchitecture* selectedArchitecture = 0);
     void setArchitectureInformation(MachO* file, MachOArchitecture* architecture);
     void refreshFilter();

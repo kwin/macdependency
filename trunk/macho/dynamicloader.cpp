@@ -13,8 +13,7 @@
 
 const char* DynamicLoader::EnvironmentPathVariable::KEY_VALUE_SEPARATOR = "=";
 const char* DynamicLoader::EnvironmentPathVariable::PATHS_SEPARATOR = ";";
-
-
+const char* DynamicLoader::EnvironmentPathVariable::HOME_PATH = getenv("HOME");
 DynamicLoader::EnvironmentPathVariable::EnvironmentPathVariable() {
     // default constructor (should not be used explicitly)
 }
@@ -33,11 +32,22 @@ DynamicLoader::EnvironmentPathVariable::EnvironmentPathVariable(const char* name
         if (parts.size() == 2 && !parts.at(1).isEmpty()) {
             // parses and splits at ";"
             QStringList paths = parts.at(1).split(PATHS_SEPARATOR);
-            values = paths;
+            setPaths(paths);
         }
     } else {
-        values = defaultValues;
+        setPaths(defaultValues);
     }
+}
+
+void DynamicLoader::EnvironmentPathVariable::setPaths(const QStringList& paths) {
+    values = paths;
+
+    // replace ~ by home directory
+    int index;
+    while ((index = values.indexOf(QRegExp("^~.*"))) != -1) {
+        values[index].replace(0, 1, HOME_PATH);
+    }
+
 }
 
 bool DynamicLoader::EnvironmentPathVariable::isEmpty() const {
@@ -60,9 +70,17 @@ const char* DynamicLoader::ENVIRONMENT_VARIABLE_NAMES[DynamicLoader::NumEnvironm
     "DYLD_FALLBACK_LIBRARY_PATH",
     "DYLD_IMAGE_SUFFIX"
 };
+
+const char* DynamicLoader::PLACEHOLDERS[DynamicLoader::NumPlaceholders] = {
+    "@executable_path",
+    "@loader_path",
+    "@rpath"
+};
+
 const char* DynamicLoader::PATH_SEPARATOR = "/";
 
 // unfortunately cannot make QStringList const her, but treat it as const
+// TODO: correct home path handling
 QStringList DynamicLoader::ENVIRONMENT_VARIABLE_DEFAULT_VALUES[DynamicLoader::NumEnvironmentVariables] = {
     QStringList(),
     QStringList(),
@@ -83,7 +101,7 @@ DynamicLoader::DynamicLoader()
     } 
 }
 
-QString DynamicLoader::getPathname(const QString& name, const QString& callingPathName, const QString& workingDirectory) const {
+QString DynamicLoader::getPathname(const QString& name, const QString& callingPath, const QString& workingPath) const {
     // simple name (only the last part of the name, after the last PATH_SEPARATOR)
     int lastSlashPosition = name.lastIndexOf(PATH_SEPARATOR);
     QString simpleName = name;
@@ -109,11 +127,21 @@ QString DynamicLoader::getPathname(const QString& name, const QString& callingPa
     if (!pathName.isEmpty())
         return pathName;
 
-    // resolve executable path
-    // TODO: @loader_library & @rpath
-    if (name.startsWith("@executable_path")) {
-        QString resolvedName = name;
-        resolvedName = resolvedName.replace("^@executable_path/", callingPathName);
+    // resolve placeholders
+    QString resolvedName;
+    if (name.startsWith(PLACEHOLDERS[ExecutablePath])) {
+        resolvedName = name;
+        resolvedName.replace(0, strlen(PLACEHOLDERS[ExecutablePath]), workingPath);
+    } else if (name.startsWith(PLACEHOLDERS[LoaderPath])) {
+        resolvedName = name;
+        resolvedName.replace(0, strlen(PLACEHOLDERS[LoaderPath]), callingPath);
+    } else if (name.startsWith(PLACEHOLDERS[RPath])) {
+        // TODO: @rpath
+
+        // after checking against all stored rpaths substitute @rpath with LD_LIBRARY_PATH (if it is set)
+
+    }
+    if (!resolvedName.isNull()) {
         pathName = getExistingPathname(resolvedName);
         if (!pathName.isEmpty())
             return pathName;
@@ -123,7 +151,7 @@ QString DynamicLoader::getPathname(const QString& name, const QString& callingPa
     if (name.startsWith(PATH_SEPARATOR)) {
         pathName = getExistingPathname(name);
     } else {
-        pathName = getExistingPathname(name, workingDirectory);
+        pathName = getExistingPathname(name, workingPath);
     }
     if (!pathName.isEmpty())
         return pathName;

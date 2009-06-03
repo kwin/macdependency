@@ -6,12 +6,14 @@
 class MachO64Header : public MachOHeader
 {
 public:
-    MachO64Header(MachOFile& file, bool reversedBO);
-    virtual unsigned int getNumberOfLoadCommands();
-    virtual bool is64Bit();
+    MachO64Header(const MachOFile& file, bool reversedBO);
+    virtual unsigned int getNumberOfLoadCommands() const;
+    virtual bool is64Bit() const;
+    virtual unsigned int getLoadCommandSize() const;    // size of load command following the header
+    virtual unsigned int getSize() const;   // size of header only
 protected:
-    virtual unsigned int getInternalCpuType();
-    virtual unsigned int getInternalFileType();
+    virtual unsigned int getInternalCpuType() const;
+    virtual unsigned int getInternalFileType() const;
 private:
     mach_header_64 header;
 };

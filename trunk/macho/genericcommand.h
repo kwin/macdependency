@@ -7,7 +7,7 @@ class GenericCommand : public LoadCommand
 {
 public:
     GenericCommand(MachOHeader* header);
-    virtual unsigned int getSize();
+    virtual unsigned int getSize() const;
 private:
     load_command command;
 };

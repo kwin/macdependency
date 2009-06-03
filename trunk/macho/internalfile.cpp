@@ -22,7 +22,7 @@ InternalFile::InternalFile(const QString& fileName) :
         QFile(fileName), counter(1)
 {
     if (!open(QIODevice::ReadOnly))
-        throw MachOException("Couldn't open file " + fileName + ": "+ errorString() +" Error Number " + QString::number(error()));
+        throw MachOException("Couldn't open file '" + fileName + "': "+ errorString() +". Error Number: " + QString::number(error()) + ".");
 }
 
 // destructor is private since we use reference counting mechanism

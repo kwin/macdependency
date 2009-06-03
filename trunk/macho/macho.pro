@@ -22,7 +22,8 @@ SOURCES += macho.cpp \
     internalfile.cpp \
     symboltableentry64.cpp \
     demangler.cpp \
-    dynamicloader.cpp
+    dynamicloader.cpp \
+    rpathcommand.cpp
 HEADERS += macho.h \
     macho_global.h \
     machoexception.h \
@@ -40,9 +41,12 @@ HEADERS += macho.h \
     internalfile.h \
     symboltableentry64.h \
     demangler.h \
-    dynamicloader.h
+    dynamicloader.h \
+    rpathcommand.h
 CONFIG += x86 \
     ppc \
+    \ \
+    \ \
     \ \
     \ \
     \ \
@@ -52,4 +56,4 @@ CONFIG += x86 \
     CONFIG \
     += \
     create_prl
- VERSION = 0.5.0
+VERSION = 0.5.0

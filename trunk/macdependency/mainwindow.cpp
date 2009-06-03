@@ -13,7 +13,7 @@
 
 
 // static variables
-const QString MainWindow::cpuTypes[MachOHeader::NumCpuTypes] = { tr("Power PC"), tr("Intel I386"), tr("Power PC 64"), tr("Intel X86-64") };
+const QString MainWindow::cpuTypes[MachOHeader::NumCpuTypes] = { tr("Power PC"), tr("Intel I386"), tr("Power PC 64"), tr("Intel X86-64"), tr("Other") };
 const QString MainWindow::fileTypes[MachOHeader::NumFileTypes] = { tr("Object File"), tr("Executable File"), tr("VM Shared Library File"), tr("Core File"),
                                                                    tr("Preloaded Executabble File"), tr("Shared Library"), tr("Dynamic Linker"), tr("Static Library"), tr("Dsym File")};
 
@@ -28,15 +28,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->libraryView->selectionModel(), SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)), this, SLOT( changeCurrentLibrary(const QItemSelection &, const QItemSelection &) ) );
     ui->libraryView->sortByColumn(0, Qt::AscendingOrder);
 
-    //symbolFilterModel.setSortRole();
     ui->symbolView->setModel(&symbolFilterModel);
     ui->symbolView->sortByColumn(0, Qt::AscendingOrder);
     symbolFilterModel.setFilterKeyColumn(0);
 
     refreshFilter();
 
-    loadFile("/Users/kwindszus/Workspaces/DemoLib/libDemoLib.1.0.0.dylib");
-    //loadFile("/Users/kwindszus/Workspaces/Dependency/libMachO.1.0.0.dylib");
+    resetWidgets();
 }
 
 MainWindow::~MainWindow()
@@ -106,7 +104,7 @@ void MainWindow::loadLibraries(MachOArchitecture* architecture) {
     }
     libraryModel = new LibraryTableModel(architecture, machO, ui->logBrowser, ui->loadedLibrariesBrowser);
     libraryFilterModel.setSourceModel(libraryModel);
-#ifdef DEBUG
+#ifdef QT_DEBUG
     new ModelTest(&libraryFilterModel, this);
 #endif
     ui->libraryView->resizeColumnToContents(0);
@@ -130,7 +128,7 @@ void MainWindow::loadSymbolTable(MachOArchitecture* architecture, QModelIndex& s
     // check if names should be demangled
     symbolModel = new SymbolTableModel(architecture, ui->demangleNamesButton->isChecked());
     symbolFilterModel.setSourceModel(symbolModel);
-#ifdef DEBUG
+#ifdef QT_DEBUG
     new ModelTest(&symbolFilterModel, this);
 #endif
     ui->symbolView->resizeRowsToContents();
@@ -140,20 +138,41 @@ void MainWindow::resetWidgets() {
     ui->logBrowser->clear();
     ui->loadedLibrariesBrowser->clear();
 
-    ui->fileNameLabel->clear();
-    ui->fileTypeLabel->clear();
-    ui->sizeLabel->clear();
-    ui->lastModifiedLabel->clear();
-    ui->versionLabel->clear();
-    ui->architecturesBox->clear();
+    resetFileInformation();
+    resetArchitectureInformation();
 
     symbolFilterModel.setSourceModel(0);
     libraryFilterModel.setSourceModel(0);
 }
 
+void MainWindow::resetFileInformation() {
+    ui->fileNameLabel->clear();
+    ui->fileTypeLabel->clear();
+    ui->sizeLabel->clear();
+    ui->lastModifiedLabel->clear();
+    ui->architecturesBox->clear();
+}
+
+void MainWindow::resetArchitectureInformation() {
+    ui->versionLabel->clear();
+    ui->nameLabel->clear();
+}
+
 void MainWindow::setArchitectureInformation(MachO* file, MachOArchitecture* architecture) {
+    if (file == 0 || architecture == 0) {
+        resetArchitectureInformation();
+        return;
+    }
+
+    QString size = tr("%1 KB").arg(file->getSize()/1024);
+    if (file->getSize() != architecture->getSize()) {
+        size.append(tr(" (Architecture: %1 KB)").arg(architecture->getSize()/1024));
+    }
+    ui->sizeLabel->setText(size);
+
+    QString name;
     // get version info (first from bundle information)
-    QString version = file->getVersion();
+    QString version = file->getBundleVersion();
     if (!version.isNull()) {
         ui->versionLabel->setText(version);
     } else {
@@ -166,18 +185,30 @@ void MainWindow::setArchitectureInformation(MachO* file, MachOArchitecture* arch
                                       arg(dynamicLibraryIdCommand->getVersionString(dynamicLibraryIdCommand->getCurrentVersion()))
                                       .arg(dynamicLibraryIdCommand->getVersionString(dynamicLibraryIdCommand->getCompatibleVersion()));
             if (timestamp > 1) {
-                version.append(QString(tr("Timestamp %1")).arg(QDateTime::fromTime_t(timestamp).toString()));
+                version.append(QString(tr(", %1")).arg(QDateTime::fromTime_t(timestamp).toString()));
             }
             ui->versionLabel->setText(version);
+            name = dynamicLibraryIdCommand->getName();
         }
-
     }
     ui->fileTypeLabel->setText(fileTypes[architecture->getHeader()->getFileType()]);
+
+    if (name.isEmpty()) {
+        ui->nameLabelLabel->setText("Bundle Name");
+        // get bundle name if install name is not available
+        name = file->getBundleName();
+    } else
+        ui->nameLabelLabel->setText("Install Name");
+    ui->nameLabel->setText(name);
 }
 
 int MainWindow::setFileInformation(MachO* file, MachOArchitecture* selectedArchitecture) {
+    if (file == 0) {
+        resetFileInformation();
+        resetArchitectureInformation();
+        return -1;
+    }
     ui->fileNameLabel->setText(file->getFileName());
-    ui->sizeLabel->setText(QString("%1 KB").arg(file->getSize()/1024));
     ui->lastModifiedLabel->setText(QDateTime::fromTime_t(file->getLastModificationDate()).toString(Qt::SystemLocaleShortDate));
 
     ui->architecturesBox->clear();
