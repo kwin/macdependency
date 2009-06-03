@@ -18,8 +18,7 @@ QString SymbolTableEntry::getName(bool shouldDemangle) const {
     return internalName;
 }
 
-SymbolTableEntry::Type SymbolTableEntry::getType() {
-
+SymbolTableEntry::Type SymbolTableEntry::getType() const {
     unsigned int type = getInternalType();
 
     if (type & N_STAB) {
@@ -28,7 +27,6 @@ SymbolTableEntry::Type SymbolTableEntry::getType() {
     if (type & N_PEXT) {
         return TypePrivateExtern;
     }
-
     if (type & N_EXT) {
         if ((type & N_TYPE) == N_UNDF)
             return TypeImported;

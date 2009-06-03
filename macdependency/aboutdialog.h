@@ -20,7 +20,9 @@ private slots:
     void on_aboutQtButton_clicked();
 
 private:
-    Ui::AboutDialog *m_ui;
+    Ui::AboutDialog *ui;
+
+    QString getBundleVersion();
 };
 
 #endif // ABOUTDIALOG_H

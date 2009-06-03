@@ -20,6 +20,7 @@ MachO::MachO(const QString& fileName) : bundle(0)
     machOFileName = getApplicationInBundle(fileName);
     if (machOFileName.isNull())
         machOFileName = fileName;
+
     init(machOFileName);
 
     if (referenceCounter == 0) {
@@ -83,13 +84,13 @@ void MachO::init(const QString& fileName)
             // read out magic number
             uint32_t magic = file->readUint32();
             file->seek(offset);
-            MachOArchitecture* architecture = new MachOArchitecture(*file, magic);
+            MachOArchitecture* architecture = new MachOArchitecture(*file, magic, file->getUint32BE(fatArch[n].size));
             architectures.push_back(architecture);
         }
     } else {
         // seek back to beginning
         file->seek(0);
-        MachOArchitecture* architecture = new MachOArchitecture(*file, magic);
+        MachOArchitecture* architecture = new MachOArchitecture(*file, magic, getSize());
         architectures.push_back(architecture);
     }
 }
@@ -116,14 +117,15 @@ MachO::~MachO() {
 }
 
 // choose an architecture which is compatible to the given architecture
-MachOArchitecture* MachO::getCompatibleArchitecture(MachOArchitecture* destArchitecture) {
+MachOArchitecture* MachO::getCompatibleArchitecture(MachOArchitecture* destArchitecture) const {
     MachOHeader::CpuType destCpuType = destArchitecture->getHeader()->getCpuType();
 
     // go through all architectures
-    for (std::vector<MachOArchitecture*>::iterator it = architectures.begin();
+    for (std::vector<MachOArchitecture*>::const_iterator it = architectures.begin();
     it != architectures.end();
     ++it)
     {
+        // TODO: match subtypes (only for PowerPC necessary)
         if ((*it)->getHeader()->getCpuType() == destCpuType)
             return  *it;
     }
@@ -131,54 +133,73 @@ MachOArchitecture* MachO::getCompatibleArchitecture(MachOArchitecture* destArchi
     return 0;
 }
 
-long long int MachO::getSize() {
+long long int MachO::getSize() const {
     return file->getSize();
 }
 
-time_t MachO::getLastModificationDate() {
-    return QFileInfo(file->getFileName()).lastModified().toTime_t();
+time_t MachO::getLastModificationDate() const {
+    return QFileInfo(file->getName()).lastModified().toTime_t();
 }
 
 // return bundle version if available, otherwise NULL string
-QString MachO::getVersion() {
+QString MachO::getBundleVersion() const {
     QString version;
     if (bundle != 0) {
         CFStringRef cfVersion = (CFStringRef)CFBundleGetValueForInfoDictionaryKey(bundle, kCFBundleVersionKey);
         // is version available at all?
         if (cfVersion) {
-            const char* szVersion = CFStringGetCStringPtr(cfVersion, kCFStringEncodingASCII);
-            if (szVersion == NULL) {
-                CFIndex versionLength = CFStringGetMaximumSizeForEncoding(CFStringGetLength(cfVersion), kCFStringEncodingASCII);
-
-                char szVersionNew[versionLength + 1];
-                if (CFStringGetCString(cfVersion,
-                                       szVersionNew,
-                                       versionLength+1,
-                                       kCFStringEncodingASCII
-                                       ))
-                    version = szVersionNew;
-            } else {
-                version = szVersion;
-            }
+            version = extractStringFromCFStringRef(cfVersion);
         }
     }
     return version;
 }
 
-QIcon MachO::getIcon() {
+QString MachO::getBundleName() const {
+    QString bundleName;
+    if (bundle != 0) {
+        CFStringRef cfBundleName = (CFStringRef)CFBundleGetValueForInfoDictionaryKey(bundle, kCFBundleNameKey);
+        // is version available at all?
+        if (cfBundleName) {
+            bundleName = extractStringFromCFStringRef(cfBundleName);
+        }
+    }
+    return bundleName;
+}
+
+QString MachO::extractStringFromCFStringRef(CFStringRef cfStringRef) {
+    QString string;
+    const char* szString = CFStringGetCStringPtr(cfStringRef, kCFStringEncodingASCII);
+    if (szString == NULL) {
+        CFIndex stringLength = CFStringGetMaximumSizeForEncoding(CFStringGetLength(cfStringRef), kCFStringEncodingASCII);
+
+        char szStringNew[stringLength + 1];
+        if (CFStringGetCString(cfStringRef,
+                               szStringNew,
+                               stringLength+1,
+                               kCFStringEncodingASCII
+                               ))
+            string = szStringNew;
+        delete[] szString;
+    } else {
+        string = szString;
+    }
+    return string;
+}
+
+QIcon MachO::getIcon() const {
     QFileIconProvider iconProvider;
     QFileInfo fileInfo;
     // get icon from bundle
     if (!bundlePath.isNull())
-       fileInfo = QFileInfo(bundlePath);
+        fileInfo = QFileInfo(bundlePath);
     else
         fileInfo = QFileInfo(getFileName());
 
     return iconProvider.icon(fileInfo);
 }
 
-QString MachO::getDirectory() {
-    return QFileInfo(file->getFileName()).absoluteFilePath();
+QString MachO::getPath() const {
+    return file->getPath();
 }
 
 

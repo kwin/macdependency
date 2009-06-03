@@ -22,12 +22,14 @@ private:
 
             bool isEmpty() const;
             const QStringList& getPaths() const { return values; }
+
     private:
             QStringList splitPathVariable(const QString& pathVariable);
-
+            void setPaths(const QStringList& paths);
             QStringList values;
             static const char* KEY_VALUE_SEPARATOR;
             static const char* PATHS_SEPARATOR;
+            static const char* HOME_PATH;
     };
 
     enum {
@@ -40,6 +42,14 @@ private:
         NumEnvironmentVariables
     };
 
+    enum Placeholder {
+        ExecutablePath,
+        LoaderPath,
+        RPath,
+        NumPlaceholders
+    };
+
+    static const char* PLACEHOLDERS[NumPlaceholders];
     static const char* ENVIRONMENT_VARIABLE_NAMES[NumEnvironmentVariables];
     static const char* PATH_SEPARATOR;
     static QStringList ENVIRONMENT_VARIABLE_DEFAULT_VALUES[NumEnvironmentVariables];

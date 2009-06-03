@@ -25,8 +25,7 @@ CONFIG += x86 \
 CONFIG += link_prl
 PRE_TARGETDEPS += ../macho/libmacho.a
 include(./modeltest/modeltest.pri)
-mac {
-# ICON is still missing
+mac:# ICON is still missing
 QMAKE_INFO_PLIST = Info_mac.plist
-}
 VERSION = 0.5.0
+OTHER_FILES += Info_mac.plist

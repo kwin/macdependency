@@ -22,52 +22,72 @@ public:
     int columnCount (const QModelIndex & parent = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role) const;
     QVariant headerData(int section, Qt::Orientation orientation,
-                         int role = Qt::DisplayRole) const;
+                        int role = Qt::DisplayRole) const;
     QModelIndex index(int row, int column, const QModelIndex &parent) const;
     QModelIndex parent(const QModelIndex& child) const;
 
 
     class LibraryItem {
-        public:
-            LibraryItem(LibraryItem* parent, DylibCommand* command, MachOArchitecture* architecture, MachO* file) :
-                    parent(parent), dylibCommand(command), architecture(architecture), file(file), children(new std::vector<LibraryItem*>()) {
+    public:
+        enum State {
+            Normal,
+            Warning,
+            Error
+        };
+
+        LibraryItem(LibraryItem* parent, DylibCommand* command, MachOArchitecture* architecture, MachO* file, State state = Normal) :
+                parent(parent), dylibCommand(command), architecture(architecture), file(file), state(state), children(new std::vector<LibraryItem*>()) {
+        }
+
+        // copy constructor, which only takes over the children (with overriden parents)
+        LibraryItem(const LibraryItem* item, LibraryItem* parent, DylibCommand* command) :
+                parent(parent), dylibCommand(command), architecture(item->architecture), file(item->file), state(item->state), children(new std::vector<LibraryItem*>()) {
+            copyChildren(item->children, this);
+        }
+
+        // copy constructor, which only overrides the parent (even those of the children, cause otherwise the parent chain would be inconsistent)
+        LibraryItem(const LibraryItem* item, LibraryItem* parent) :
+                parent(parent), dylibCommand(item->dylibCommand), architecture(item->architecture), file(item->file), state(item->state), children(new std::vector<LibraryItem*>()) {
+            copyChildren(item->children, this);
+        }
+
+        ~LibraryItem() {
+            for (std::vector<LibraryItem*>::iterator it = children->begin();
+            it != children->end();
+            ++it) {
+                delete (*it);
             }
+            delete children;
+        }
 
-            // standard copy constructor with overridden parent
-            LibraryItem(const LibraryItem* item, LibraryItem* parent) :
-                parent(parent), dylibCommand(item->dylibCommand), architecture(item->architecture), file(item->file), children(new std::vector<LibraryItem*>()) {
-                for (std::vector<LibraryItem*>::iterator it = item->children->begin();
-                    it != item->children->end();
-                    ++it) {
-                        children->push_back(new LibraryItem(*it, this));
-                }
+    private:
+        void copyChildren(std::vector<LibraryItem*>* children, LibraryItem* parent) {
+            for (std::vector<LibraryItem*>::iterator it = children->begin();
+            it != children->end();
+            ++it) {
+                this->children->push_back(new LibraryItem(*it, parent));
             }
+        }
 
-            ~LibraryItem() {
-                for (std::vector<LibraryItem*>::iterator it = children->begin();
-                    it != children->end();
-                    ++it) {
-                        delete (*it);
-                }
-                delete children;
-            }
-
-
-            LibraryItem* parent;
-            DylibCommand* dylibCommand;
-            MachOArchitecture* architecture;
-            MachO* file;
-            std::vector<LibraryItem*>* children;
+    public:
+        LibraryItem* parent;
+        DylibCommand* dylibCommand;
+        MachOArchitecture* architecture;
+        MachO* file;
+        State state;
+        std::vector<LibraryItem*>* children;
     };
 
 private:
     enum {
         ColumnName = 0,
+        ColumnType,
         ColumnCompatibleVersion,
         ColumnCurrentVersion,
         NumberOfColumns
     };
-    const static QString columnLabels[];
+    const static QString columnLabels[NumberOfColumns];
+    const static QString types[];
 
     QTextBrowser* logBrowser;
     QTextBrowser* loadedLibrariesBrowser;

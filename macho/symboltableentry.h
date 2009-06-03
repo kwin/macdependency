@@ -21,7 +21,7 @@ public:
         NumTypes
     };
 
-    Type getType();
+    Type getType() const;
     virtual unsigned int getInternalType() const = 0;
     virtual const char* getInternalName() const = 0;
 

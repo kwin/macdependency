@@ -11,24 +11,25 @@
 class MACHOSHARED_EXPORT MachOArchitecture
 {
 public:
-    MachOArchitecture(MachOFile& file, uint32_t magic);
+    MachOArchitecture(MachOFile& file, uint32_t magic, unsigned int size);
     ~MachOArchitecture();
 
-    MachOHeader* getHeader() { return header; }
-    std::vector<LoadCommand*>::iterator getLoadCommandsBegin() { if(!hasReadLoadCommands) { readLoadCommands(); } return loadCommands.begin(); }
-    std::vector<LoadCommand*>::iterator getLoadCommandsEnd() { if(!hasReadLoadCommands) { readLoadCommands(); } return loadCommands.end(); }
-    DylibCommand* getDynamicLibIdCommand() { if(!hasReadLoadCommands) { readLoadCommands(); } return dynamicLibIdCommand; }
-
+    const MachOHeader* getHeader() { return header; }
+    std::vector<LoadCommand*>::const_iterator getLoadCommandsBegin() const { if(!hasReadLoadCommands) { readLoadCommands(); } return loadCommands.begin(); }
+    std::vector<LoadCommand*>::const_iterator getLoadCommandsEnd() const { if(!hasReadLoadCommands) { readLoadCommands(); } return loadCommands.end(); }
+    DylibCommand* getDynamicLibIdCommand() const { if(!hasReadLoadCommands) { readLoadCommands(); } return dynamicLibIdCommand; }
+    unsigned int getSize() const;
 
 private:
-
     MachOHeader* header;
     MachOFile& file;
-    bool hasReadLoadCommands;
-    void readLoadCommands();
+    const unsigned int size;
+    mutable bool hasReadLoadCommands;
+    void readLoadCommands() const;
 
-    std::vector<LoadCommand*> loadCommands;
-    DylibCommand* dynamicLibIdCommand;
+    mutable std::vector<LoadCommand*> loadCommands;
+    mutable DylibCommand* dynamicLibIdCommand;
+    mutable std::vector<const char*> rPaths;
 };
 
 #endif // MACHOARCHITECTURE_H

@@ -1,14 +1,14 @@
 #include "machoarchitecture.h"
 #include "machoexception.h"
+#include "rpathcommand.h"
 
 
-
-MachOArchitecture::MachOArchitecture(MachOFile& file, uint32_t magic) :
-    header(MachOHeader::getHeader(file, magic)), file(header->getFile()), hasReadLoadCommands(false), dynamicLibIdCommand(0)
+MachOArchitecture::MachOArchitecture(MachOFile& file, uint32_t magic, unsigned int size) :
+    header(MachOHeader::getHeader(file, magic)), file(header->getFile()), size(size), hasReadLoadCommands(false), dynamicLibIdCommand(0)
 {
 }
 
-void MachOArchitecture::readLoadCommands() {
+void MachOArchitecture::readLoadCommands() const {
     // read out number of commands
     unsigned int numberOfCommands = header->getNumberOfLoadCommands();
     // read out command identifiers
@@ -21,6 +21,12 @@ void MachOArchitecture::readLoadCommands() {
         DylibCommand* dylibCommand = dynamic_cast<DylibCommand*>(loadCommand);
         if (dylibCommand != 0 && dylibCommand->isId()) {
             dynamicLibIdCommand = dylibCommand;
+        }
+
+        RPathCommand* rPathCommand = dynamic_cast<RPathCommand*>(loadCommand);
+        if (rPathCommand != 0) {
+            // TODO: resolve placeholders in paths
+            rPaths.push_back(rPathCommand->getPath());
         }
         loadCommands.push_back(loadCommand);
         file.seek(commandOffset + loadCommand->getSize());
@@ -37,6 +43,10 @@ MachOArchitecture::~MachOArchitecture() {
     {
         delete *it;
     }
+}
+
+unsigned int MachOArchitecture::getSize() const {
+    return size;
 }
 
 

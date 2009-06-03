@@ -7,19 +7,21 @@ const QString SymbolTableModel::symbolTypes[SymbolTableEntry::NumTypes] = { tr("
 SymbolTableModel::SymbolTableModel(MachOArchitecture* architecture, bool shouldDemangleNames) :
         symbolTableEntries(0), shouldDemangleNames(shouldDemangleNames)
 {
-    for (std::vector<LoadCommand*>::iterator it = architecture->getLoadCommandsBegin();
-    it != architecture->getLoadCommandsEnd();
-    ++it)
-    {
-        // check if it is dylibcommand
-        SymbolTableCommand* command = dynamic_cast<SymbolTableCommand*> (*it);
-        if (command != NULL) {
-            symbolTableEntries = (command->getSymbolTableEntries());
-            break;
+    if (architecture != 0) {
+        for (std::vector<LoadCommand*>::const_iterator it = architecture->getLoadCommandsBegin();
+        it != architecture->getLoadCommandsEnd();
+        ++it)
+        {
+            // check if it is dylibcommand
+            SymbolTableCommand* command = dynamic_cast<SymbolTableCommand*> (*it);
+            if (command != NULL) {
+                symbolTableEntries = (command->getSymbolTableEntries());
+                break;
+            }
         }
     }
     if (!symbolTableEntries) {
-        symbolTableEntries = new std::vector<SymbolTableEntry*>;
+        symbolTableEntries = new std::vector<const SymbolTableEntry*>;
     }
 }
 
@@ -43,7 +45,7 @@ QVariant SymbolTableModel::data(const QModelIndex &index, int role) const {
         return QVariant();
 
     if (role == Qt::DisplayRole) {
-        SymbolTableEntry* symbol = symbolTableEntries->at(index.row());
+        const SymbolTableEntry* symbol = symbolTableEntries->at(index.row());
         switch(index.column()) {
         case ColumnType:
             SymbolTableEntry::Type type = symbol->getType();

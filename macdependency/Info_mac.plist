@@ -3,26 +3,27 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleVersion</key>
-        <string>0.5</string>
+        <string>0.5.0</string>
 	<key>CFBundleIconFile</key>
 	<string>@ICON@</string>
 	<key>CFBundlePackageType</key>
-        <string>APPL</string>
-         <key>CFBundleSignature</key>
-        <string>@TYPEINFO@</string>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>ttxt</string>
 	<key>CFBundleGetInfoString</key>
 	<string>Created by Qt/QMake</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.googlecode.macdependency</string>
-	<key>CFBundleSignature</key>
-	<string>ttxt</string>
 	<key>CFBundleExecutable</key>
 	<string>@EXECUTABLE@</string>
+        <key>CFBundleName</key>
+        <string>MacDependency</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
+				<string>*</string>
 				<string>app</string>
 				<string>dylib</string>
 			</array>
