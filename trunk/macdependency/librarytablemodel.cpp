@@ -223,7 +223,7 @@ QModelIndex LibraryTableModel::index(int row, int column, const QModelIndex &par
     if (parentItem == 0) {
         return createIndex(row, column, root);
     }
-    if (row >= parentItem->children->size() || parentItem->children->size() == 0)
+    if (row >= (int)parentItem->children->size() || parentItem->children->size() == 0)
         return QModelIndex();
     return createIndex(row, column, parentItem->children->at(row));
 }

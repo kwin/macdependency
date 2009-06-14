@@ -41,7 +41,7 @@ QVariant SymbolTableModel::data(const QModelIndex &index, int role) const {
     if (!index.isValid())
         return QVariant();
 
-    if (index.row() >= symbolTableEntries->size() || index.row() < 0)
+    if (index.row() < 0 || index.row() >= (int)symbolTableEntries->size())
         return QVariant();
 
     if (role == Qt::DisplayRole) {
