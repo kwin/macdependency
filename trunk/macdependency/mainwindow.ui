@@ -27,7 +27,7 @@
        </sizepolicy>
       </property>
       <property name="title">
-       <string>Dependant File</string>
+       <string>Dependent File</string>
       </property>
       <layout class="QFormLayout" name="formLayout_2">
        <property name="fieldGrowthPolicy">
