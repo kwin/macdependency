@@ -13,7 +13,7 @@ public:
     void release();
 private:
     unsigned int counter;
-    ~InternalFile();
+    virtual ~InternalFile();
     InternalFile(const QString& fileName);
 };
 

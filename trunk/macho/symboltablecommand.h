@@ -10,7 +10,7 @@ class SymbolTableCommand : public LoadCommand
 {
 public:
     SymbolTableCommand(MachOHeader* header);
-    ~SymbolTableCommand();
+    virtual ~SymbolTableCommand();
     virtual unsigned int getSize() const;
 
     std::vector<const SymbolTableEntry*>::const_iterator getSymbolTableEntryBegin() const;
