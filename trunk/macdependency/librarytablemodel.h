@@ -9,6 +9,8 @@
 
 #include <QtGui/QTextBrowser>
 #include <QtCore/QAbstractItemModel>
+#include <QtCore/QLinkedList>
+#include <QtCore/QHash>
 
 class LibraryTableModel : public QAbstractItemModel
 {
@@ -18,13 +20,16 @@ public:
     LibraryTableModel(MachOArchitecture* architecture, MachO* file, QTextBrowser* logBrowser, QTextBrowser* loadedLibrariesBrowser);
     ~LibraryTableModel();
 
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
-    int columnCount (const QModelIndex & parent = QModelIndex()) const;
-    QVariant data(const QModelIndex &index, int role) const;
-    QVariant headerData(int section, Qt::Orientation orientation,
+    virtual bool hasChildren (const QModelIndex & parent = QModelIndex()) const;
+    virtual bool canFetchMore (const QModelIndex & parent) const;
+    virtual void fetchMore (const QModelIndex & parent);
+    virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    virtual int columnCount (const QModelIndex & parent = QModelIndex()) const;
+    virtual QVariant data(const QModelIndex &index, int role) const;
+    virtual QVariant headerData(int section, Qt::Orientation orientation,
                         int role = Qt::DisplayRole) const;
-    QModelIndex index(int row, int column, const QModelIndex &parent) const;
-    QModelIndex parent(const QModelIndex& child) const;
+    virtual QModelIndex index(int row, int column, const QModelIndex &parent) const;
+    virtual QModelIndex parent(const QModelIndex& child) const;
 
 
     class LibraryItem {
@@ -36,36 +41,48 @@ public:
         };
 
         LibraryItem(LibraryItem* parent, DylibCommand* command, MachOArchitecture* architecture, MachO* file, State state = Normal) :
-                parent(parent), dylibCommand(command), architecture(architecture), file(file), state(state), children(new std::vector<LibraryItem*>()) {
+                parent(parent), dylibCommand(command), architecture(architecture), file(file), state(state), children(new QList<LibraryItem*>()), depth(0) {
+            if (parent) {
+                depth = parent->depth +1;
+            }
+            numberOfDependencies = 1;
         }
 
         // copy constructor, which only takes over the children (with overriden parents)
         LibraryItem(const LibraryItem* item, LibraryItem* parent, DylibCommand* command) :
-                parent(parent), dylibCommand(command), architecture(item->architecture), file(item->file), state(item->state), children(new std::vector<LibraryItem*>()) {
-            copyChildren(item->children, this);
+                parent(parent), dylibCommand(command), architecture(item->architecture), file(item->file), state(item->state), children(new QList<LibraryItem*>()), depth(0) {
+            if (parent) {
+                depth = parent->depth +1;
+            }
+            numberOfDependencies = 1;
+            copyChildren(item);
         }
 
         // copy constructor, which only overrides the parent (even those of the children, cause otherwise the parent chain would be inconsistent)
         LibraryItem(const LibraryItem* item, LibraryItem* parent) :
-                parent(parent), dylibCommand(item->dylibCommand), architecture(item->architecture), file(item->file), state(item->state), children(new std::vector<LibraryItem*>()) {
-            copyChildren(item->children, this);
+                parent(parent), dylibCommand(item->dylibCommand), architecture(item->architecture), file(item->file), state(item->state), children(0), depth(0) {
+            if (parent) {
+                depth = parent->depth +1;
+            }
+            numberOfDependencies = 1;
+            // don't do children yet
         }
 
         ~LibraryItem() {
-            for (std::vector<LibraryItem*>::iterator it = children->begin();
-            it != children->end();
-            ++it) {
-                delete (*it);
+            if (children) {
+                while (!children->isEmpty()) {
+                    delete children->takeFirst();
+                }
+                delete children;
             }
-            delete children;
         }
 
-    private:
-        void copyChildren(std::vector<LibraryItem*>* children, LibraryItem* parent) {
-            for (std::vector<LibraryItem*>::iterator it = children->begin();
-            it != children->end();
-            ++it) {
-                this->children->push_back(new LibraryItem(*it, parent));
+        void copyChildren(const LibraryItem* source) {
+            QList<LibraryItem*>::const_iterator it;
+            for (it = source->children->constBegin(); it != source->children->constEnd(); ++it) {
+                LibraryItem* child = new LibraryItem(*it, this);
+                this->children->append(child);
+                numberOfDependencies += child->numberOfDependencies;
             }
         }
 
@@ -75,7 +92,9 @@ public:
         MachOArchitecture* architecture;
         MachO* file;
         State state;
-        std::vector<LibraryItem*>* children;
+        QList<LibraryItem*>* children; // if this is null, it is unknown whether there are children or not
+        unsigned int numberOfDependencies;
+        unsigned char depth;
     };
 
 private:
@@ -91,7 +110,7 @@ private:
 
     QTextBrowser* logBrowser;
     QTextBrowser* loadedLibrariesBrowser;
-    std::map<QString, LibraryItem*> itemCache;
+    QHash<QString, LibraryItem*> itemCache;
     LibraryItem* root;
 
     LibraryItem* createLibraryItem(DylibCommand* dylibCommand, LibraryItem* parent);
@@ -99,7 +118,7 @@ private:
 public:
     LibraryItem* getModelIndexData(const QModelIndex& index) const{
         if (!index.isValid())
-            return NULL;
+            return 0;
         return static_cast<LibraryItem*>(index.internalPointer());
     }
 

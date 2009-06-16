@@ -16,14 +16,17 @@ LibraryTableModel::LibraryTableModel(MachOArchitecture* architecture, MachO* fil
     root = new LibraryItem(0, 0, architecture, file);
     createChildItems(root);
     loadedLibrariesBrowser->append(QString(tr("%1 libraries loaded in %2 ms")).arg(itemCache.size()).arg(timer.elapsed()));
+    loadedLibrariesBrowser->append(QString("%1 total dependencies").arg(root->numberOfDependencies));
 }
 
 LibraryTableModel::LibraryItem* LibraryTableModel::createLibraryItem(DylibCommand* dylibCommand, LibraryItem* parent) {
     QString libraryName = dylibCommand->getResolvedName(root->file->getPath());
     LibraryItem* item = 0;
     // check if library is already loaded (only load each library once)
-    std::map<QString,LibraryItem*>::iterator it = itemCache.find(libraryName);
+    QHash<QString, LibraryItem*>::iterator it = itemCache.find(libraryName);
+    //std::map<QString,LibraryItem*>::iterator it = itemCache.find(libraryName);
 
+    // if library is not yet loaded
     if (it == itemCache.end()) {
         MachO* library = 0;
         MachOArchitecture* architecture = 0;
@@ -49,11 +52,10 @@ LibraryTableModel::LibraryItem* LibraryTableModel::createLibraryItem(DylibComman
         item = new LibraryItem(parent, dylibCommand, architecture, library, state);
         if (item != 0) {
             createChildItems(item);
-             //logBrowser->append(QString(tr("Put library %1 in cache")).arg(libraryName));
-            itemCache.insert(std::pair<QString,LibraryItem*>(libraryName,item));
+            itemCache.insert(libraryName, item);
         }
     } else {
-        LibraryItem* cachedItem = it->second;
+        LibraryItem* cachedItem = it.value();
         item = new LibraryItem(cachedItem, parent, dylibCommand);
     }
 
@@ -101,22 +103,59 @@ void LibraryTableModel::createChildItems(LibraryItem* parent) {
         DylibCommand* dylibCommand = dynamic_cast<DylibCommand*> (command);
         if (dylibCommand != NULL && !dylibCommand->isId()) {
             LibraryItem* item = createLibraryItem(dylibCommand, parent);
-            if (item != 0)
+            if (item != 0) {
                 parent->children->push_back(item);
+                parent->numberOfDependencies += item->numberOfDependencies;
+            }
         }
     }
 }
 
 LibraryTableModel::~LibraryTableModel() {
     // delete all files of opened libraries
-    for (std::map<QString, LibraryItem*>::iterator it = itemCache.begin();
-    it != itemCache.end();
-    ++it) {
-        delete it->second->file;
-    }
+     foreach (LibraryItem* item, itemCache) {
+        delete item->file;
+     }
 
     // deleting root is enough, since root recursively deletes all children
     delete root;
+}
+
+bool LibraryTableModel::hasChildren (const QModelIndex & parent) const {
+    LibraryItem* item = getModelIndexData(parent);
+    if (item == 0)
+        return true;
+
+    if (item->children == 0) {
+        return true;
+    }
+    if (item->children && item->children->size() > 0) {
+        return true;
+    }
+    return false;
+}
+
+bool LibraryTableModel::canFetchMore(const QModelIndex & parent) const {
+    // check if children are already expanded
+    LibraryItem* item = getModelIndexData(parent);
+    if (item == 0)
+        return false;
+    return (item->children == 0);
+}
+
+void LibraryTableModel::fetchMore(const QModelIndex & parent) {
+    LibraryItem* item = getModelIndexData(parent);
+    if (item == 0)
+        return;
+
+    item->children = new QList<LibraryItem*>();
+
+    QString libraryName = item->dylibCommand->getResolvedName(root->file->getPath());
+    // find in cache the appropriate item
+    // check if library is already loaded (only load each library once)
+    QHash<QString, LibraryItem*>::iterator it = itemCache.find(libraryName);
+    item->copyChildren(it.value());
+
 }
 
 int LibraryTableModel::rowCount(const QModelIndex &parent) const {
@@ -243,7 +282,7 @@ QModelIndex LibraryTableModel::parent(const QModelIndex& child) const {
 
     // get the correct row where the parent is located (look in children of parent's parent)
     int row = 0;
-    for (std::vector<LibraryItem*>::iterator it = childItem->parent->parent->children->begin();
+    for (QList<LibraryItem*>::iterator it = childItem->parent->parent->children->begin();
     it !=  childItem->parent->parent->children->end();
     ++it) {
         if ((*it) == childItem->parent)
