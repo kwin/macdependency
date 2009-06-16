@@ -50,7 +50,7 @@
    <item>
     <widget class="QLabel" name="label_3">
      <property name="text">
-      <string>&lt;a href=&quot;http://code.google.com/p/macdependency&quot;&gt;http://code.google.com/p/macdependency&lt;/a&gt;</string>
+      <string>&lt;a href=&quot;http://macdependency.googlecode.com&quot;&gt;http://macdependency.googlecode.com&lt;/a&gt;</string>
      </property>
      <property name="textFormat">
       <enum>Qt::AutoText</enum>
