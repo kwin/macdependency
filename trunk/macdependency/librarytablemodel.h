@@ -4,6 +4,7 @@
 
 #include "macho.h"
 #include "dylibcommand.h"
+#include "problembrowser.h"
 #include <vector>
 #include <map>
 
@@ -17,7 +18,7 @@ class LibraryTableModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
-    LibraryTableModel(MachOArchitecture* architecture, MachO* file, QTextBrowser* logBrowser, QTextBrowser* loadedLibrariesBrowser);
+    LibraryTableModel(MachOArchitecture* architecture, MachO* file, ProblemBrowser* problemBrowser, QTextBrowser* loadedLibrariesBrowser);
     ~LibraryTableModel();
 
     virtual bool hasChildren (const QModelIndex & parent = QModelIndex()) const;
@@ -34,13 +35,8 @@ public:
 
     class LibraryItem {
     public:
-        enum State {
-            Normal,
-            Warning,
-            Error
-        };
 
-        LibraryItem(LibraryItem* parent, DylibCommand* command, MachOArchitecture* architecture, MachO* file, State state = Normal) :
+        LibraryItem(LibraryItem* parent, DylibCommand* command, MachOArchitecture* architecture, MachO* file, ProblemBrowser::State state = ProblemBrowser::StateNormal) :
                 parent(parent), dylibCommand(command), architecture(architecture), file(file), state(state), children(new QList<LibraryItem*>()), depth(0) {
             if (parent) {
                 depth = parent->depth +1;
@@ -77,6 +73,12 @@ public:
             }
         }
 
+        void setState(ProblemBrowser::State state) {
+            if (this->state < state) {
+                this->state = state;
+            }
+        }
+
         void copyChildren(const LibraryItem* source) {
             QList<LibraryItem*>::const_iterator it;
             for (it = source->children->constBegin(); it != source->children->constEnd(); ++it) {
@@ -91,7 +93,7 @@ public:
         DylibCommand* dylibCommand;
         MachOArchitecture* architecture;
         MachO* file;
-        State state;
+        ProblemBrowser::State state;
         QList<LibraryItem*>* children; // if this is null, it is unknown whether there are children or not
         unsigned int numberOfDependencies;
         unsigned char depth;
@@ -108,7 +110,7 @@ private:
     const static QString columnLabels[NumberOfColumns];
     const static QString types[];
 
-    QTextBrowser* logBrowser;
+    ProblemBrowser* problemBrowser;
     QTextBrowser* loadedLibrariesBrowser;
     QHash<QString, LibraryItem*> itemCache;
     LibraryItem* root;

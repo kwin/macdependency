@@ -261,14 +261,14 @@
        </property>
        <widget class="QWidget" name="tab">
         <attribute name="title">
-         <string>Warnings</string>
+         <string>Problems</string>
         </attribute>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <property name="margin">
           <number>10</number>
          </property>
          <item>
-          <widget class="QTextBrowser" name="logBrowser"/>
+          <widget class="ProblemBrowser" name="problemBrowser"/>
          </item>
         </layout>
        </widget>
@@ -336,6 +336,13 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>ProblemBrowser</class>
+   <extends>QTextBrowser</extends>
+   <header>problembrowser.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

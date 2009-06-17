@@ -9,7 +9,7 @@
 const QString LibraryTableModel::columnLabels[LibraryTableModel::NumberOfColumns] = { tr("Name"), tr("Type"), tr("Compatible Version"), tr("Current Version")};
 const QString LibraryTableModel::types[] = { tr("Weak"), tr("Delayed"), tr("Normal") };
 
-LibraryTableModel::LibraryTableModel(MachOArchitecture* architecture, MachO* file, QTextBrowser* logBrowser, QTextBrowser* loadedLibrariesBrowser) : logBrowser(logBrowser), loadedLibrariesBrowser(loadedLibrariesBrowser)
+LibraryTableModel::LibraryTableModel(MachOArchitecture* architecture, MachO* file, ProblemBrowser* problemBrowser, QTextBrowser* loadedLibrariesBrowser) : problemBrowser(problemBrowser), loadedLibrariesBrowser(loadedLibrariesBrowser)
 {
     QTime timer;
     timer.start();
@@ -22,6 +22,8 @@ LibraryTableModel::LibraryTableModel(MachOArchitecture* architecture, MachO* fil
 LibraryTableModel::LibraryItem* LibraryTableModel::createLibraryItem(DylibCommand* dylibCommand, LibraryItem* parent) {
     QString libraryName = parent->architecture->getResolvedName(dylibCommand->getName(), root->file->getPath());
     LibraryItem* item = 0;
+    ProblemBrowser::State state = ProblemBrowser::StateNormal;
+
     // check if library is already loaded (only load each library once)
     QHash<QString, LibraryItem*>::iterator it = itemCache.find(libraryName);
 
@@ -29,7 +31,6 @@ LibraryTableModel::LibraryItem* LibraryTableModel::createLibraryItem(DylibComman
     if (it == itemCache.end()) {
         MachO* library = 0;
         MachOArchitecture* architecture = 0;
-        LibraryItem::State state = LibraryItem::Normal;
 
         try {
             QTime timer;
@@ -38,13 +39,14 @@ LibraryTableModel::LibraryItem* LibraryTableModel::createLibraryItem(DylibComman
             loadedLibrariesBrowser->append(QString(tr("%1 loaded in %2 ms").arg(libraryName).arg(timer.elapsed())));
 
             architecture = library->getCompatibleArchitecture(parent->architecture);
-            if (architecture == NULL) {
-                logBrowser->append(QString(tr("Couldn't find compatible architecture in %1")).arg(libraryName));
-                state = dylibCommand->isNecessary() ? LibraryItem::Error : LibraryItem::Warning;
+            if (architecture == 0) {
+                state = dylibCommand->isNecessary() ? ProblemBrowser::StateError : ProblemBrowser::StateWarning;
+                problemBrowser->print(state, QString(tr("Couldn't find compatible architecture in %1")).arg(libraryName));
+
             }
         } catch (MachOException& exception) {
-            logBrowser->append(QString(tr("Couldn't load library %1: %2")).arg(libraryName).arg(exception.getCause()));
-            state = dylibCommand->isNecessary() ? LibraryItem::Error : LibraryItem::Warning;
+            state = dylibCommand->isNecessary() ? ProblemBrowser::StateError : ProblemBrowser::StateWarning;
+            problemBrowser->print(state, QString(tr("Couldn't load library %1: %2")).arg(libraryName).arg(exception.getCause()));
         }
 
         // for each child create also a library item
@@ -68,22 +70,25 @@ LibraryTableModel::LibraryItem* LibraryTableModel::createLibraryItem(DylibComman
 
         // check minimum version
         if (minVersion != 0 && requestedMinVersion != 0 && minVersion < requestedMinVersion) {
-            logBrowser->append(QString(tr("Library %1 was requested in compatible version %2, but only exists in compatible version %3"))
+            state = dylibCommand->isNecessary() ? ProblemBrowser::StateError : ProblemBrowser::StateWarning;
+            problemBrowser->print(state, QString(tr("Library %1 was requested in compatible version %2, but only exists in compatible version %3"))
                                .arg(libraryName)
                                .arg(DylibCommand::getVersionString(requestedMinVersion))
                                .arg(DylibCommand::getVersionString(minVersion)));
-            item->state = dylibCommand->isNecessary() ? LibraryItem::Error : LibraryItem::Warning;
+            item->setState(state);
+
         }
 
         // extended checks which are currently not done by dyld
 
         // check maximum version
         if (minVersion != 0 && requestedMaxVersion != 0 && minVersion > requestedMaxVersion) {
-            logBrowser->append(QString(tr("Library %1 was compiled with version %2, but only exists in newer version %3. This is just a warning, since this check is not done by dyld."))
+            state = ProblemBrowser::StateWarning;
+            problemBrowser->print(state, QString(tr("Library %1 was compiled with version %2, but only exists in newer version %3. This is just a warning, since this check is not done by dyld."))
                                .arg(libraryName)
                                .arg(DylibCommand::getVersionString(requestedMaxVersion))
                                .arg(DylibCommand::getVersionString(minVersion)));
-            item->state = LibraryItem::Warning;
+            item->setState(state);
         }
     }
     return item;
@@ -219,13 +224,13 @@ QVariant LibraryTableModel::data(const QModelIndex &index, int role) const {
     } else if (role == Qt::ForegroundRole) {
         QColor color;
         switch (item->state) {
-            case LibraryItem::Error:
+            case ProblemBrowser::StateError:
                 color = Qt::red;
                 break;
-            case LibraryItem::Warning:
+            case ProblemBrowser::StateWarning:
                 color = Qt::blue;
                 break;
-            case LibraryItem::Normal:
+            case ProblemBrowser::StateNormal:
                 color = QColor();
                 break;
         }

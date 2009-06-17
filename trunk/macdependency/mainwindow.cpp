@@ -92,7 +92,7 @@ void MainWindow::loadFile(const QString& fileName) {
         loadLibraries(*(machO->getArchitecturesBegin()));
 
     } catch (MachOException& exc) {
-        ui->logBrowser->append(QString(tr("Error loading %1: %2")).arg(fileName).arg(exc.getCause()));
+        ui->problemBrowser->printError(QString(tr("Error loading %1: %2")).arg(fileName).arg(exc.getCause()));
     }
 }
 
@@ -102,7 +102,7 @@ void MainWindow::loadLibraries(MachOArchitecture* architecture) {
     if (libraryModel) {
         delete libraryModel;
     }
-    libraryModel = new LibraryTableModel(architecture, machO, ui->logBrowser, ui->loadedLibrariesBrowser);
+    libraryModel = new LibraryTableModel(architecture, machO, ui->problemBrowser, ui->loadedLibrariesBrowser);
     libraryFilterModel.setSourceModel(libraryModel);
 #ifdef QT_DEBUG
     new ModelTest(&libraryFilterModel, this);
@@ -135,7 +135,7 @@ void MainWindow::loadSymbolTable(MachOArchitecture* architecture, QModelIndex& s
 }
 
 void MainWindow::resetWidgets() {
-    ui->logBrowser->clear();
+    ui->problemBrowser->clear();
     ui->loadedLibrariesBrowser->clear();
 
     resetFileInformation();
@@ -235,7 +235,7 @@ void MainWindow::on_architecturesBox_activated(int index)
     // if this is the architectures box of the root element -> reload everything with another architecture
     if (current.column() == 0 && current.row() == 0 && !current.parent().isValid() ) {
         ui->loadedLibrariesBrowser->clear();
-        ui->logBrowser->clear();
+        ui->problemBrowser->clear();
         loadLibraries(architecture);
     }
     // otherwise just reload the symbol table

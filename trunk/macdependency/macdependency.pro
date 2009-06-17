@@ -8,12 +8,14 @@ SOURCES += main.cpp \
     librarytablemodel.cpp \
     dependencyapplication.cpp \
     symboltablemodel.cpp \
-    aboutdialog.cpp
+    aboutdialog.cpp \
+    problembrowser.cpp
 HEADERS += mainwindow.h \
     librarytablemodel.h \
     dependencyapplication.h \
     symboltablemodel.h \
-    aboutdialog.h
+    aboutdialog.h \
+    problembrowser.h
 FORMS += mainwindow.ui \
     aboutdialog.ui
 INCLUDEPATH += ../MachO
