@@ -12,6 +12,7 @@ public:
     static const QString symbolTypes[SymbolTableEntry::NumTypes];
 
     SymbolTableModel(MachOArchitecture* architecture, bool shouldDemangleNames);
+    virtual ~SymbolTableModel();
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount ( const QModelIndex & parent = QModelIndex() ) const;
     QVariant data(const QModelIndex &index, int role) const;
@@ -26,6 +27,7 @@ private:
     static const QString columnLabels[];
     const std::vector<const SymbolTableEntry*>* symbolTableEntries;
     const bool shouldDemangleNames;
+    bool shouldReleaseSymbolTableEntries;
 };
 
 #endif // SYMBOLTABLEMODEL_H

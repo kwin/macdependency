@@ -5,7 +5,7 @@ const QString SymbolTableModel::columnLabels[SymbolTableModel::NumberOfColumns] 
 const QString SymbolTableModel::symbolTypes[SymbolTableEntry::NumTypes] = { tr("Export"), tr("Import"), tr("Local"), tr("Debug"), tr("Private Export") };
 
 SymbolTableModel::SymbolTableModel(MachOArchitecture* architecture, bool shouldDemangleNames) :
-        symbolTableEntries(0), shouldDemangleNames(shouldDemangleNames)
+        symbolTableEntries(0), shouldDemangleNames(shouldDemangleNames), shouldReleaseSymbolTableEntries(false)
 {
     if (architecture != 0) {
         for (std::vector<LoadCommand*>::const_iterator it = architecture->getLoadCommandsBegin();
@@ -14,7 +14,7 @@ SymbolTableModel::SymbolTableModel(MachOArchitecture* architecture, bool shouldD
         {
             // check if it is dylibcommand
             SymbolTableCommand* command = dynamic_cast<SymbolTableCommand*> (*it);
-            if (command != NULL) {
+            if (command != 0) {
                 symbolTableEntries = (command->getSymbolTableEntries());
                 break;
             }
@@ -22,6 +22,13 @@ SymbolTableModel::SymbolTableModel(MachOArchitecture* architecture, bool shouldD
     }
     if (!symbolTableEntries) {
         symbolTableEntries = new std::vector<const SymbolTableEntry*>;
+        shouldReleaseSymbolTableEntries = true;
+    }
+}
+
+SymbolTableModel::~SymbolTableModel() {
+    if (shouldReleaseSymbolTableEntries) {
+        delete symbolTableEntries;
     }
 }
 
