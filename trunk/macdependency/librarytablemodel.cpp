@@ -16,7 +16,6 @@ LibraryTableModel::LibraryTableModel(MachOArchitecture* architecture, MachO* fil
     root = new LibraryItem(0, 0, architecture, file);
     createChildItems(root);
     loadedLibrariesBrowser->append(QString(tr("%1 libraries loaded in %2 ms")).arg(itemCache.size()).arg(timer.elapsed()));
-    loadedLibrariesBrowser->append(QString("%1 total dependencies").arg(root->numberOfDependencies));
 }
 
 LibraryTableModel::LibraryItem* LibraryTableModel::createLibraryItem(DylibCommand* dylibCommand, LibraryItem* parent) {
@@ -109,7 +108,6 @@ void LibraryTableModel::createChildItems(LibraryItem* parent) {
             LibraryItem* item = createLibraryItem(dylibCommand, parent);
             if (item != 0) {
                 parent->children->push_back(item);
-                parent->numberOfDependencies += item->numberOfDependencies;
             }
         }
     }
@@ -230,7 +228,7 @@ QVariant LibraryTableModel::data(const QModelIndex &index, int role) const {
             case ProblemBrowser::StateWarning:
                 color = Qt::blue;
                 break;
-            case ProblemBrowser::StateNormal:
+            default:
                 color = QColor();
                 break;
         }
