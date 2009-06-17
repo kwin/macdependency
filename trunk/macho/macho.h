@@ -15,7 +15,7 @@
 
 class MACHOSHARED_EXPORT MachO {
 public:
-    MachO(const QString& fileName);
+    MachO(const QString& fileName, const MachO* parent = 0);
     ~MachO();
 
     QString getFileName() const { return file->getName(); }
@@ -39,7 +39,7 @@ private:
 
     QString getApplicationInBundle(const QString& bundlePath);
     static QString extractStringFromCFStringRef(CFStringRef cfStringRef);
-    void init(const QString& fileName);
+    void init(const QString& fileName, const MachO* parent);
 };
 
 #endif // MACHO_H

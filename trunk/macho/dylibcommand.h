@@ -22,7 +22,6 @@ public:
     bool isNecessary() const { return type!=DependencyWeak; }
     DependencyType getType() const { return type; }
     QString getName() const;
-    QString getResolvedName(const QString& workingDirectory) const;
     unsigned int getCurrentVersion() const;
     unsigned int getCompatibleVersion() const;
     time_t getTimeStamp() const;

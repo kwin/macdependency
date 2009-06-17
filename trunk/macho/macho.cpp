@@ -13,7 +13,7 @@ Demangler* MachO::demangler = 0;
 DynamicLoader* MachO::dynamicLoader = 0;
 int MachO::referenceCounter = 0;
 
-MachO::MachO(const QString& fileName) : bundle(0)
+MachO::MachO(const QString& fileName, const MachO* parent) : bundle(0)
 {
     // check if filename is bundle
     QString machOFileName;
@@ -21,7 +21,7 @@ MachO::MachO(const QString& fileName) : bundle(0)
     if (machOFileName.isNull())
         machOFileName = fileName;
 
-    init(machOFileName);
+    init(machOFileName, parent);
 
     if (referenceCounter == 0) {
         demangler = new Demangler();
@@ -60,9 +60,13 @@ QString MachO::getApplicationInBundle(const QString& bundlePath) {
     return appPath;
 }
 
-void MachO::init(const QString& fileName)
+void MachO::init(const QString& fileName, const MachO* parent)
 {
-    file = new MachOFile(fileName);
+    MachOFile* parentFile = 0;
+    if (parent) {
+        parentFile = parent->file;
+    }
+    file = new MachOFile(fileName, parentFile);
     // read out magic number
     uint32_t magic = file->readUint32();
 
@@ -85,12 +89,16 @@ void MachO::init(const QString& fileName)
             uint32_t magic = file->readUint32();
             file->seek(offset);
             MachOArchitecture* architecture = new MachOArchitecture(*file, magic, file->getUint32BE(fatArch[n].size));
+            if (parent)
+                architecture->initParentArchitecture(parent->getCompatibleArchitecture(architecture));
             architectures.push_back(architecture);
         }
     } else {
         // seek back to beginning
         file->seek(0);
         MachOArchitecture* architecture = new MachOArchitecture(*file, magic, getSize());
+        if (parent)
+            architecture->initParentArchitecture(parent->getCompatibleArchitecture(architecture));
         architectures.push_back(architecture);
     }
 }
@@ -129,7 +137,6 @@ MachOArchitecture* MachO::getCompatibleArchitecture(MachOArchitecture* destArchi
         if ((*it)->getHeader()->getCpuType() == destCpuType)
             return  *it;
     }
-
     return 0;
 }
 

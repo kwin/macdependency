@@ -8,7 +8,7 @@
 class MachOFile
 {
 public:
-    MachOFile(const QString&, bool reversedByteOrder = false);
+    MachOFile(const QString&, const MachOFile* parent, bool reversedByteOrder = false);
     MachOFile(const MachOFile& file, bool reversedByteOrder);
     ~MachOFile();
 
@@ -26,16 +26,17 @@ public:
     long long int getSize() const { return file->size(); }
     void seek(long long int offset) { position = offset; }
     long long int getPosition() const {  return position; }
-    const QString& getExecutablePath() const { return *executablePath; }
+    const QString& getExecutablePath() const { return executablePath; }
 
  private:
     static unsigned int convertByteOrder(char* data, bool isBigEndian, unsigned int numberOfBytes);
     static unsigned int reverseByteOrder(unsigned int data);
 
     InternalFile* file;
-    const QString* executablePath;
     long long int position;
     const bool reversedByteOrder;
+    const MachOFile* parent;
+    QString executablePath;
 
 };
 

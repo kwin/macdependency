@@ -1,5 +1,4 @@
 #include "dylibcommand.h"
-#include "macho.h"
 #include <QtCore/QTime>
 #include <QtCore/QStringList>
 #include <QtCore/QFileInfo>
@@ -26,13 +25,6 @@ unsigned int DylibCommand::getSize() const {
 
 QString DylibCommand::getName() const {
     return QString(getLcDataString(command.dylib.name.offset));
-}
-
-QString DylibCommand::getResolvedName(const QString& workingPath) const {
-    QString absoluteFileName = MachO::dynamicLoader->getPathname(getName(), file.getPath(), workingPath);
-    if (!absoluteFileName.isNull())
-        return absoluteFileName;
-    return getName();
 }
 
 unsigned int DylibCommand::getCurrentVersion() const {

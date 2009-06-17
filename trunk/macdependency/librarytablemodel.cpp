@@ -20,11 +20,10 @@ LibraryTableModel::LibraryTableModel(MachOArchitecture* architecture, MachO* fil
 }
 
 LibraryTableModel::LibraryItem* LibraryTableModel::createLibraryItem(DylibCommand* dylibCommand, LibraryItem* parent) {
-    QString libraryName = dylibCommand->getResolvedName(root->file->getPath());
+    QString libraryName = parent->architecture->getResolvedName(dylibCommand->getName(), root->file->getPath());
     LibraryItem* item = 0;
     // check if library is already loaded (only load each library once)
     QHash<QString, LibraryItem*>::iterator it = itemCache.find(libraryName);
-    //std::map<QString,LibraryItem*>::iterator it = itemCache.find(libraryName);
 
     // if library is not yet loaded
     if (it == itemCache.end()) {
@@ -35,7 +34,7 @@ LibraryTableModel::LibraryItem* LibraryTableModel::createLibraryItem(DylibComman
         try {
             QTime timer;
             timer.start();
-            library = new MachO(libraryName);
+            library = new MachO(libraryName, parent->file);
             loadedLibrariesBrowser->append(QString(tr("%1 loaded in %2 ms").arg(libraryName).arg(timer.elapsed())));
 
             architecture = library->getCompatibleArchitecture(parent->architecture);
@@ -150,7 +149,7 @@ void LibraryTableModel::fetchMore(const QModelIndex & parent) {
 
     item->children = new QList<LibraryItem*>();
 
-    QString libraryName = item->dylibCommand->getResolvedName(root->file->getPath());
+    QString libraryName = item->architecture->getResolvedName(item->dylibCommand->getName(), root->file->getPath());
     // find in cache the appropriate item
     // check if library is already loaded (only load each library once)
     QHash<QString, LibraryItem*>::iterator it = itemCache.find(libraryName);

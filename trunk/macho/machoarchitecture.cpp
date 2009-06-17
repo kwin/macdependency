@@ -1,11 +1,32 @@
 #include "machoarchitecture.h"
 #include "machoexception.h"
 #include "rpathcommand.h"
+#include "macho.h"
 
 
 MachOArchitecture::MachOArchitecture(MachOFile& file, uint32_t magic, unsigned int size) :
-    header(MachOHeader::getHeader(file, magic)), file(header->getFile()), size(size), hasReadLoadCommands(false), dynamicLibIdCommand(0)
+    header(MachOHeader::getHeader(file, magic)), file(header->getFile()), size(size), hasReadLoadCommands(false), parent(0), dynamicLibIdCommand(0)
 {
+}
+
+void MachOArchitecture::initParentArchitecture(const MachOArchitecture* parent) {
+    this->parent = parent;
+}
+
+QString MachOArchitecture::getResolvedName(const QString& name, const QString& workingPath) const {
+    QString absoluteFileName = MachO::dynamicLoader->getPathname(name, this, workingPath);
+    if (!absoluteFileName.isNull())
+        return absoluteFileName;
+    // return unresolved name if it cannot be resolved to a valid absolute name
+    return name;
+}
+
+std::vector<QString*> MachOArchitecture::getRPaths() const {
+    // try to get it from the parent (recursively)
+    std::vector<QString*> prevRPaths = parent?(std::vector<QString*>(parent->getRPaths())):(std::vector<QString*>());
+    // add own rpaths to the end
+    prevRPaths.insert(prevRPaths.end(), rPaths.begin(), rPaths.end());
+    return prevRPaths;
 }
 
 void MachOArchitecture::readLoadCommands() const {
@@ -25,8 +46,12 @@ void MachOArchitecture::readLoadCommands() const {
 
         RPathCommand* rPathCommand = dynamic_cast<RPathCommand*>(loadCommand);
         if (rPathCommand != 0) {
-            // TODO: resolve placeholders in paths
-            rPaths.push_back(rPathCommand->getPath());
+            // try to replace placeholder
+            QString resolvedRPath = MachO::dynamicLoader->replacePlaceholder(rPathCommand->getPath(), this);
+            if (resolvedRPath.isNull()) {
+                resolvedRPath = rPathCommand->getPath();
+            }
+            rPaths.push_back(new QString(resolvedRPath));
         }
         loadCommands.push_back(loadCommand);
         file.seek(commandOffset + loadCommand->getSize());
@@ -42,6 +67,13 @@ MachOArchitecture::~MachOArchitecture() {
     ++it)
     {
         delete *it;
+    }
+
+    for (std::vector<QString*>::iterator it2 = rPaths.begin();
+    it2 != rPaths.end();
+    ++it2)
+    {
+        delete *it2;
     }
 }
 

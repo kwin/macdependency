@@ -14,6 +14,7 @@
 const char* DynamicLoader::EnvironmentPathVariable::KEY_VALUE_SEPARATOR = "=";
 const char* DynamicLoader::EnvironmentPathVariable::PATHS_SEPARATOR = ";";
 const char* DynamicLoader::EnvironmentPathVariable::HOME_PATH = getenv("HOME");
+
 DynamicLoader::EnvironmentPathVariable::EnvironmentPathVariable() {
     // default constructor (should not be used explicitly)
 }
@@ -79,8 +80,7 @@ const char* DynamicLoader::PLACEHOLDERS[DynamicLoader::NumPlaceholders] = {
 
 const char* DynamicLoader::PATH_SEPARATOR = "/";
 
-// unfortunately cannot make QStringList const her, but treat it as const
-// TODO: correct home path handling
+// unfortunately cannot make QStringList const here, but treat it as const
 QStringList DynamicLoader::ENVIRONMENT_VARIABLE_DEFAULT_VALUES[DynamicLoader::NumEnvironmentVariables] = {
     QStringList(),
     QStringList(),
@@ -101,7 +101,19 @@ DynamicLoader::DynamicLoader()
     } 
 }
 
-QString DynamicLoader::getPathname(const QString& name, const QString& callingPath, const QString& workingPath) const {
+QString DynamicLoader::replacePlaceholder(const QString& name, const MachOArchitecture* architecture) const {
+    QString resolvedName = name;
+    if (name.startsWith(PLACEHOLDERS[ExecutablePath])) {
+        resolvedName.replace(0, strlen(PLACEHOLDERS[ExecutablePath]), architecture->getFile()->getExecutablePath());
+    } else if (name.startsWith(PLACEHOLDERS[LoaderPath])) {
+        resolvedName.replace(0, strlen(PLACEHOLDERS[LoaderPath]), architecture->getFile()->getPath());
+    } else {
+        return QString();
+    }
+    return resolvedName;
+}
+
+QString DynamicLoader::getPathname(const QString& name, const MachOArchitecture* architecture, const QString& workingPath) const {
     // simple name (only the last part of the name, after the last PATH_SEPARATOR)
     int lastSlashPosition = name.lastIndexOf(PATH_SEPARATOR);
     QString simpleName = name;
@@ -127,24 +139,36 @@ QString DynamicLoader::getPathname(const QString& name, const QString& callingPa
     if (!pathName.isEmpty())
         return pathName;
 
-    // resolve placeholders
-    QString resolvedName;
-    if (name.startsWith(PLACEHOLDERS[ExecutablePath])) {
-        resolvedName = name;
-        resolvedName.replace(0, strlen(PLACEHOLDERS[ExecutablePath]), workingPath);
-    } else if (name.startsWith(PLACEHOLDERS[LoaderPath])) {
-        resolvedName = name;
-        resolvedName.replace(0, strlen(PLACEHOLDERS[LoaderPath]), callingPath);
-    } else if (name.startsWith(PLACEHOLDERS[RPath])) {
-        // TODO: @rpath
-
-        // after checking against all stored rpaths substitute @rpath with LD_LIBRARY_PATH (if it is set)
-
-    }
+    // resolve placeholder
+    QString resolvedName = replacePlaceholder(name, architecture);
     if (!resolvedName.isNull()) {
         pathName = getExistingPathname(resolvedName);
         if (!pathName.isEmpty())
             return pathName;
+    }
+    if (name.startsWith(PLACEHOLDERS[RPath])) {
+        // substitute @rpath with all -rpath paths up the load chain
+        std::vector<QString*> rPaths = architecture->getRPaths();
+
+        for (std::vector<QString*>::iterator it = rPaths.begin(); it != rPaths.end(); ++it) {
+            resolvedName = name;
+            resolvedName.replace(0, strlen(PLACEHOLDERS[RPath]), (**it));
+            pathName = getExistingPathname(resolvedName);
+            if (!pathName.isEmpty())
+                return pathName;
+        }
+
+        // after checking against all stored rpaths substitute @rpath with LD_LIBRARY_PATH (if it is set)
+        EnvironmentPathVariable ldLibraryPaths = environmentVariables[LdLibraryPath];
+        if (!ldLibraryPaths.isEmpty()) {
+            for (int i = 0; i < ldLibraryPaths.getPaths().size(); ++i) {
+                resolvedName = name;
+                resolvedName.replace(0, strlen(PLACEHOLDERS[RPath]), ldLibraryPaths.getPaths()[i]);
+                pathName = getExistingPathname(resolvedName);
+                if (!pathName.isEmpty())
+                    return pathName;
+            }
+        }
     }
 
     // check pure path (either absolute or relative to working directory)

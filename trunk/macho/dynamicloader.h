@@ -2,6 +2,7 @@
 #define DYNAMICLOADER_H
 
 #include "MachO_global.h"
+#include "MachOArchitecture.h"
 
 #include <QtCore/QStringList>
 
@@ -11,7 +12,8 @@ public:
     DynamicLoader();
     virtual ~DynamicLoader() {}
 
-    QString DynamicLoader::getPathname(const QString& name, const QString& callingPathName, const QString& workingDirectory) const;
+    QString replacePlaceholder(const QString& name, const MachOArchitecture* architecture) const;
+    QString getPathname(const QString& name, const MachOArchitecture* architecture, const QString& workingDirectory) const;
 
 private:
     class EnvironmentPathVariable

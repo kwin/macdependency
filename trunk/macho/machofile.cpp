@@ -3,13 +3,18 @@
 #include <QtCore/QtDebug>
 #include <QtCore/QThread>
 
-MachOFile::MachOFile(const QString& fileName, bool reversedByteOrder) :
-        file(InternalFile::create(fileName)), position(0), reversedByteOrder(reversedByteOrder)
+MachOFile::MachOFile(const QString& fileName,const MachOFile* parent,  bool reversedByteOrder) :
+        file(InternalFile::create(fileName)), position(0), reversedByteOrder(reversedByteOrder), parent(parent)
 {
+    if (parent) {
+        executablePath = parent->executablePath;
+    } else {
+        executablePath = getPath();
+    }
 }
 
 MachOFile::MachOFile(const MachOFile& file, bool reversedByteOrder) :
-        file(InternalFile::create(file.file)), position(file.position), reversedByteOrder(reversedByteOrder)
+        file(InternalFile::create(file.file)), position(file.position), reversedByteOrder(reversedByteOrder), parent(file.parent), executablePath(file.executablePath)
 {
 }
 
