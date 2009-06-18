@@ -32,10 +32,8 @@ LibraryTableModel::LibraryItem* LibraryTableModel::createLibraryItem(DylibComman
         MachOArchitecture* architecture = 0;
 
         try {
-            QTime timer;
-            timer.start();
             library = new MachO(libraryName, parent->file);
-            loadedLibrariesBrowser->append(QString(tr("%1 loaded in %2 ms").arg(libraryName).arg(timer.elapsed())));
+            loadedLibrariesBrowser->append(QString(tr("%1 loaded").arg(libraryName)));
 
             architecture = library->getCompatibleArchitecture(parent->architecture);
             if (architecture == 0) {
