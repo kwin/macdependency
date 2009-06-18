@@ -113,6 +113,9 @@ void MainWindow::loadLibraries(MachOArchitecture* architecture) {
     QModelIndex rootModelIndex = libraryFilterModel.index(0,0, QModelIndex());
     ui->libraryView->expand(rootModelIndex);
 
+    // set default sorting again because the model has changed (may be a Qt bug but otherwise sorting does not work)
+    ui->libraryView->sortByColumn(0, Qt::AscendingOrder);
+
     // select first item
     ui->libraryView->selectionModel()->select(rootModelIndex, QItemSelectionModel::SelectCurrent);
 }
