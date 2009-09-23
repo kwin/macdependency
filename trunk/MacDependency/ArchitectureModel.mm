@@ -69,7 +69,7 @@
 		case MachOHeader::CpuTypeX8664:
 			label = NSLocalizedString(@"CPU_TYPE_X8664", nil);
 			break;
-		case MachOHeader::CpuTypeOther:
+		default:
 			label = NSLocalizedString(@"UNDEFINED", nil);
 			break;
 			
@@ -186,15 +186,15 @@
 - (void) initSymbols {
 	symbolEntries = [NSMutableArray arrayWithCapacity:20];
 	[symbolEntries retain];
-	for (MachOArchitecture::LoadCommandsConstIterator it = architecture->getLoadCommandsBegin();
-		 it != architecture->getLoadCommandsEnd();
-		 ++it)
+	for (MachOArchitecture::LoadCommandsConstIterator lcIter = architecture->getLoadCommandsBegin();
+		 lcIter != architecture->getLoadCommandsEnd();
+		 ++lcIter)
 	{
 		// check if it is dylibcommand
-		SymbolTableCommand* command = dynamic_cast<SymbolTableCommand*> (*it);
+		SymbolTableCommand* command = dynamic_cast<SymbolTableCommand*> (*lcIter);
 		if (command != 0) {
 			for (SymbolTableCommand::SymbolTableEntriesConstIterator it = command->getSymbolTableEntryBegin(); it != command->getSymbolTableEntryEnd(); it++) {
-				SymbolTableEntryModel* symbolModel = [[SymbolTableEntryModel alloc] initWithEntry:*(it) demangleNamesPtr:[[document symbolTableController]demangleNamesPtr]];
+				SymbolTableEntryModel* symbolModel = [[SymbolTableEntryModel alloc] initWithEntry:*(it) demangleNamesPtr:[[document symbolTableController]demangleNamesPtr] document:document];
 				[symbolEntries addObject:symbolModel];
 			}
 		}

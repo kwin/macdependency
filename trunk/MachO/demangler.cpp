@@ -30,7 +30,7 @@ string Demangler::demangleName(const string& name) {
 
 void Demangler::init() {
 	try {
-	std::string exec = find_executable_in_path("c++filt3"); 
+	std::string exec = find_executable_in_path("c++filt"); 
 	std::vector<std::string> args;
 	args.push_back("--strip-underscore"); 
 	context ctx; 

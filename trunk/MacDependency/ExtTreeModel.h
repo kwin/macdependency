@@ -9,6 +9,6 @@
 #import <Cocoa/Cocoa.h>
 
 
-@protocol ExtTreeModel
+@protocol ExtTreeModel<NSObject>
 - (id) parent;
 @end

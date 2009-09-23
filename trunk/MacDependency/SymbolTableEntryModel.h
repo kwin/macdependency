@@ -9,13 +9,15 @@
 #import <Cocoa/Cocoa.h>
 #include "MachO/machofile.h"
 #include "MachO/symboltableentry.h"
+@class MyDocument;
 
 @interface SymbolTableEntryModel : NSObject {
 	const SymbolTableEntry* entry;
 	const BOOL* demangleNames;
+	MyDocument* document;
 }
 
-- (id) initWithEntry:(const SymbolTableEntry*) entry demangleNamesPtr:(BOOL*)demangleNames;
+- (id) initWithEntry:(const SymbolTableEntry*)entry demangleNamesPtr:(BOOL*)demangleNames document:(MyDocument*)document;
 - (NSString*) name;
 - (NSNumber*) type;
 @end

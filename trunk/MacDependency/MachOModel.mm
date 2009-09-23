@@ -46,7 +46,7 @@
 		architecture = file->getCompatibleArchitecture(parent->architecture);
 		if (!architecture) {
 			[self setStateWithWarning:isWeakReference];
-			NSString* log = [NSString stringWithFormat:NSLocalizedString(@"ERR_ARCHITECTURE_MISMATCH", nil), parent->command->getName().c_str(), [parent name]];
+			NSString* log = [NSString stringWithFormat:NSLocalizedString(@"ERR_ARCHITECTURE_MISMATCH", nil), filename.c_str(), [parent name]];
 			[document appendLogLine:log withModel:self state:state];
 			
 		}
@@ -71,7 +71,6 @@
 		self->file = file;
 		self->children = nil;
 		self->architecture = architecture;
-		BOOL isWeakReference = (command && !command->isNecessary());
 		if (architecture) {
 			DylibCommand* dylibId = architecture->getDynamicLibIdCommand();
 			if (dylibId && command) {
@@ -141,6 +140,7 @@
 	[versionFormatter release];
 } 
 
+/*
 - (NSIndexPath*) calculateIndexPath {
 	unsigned int depth = 0;
 	
@@ -167,7 +167,7 @@
 	}
 	indices[0] = 0;
 	return [NSIndexPath indexPathWithIndexes:indices length:length];
-}
+}*/
 
 - (NSArray*)children {
 	if (children == nil) {

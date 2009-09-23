@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="100076"/>
+			<integer value="6"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1468,7 +1468,7 @@
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="1054042850">
 								<int key="NSCellFlags">67239424</int>
-								<int key="NSCellFlags2">138543168</int>
+								<int key="NSCellFlags2">138543104</int>
 								<string key="NSContents">n Dependencies</string>
 								<reference key="NSSupport" ref="26"/>
 								<reference key="NSControlView" ref="650097667"/>
@@ -2090,14 +2090,6 @@
 						</object>
 					</object>
 					<int key="connectionID">100368</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">dependencyView</string>
-						<reference key="source" ref="227604121"/>
-						<reference key="destination" ref="882949769"/>
-					</object>
-					<int key="connectionID">100374</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -3167,9 +3159,9 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{575, 368}, {938, 698}}</string>
+					<string>{{575, 121}, {938, 698}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{575, 368}, {938, 698}}</string>
+					<string>{{575, 121}, {938, 698}}</string>
 					<integer value="1"/>
 					<string>{{201, 387}, {507, 413}}</string>
 					<integer value="1"/>
@@ -3285,11 +3277,13 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>demangleNamesControl</string>
+							<string>document</string>
 							<string>typeFilterControl</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSButton</string>
+							<string>MyDocument</string>
 							<string>NSSegmentedControl</string>
 						</object>
 					</object>
