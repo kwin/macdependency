@@ -9,7 +9,7 @@
 #import "SymbolTableController.h"
 #import "MyDocument.h"
 #include "MachO/symboltableentry.h"
-#include "MachO/machodemangleexception.h"
+
 
 @interface SymbolTableController()
 -(void)setFilter;
@@ -98,23 +98,6 @@ const int TYPE[] = {SymbolTableEntry::TypeExported, SymbolTableEntry::TypeImport
 	
 	// refresh
 	[self rearrangeObjects];
-	
-	/*// TODO: call refreshSymbols for the current architecture (over ArchitecturesController)
-	NSArray* objects = [dependenciesController selectedObjects];
-	if (objects && [objects lastObject]) {
-		MachOModel* model = [objects lastObject];
-		//[model refreshSymbols];
-	}*/
-}
-
-- (id)valueForKeyPath:(NSString *)keyPath {
-	try {
-		[super valueForKeyPath:keyPath];
-	}
-	catch (MachODemangleException& exc) {
-		NSString* error = NSLocalizedString(@"ERR_NO_DEMANGLER", nil);
-		[document appendLogLine:error withModel:nil state:StateError];
-	}
 }
 
 @end

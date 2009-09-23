@@ -35,11 +35,11 @@
 	[super awakeFromNib];
 }
 
-- (void)setSelectionIndex:(NSUInteger)index {
+- (BOOL)setSelectionIndex:(NSUInteger)index {
 	// clear log
 	[document clearLog];
 	[document resetNumDependencies];
-	[super setSelectionIndex:index];
+	return [super setSelectionIndex:index];
 }
 
 

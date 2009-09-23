@@ -136,7 +136,7 @@
 	return log;
 }
 
-- (void)setLog:(NSMutableAttributedString *)newLog {
+- (void)setLog:(NSAttributedString *)newLog {
 	[newLog retain];
 	[log release];
 	log = newLog;

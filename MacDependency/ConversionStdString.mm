@@ -29,7 +29,7 @@ CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingUTF32LE);
 +(NSString*) stringWithStdWString:(const std::wstring&)ws
 {
 	char* data = (char*)ws.data();
-	unsigned size = ws.size() * sizeof(wchar_t);
+	size_t size = ws.size() * sizeof(wchar_t);
 	
 	NSString* result = [[[NSString alloc] initWithBytes:data length:size 
 											   encoding:kEncoding_wchar_t] autorelease];

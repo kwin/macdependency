@@ -13,12 +13,13 @@
 #import "MachOModel.h"
 #import "PrioritySplitViewDelegate.h"
 #import "SymbolTableController.h"
+
 @interface MyDocument : NSDocument
 {
 	MachOCache* cache;
 	MachO* machO;
 	NSArray* contents;
-	NSMutableAttributedString* log;
+	NSAttributedString* log;
 	PrioritySplitViewDelegate* splitViewDelegate;
 	IBOutlet NSTreeController* dependenciesController;
 	IBOutlet NSTextField* textFieldFilename;
@@ -28,7 +29,7 @@
 	unsigned int numDependencies;
 }
 - (NSAttributedString*)log;
-- (void)setLog:(NSMutableAttributedString *)newLog;
+- (void)setLog:(NSAttributedString *)newLog;
 - (void)appendLogLine:(NSString *)line withModel:(MachOModel*)model state:(State)state;
 - (void)clearLog;
 

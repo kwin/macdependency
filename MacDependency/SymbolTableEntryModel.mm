@@ -9,27 +9,29 @@
 #import "SymbolTableEntryModel.h"
 #import "MachOModel.h"
 #import "ConversionStdString.h"
+#import "MyDocument.h"
+#include "MachO/machodemangleexception.h"
 
 @implementation SymbolTableEntryModel
 
-- (id) initWithEntry:(const SymbolTableEntry*)entry demangleNamesPtr:(BOOL*)demangleNames  {
+- (id) initWithEntry:(const SymbolTableEntry*)entry demangleNamesPtr:(BOOL*)demangleNames document:(MyDocument*)document {
 	if (self = [super init]) {
 		self->entry = entry;
 		self->demangleNames = demangleNames;
+		self->document = document;
 	}
 	return self;
 }
 
 - (NSString*) name {
-	//try {
+	try {
 		return [NSString stringWithStdString:entry->getName(*demangleNames)];
-	/*} catch (MachODemangleException& e) {
-		
-		// TODO: disable demangling and show error message
-		NSLog([NSString stringWithStdString:e.getCause()]);
-		return [NSString stringWithStdString:entry->getName(false)];
-
-	}*/
+	} catch (MachODemangleException& e) {
+		NSString* error = NSLocalizedString(@"ERR_NO_DEMANGLER", nil);
+		[document appendLogLine:error withModel:nil state:StateError];
+		[[document symbolTableController] setDemangleNames:NO];
+	}
+	return [NSString stringWithStdString:entry->getName(false)];
 }
 
 - (NSNumber*) type {
