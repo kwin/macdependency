@@ -1,0 +1,468 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
+		8E131535100F7C6B00367510 /* demangler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E131512100F7C6B00367510 /* demangler.cpp */; };
+		8E131536100F7C6B00367510 /* demangler.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E131513100F7C6B00367510 /* demangler.h */; settings = {ATTRIBUTES = (); }; };
+		8E131537100F7C6B00367510 /* dylibcommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E131514100F7C6B00367510 /* dylibcommand.cpp */; };
+		8E131538100F7C6B00367510 /* dylibcommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E131515100F7C6B00367510 /* dylibcommand.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8E131539100F7C6B00367510 /* dynamicloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E131516100F7C6B00367510 /* dynamicloader.cpp */; };
+		8E13153A100F7C6B00367510 /* dynamicloader.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E131517100F7C6B00367510 /* dynamicloader.h */; };
+		8E13153B100F7C6B00367510 /* genericcommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E131518100F7C6B00367510 /* genericcommand.cpp */; };
+		8E13153C100F7C6B00367510 /* genericcommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E131519100F7C6B00367510 /* genericcommand.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8E13153D100F7C6B00367510 /* internalfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E13151A100F7C6B00367510 /* internalfile.cpp */; };
+		8E13153E100F7C6B00367510 /* internalfile.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E13151B100F7C6B00367510 /* internalfile.h */; };
+		8E13153F100F7C6B00367510 /* loadcommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E13151C100F7C6B00367510 /* loadcommand.cpp */; };
+		8E131540100F7C6B00367510 /* loadcommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E13151D100F7C6B00367510 /* loadcommand.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8E131541100F7C6B00367510 /* macho.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E13151E100F7C6B00367510 /* macho.cpp */; };
+		8E131542100F7C6B00367510 /* macho.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E13151F100F7C6B00367510 /* macho.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8E131543100F7C6B00367510 /* macho32header.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E131520100F7C6B00367510 /* macho32header.cpp */; };
+		8E131544100F7C6B00367510 /* macho32header.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E131521100F7C6B00367510 /* macho32header.h */; };
+		8E131545100F7C6B00367510 /* macho64header.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E131522100F7C6B00367510 /* macho64header.cpp */; };
+		8E131546100F7C6B00367510 /* macho64header.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E131523100F7C6B00367510 /* macho64header.h */; };
+		8E131547100F7C6B00367510 /* macho_global.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E131524100F7C6B00367510 /* macho_global.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8E131548100F7C6B00367510 /* machoarchitecture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E131525100F7C6B00367510 /* machoarchitecture.cpp */; };
+		8E131549100F7C6B00367510 /* machoarchitecture.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E131526100F7C6B00367510 /* machoarchitecture.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8E13154A100F7C6B00367510 /* machoexception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E131527100F7C6B00367510 /* machoexception.cpp */; };
+		8E13154B100F7C6B00367510 /* machoexception.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E131528100F7C6B00367510 /* machoexception.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8E13154C100F7C6B00367510 /* machofile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E131529100F7C6B00367510 /* machofile.cpp */; };
+		8E13154D100F7C6B00367510 /* machofile.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E13152A100F7C6B00367510 /* machofile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8E13154E100F7C6B00367510 /* machoheader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E13152B100F7C6B00367510 /* machoheader.cpp */; };
+		8E13154F100F7C6B00367510 /* machoheader.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E13152C100F7C6B00367510 /* machoheader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8E131550100F7C6B00367510 /* rpathcommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E13152D100F7C6B00367510 /* rpathcommand.cpp */; };
+		8E131551100F7C6B00367510 /* rpathcommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E13152E100F7C6B00367510 /* rpathcommand.h */; };
+		8E131552100F7C6B00367510 /* symboltablecommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E13152F100F7C6B00367510 /* symboltablecommand.cpp */; };
+		8E131553100F7C6B00367510 /* symboltablecommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E131530100F7C6B00367510 /* symboltablecommand.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8E131554100F7C6B00367510 /* symboltableentry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E131531100F7C6B00367510 /* symboltableentry.cpp */; };
+		8E131555100F7C6B00367510 /* symboltableentry.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E131532100F7C6B00367510 /* symboltableentry.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8E131556100F7C6B00367510 /* symboltableentry32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E131533100F7C6B00367510 /* symboltableentry32.cpp */; };
+		8E131557100F7C6B00367510 /* symboltableentry32.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E131534100F7C6B00367510 /* symboltableentry32.h */; };
+		8E131571100F7DB600367510 /* symboltableentry64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E13156F100F7DB600367510 /* symboltableentry64.cpp */; };
+		8E131572100F7DB600367510 /* symboltableentry64.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E131570100F7DB600367510 /* symboltableentry64.h */; };
+		8E212E93101237A50078924A /* machodemangleexception.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E212E91101237A50078924A /* machodemangleexception.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8E212E94101237A50078924A /* machodemangleexception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E212E92101237A50078924A /* machodemangleexception.cpp */; };
+		8E49393F100AA468004B7E53 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E49393E100AA468004B7E53 /* CoreFoundation.framework */; };
+		8E8C73E1106AA95D0037CF19 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E8C73DF106AA95D0037CF19 /* libboost_filesystem.a */; };
+		8E8C73E2106AA95D0037CF19 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E8C73E0106AA95D0037CF19 /* libboost_system.a */; };
+		8ED32FDE100B99EC00EBF623 /* machocache.h in Headers */ = {isa = PBXBuildFile; fileRef = 8ED32FDC100B99EC00EBF623 /* machocache.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8ED32FDF100B99EC00EBF623 /* machocache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ED32FDD100B99EC00EBF623 /* machocache.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		32DBCF5E0370ADEE00C91783 /* MachO_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MachO_Prefix.pch; sourceTree = "<group>"; };
+		8DC2EF5B0486A6940098B216 /* MachO.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MachO.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E131512100F7C6B00367510 /* demangler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = demangler.cpp; sourceTree = "<group>"; };
+		8E131513100F7C6B00367510 /* demangler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = demangler.h; sourceTree = "<group>"; };
+		8E131514100F7C6B00367510 /* dylibcommand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dylibcommand.cpp; sourceTree = "<group>"; };
+		8E131515100F7C6B00367510 /* dylibcommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dylibcommand.h; sourceTree = "<group>"; };
+		8E131516100F7C6B00367510 /* dynamicloader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dynamicloader.cpp; sourceTree = "<group>"; };
+		8E131517100F7C6B00367510 /* dynamicloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dynamicloader.h; sourceTree = "<group>"; };
+		8E131518100F7C6B00367510 /* genericcommand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = genericcommand.cpp; sourceTree = "<group>"; };
+		8E131519100F7C6B00367510 /* genericcommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = genericcommand.h; sourceTree = "<group>"; };
+		8E13151A100F7C6B00367510 /* internalfile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = internalfile.cpp; sourceTree = "<group>"; };
+		8E13151B100F7C6B00367510 /* internalfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = internalfile.h; sourceTree = "<group>"; };
+		8E13151C100F7C6B00367510 /* loadcommand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = loadcommand.cpp; sourceTree = "<group>"; };
+		8E13151D100F7C6B00367510 /* loadcommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = loadcommand.h; sourceTree = "<group>"; };
+		8E13151E100F7C6B00367510 /* macho.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = macho.cpp; sourceTree = "<group>"; };
+		8E13151F100F7C6B00367510 /* macho.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macho.h; sourceTree = "<group>"; };
+		8E131520100F7C6B00367510 /* macho32header.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = macho32header.cpp; sourceTree = "<group>"; };
+		8E131521100F7C6B00367510 /* macho32header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macho32header.h; sourceTree = "<group>"; };
+		8E131522100F7C6B00367510 /* macho64header.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = macho64header.cpp; sourceTree = "<group>"; };
+		8E131523100F7C6B00367510 /* macho64header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macho64header.h; sourceTree = "<group>"; };
+		8E131524100F7C6B00367510 /* macho_global.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macho_global.h; sourceTree = "<group>"; };
+		8E131525100F7C6B00367510 /* machoarchitecture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = machoarchitecture.cpp; sourceTree = "<group>"; };
+		8E131526100F7C6B00367510 /* machoarchitecture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = machoarchitecture.h; sourceTree = "<group>"; };
+		8E131527100F7C6B00367510 /* machoexception.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = machoexception.cpp; sourceTree = "<group>"; };
+		8E131528100F7C6B00367510 /* machoexception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = machoexception.h; sourceTree = "<group>"; };
+		8E131529100F7C6B00367510 /* machofile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = machofile.cpp; sourceTree = "<group>"; };
+		8E13152A100F7C6B00367510 /* machofile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = machofile.h; sourceTree = "<group>"; };
+		8E13152B100F7C6B00367510 /* machoheader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = machoheader.cpp; sourceTree = "<group>"; };
+		8E13152C100F7C6B00367510 /* machoheader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = machoheader.h; sourceTree = "<group>"; };
+		8E13152D100F7C6B00367510 /* rpathcommand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = rpathcommand.cpp; sourceTree = "<group>"; };
+		8E13152E100F7C6B00367510 /* rpathcommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rpathcommand.h; sourceTree = "<group>"; };
+		8E13152F100F7C6B00367510 /* symboltablecommand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = symboltablecommand.cpp; sourceTree = "<group>"; };
+		8E131530100F7C6B00367510 /* symboltablecommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = symboltablecommand.h; sourceTree = "<group>"; };
+		8E131531100F7C6B00367510 /* symboltableentry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = symboltableentry.cpp; sourceTree = "<group>"; };
+		8E131532100F7C6B00367510 /* symboltableentry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = symboltableentry.h; sourceTree = "<group>"; };
+		8E131533100F7C6B00367510 /* symboltableentry32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = symboltableentry32.cpp; sourceTree = "<group>"; };
+		8E131534100F7C6B00367510 /* symboltableentry32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = symboltableentry32.h; sourceTree = "<group>"; };
+		8E131558100F7C9200367510 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8E13156F100F7DB600367510 /* symboltableentry64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = symboltableentry64.cpp; sourceTree = "<group>"; };
+		8E131570100F7DB600367510 /* symboltableentry64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = symboltableentry64.h; sourceTree = "<group>"; };
+		8E212E91101237A50078924A /* machodemangleexception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = machodemangleexception.h; sourceTree = "<group>"; };
+		8E212E92101237A50078924A /* machodemangleexception.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = machodemangleexception.cpp; sourceTree = "<group>"; };
+		8E49393E100AA468004B7E53 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
+		8E8C73DF106AA95D0037CF19 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = /usr/local/lib/static/libboost_filesystem.a; sourceTree = "<absolute>"; };
+		8E8C73E0106AA95D0037CF19 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = /usr/local/lib/static/libboost_system.a; sourceTree = "<absolute>"; };
+		8ED32FDC100B99EC00EBF623 /* machocache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = machocache.h; sourceTree = "<group>"; };
+		8ED32FDD100B99EC00EBF623 /* machocache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = machocache.cpp; sourceTree = "<group>"; };
+		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8DC2EF560486A6940098B216 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8E49393F100AA468004B7E53 /* CoreFoundation.framework in Frameworks */,
+				8E8C73E1106AA95D0037CF19 /* libboost_filesystem.a in Frameworks */,
+				8E8C73E2106AA95D0037CF19 /* libboost_system.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		034768DFFF38A50411DB9C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8DC2EF5B0486A6940098B216 /* MachO.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0867D691FE84028FC02AAC07 /* MachO */ = {
+			isa = PBXGroup;
+			children = (
+				08FB77AEFE84172EC02AAC07 /* Classes */,
+				32C88DFF0371C24200C91783 /* Other Sources */,
+				089C1665FE841158C02AAC07 /* Resources */,
+				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				034768DFFF38A50411DB9C8B /* Products */,
+			);
+			name = MachO;
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
+				1058C7B2FEA5585E11CA2CBB /* Other Frameworks */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C1665FE841158C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8E131558100F7C9200367510 /* Info.plist */,
+				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AEFE84172EC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				8E131512100F7C6B00367510 /* demangler.cpp */,
+				8E131513100F7C6B00367510 /* demangler.h */,
+				8E131514100F7C6B00367510 /* dylibcommand.cpp */,
+				8E131515100F7C6B00367510 /* dylibcommand.h */,
+				8E131516100F7C6B00367510 /* dynamicloader.cpp */,
+				8E131517100F7C6B00367510 /* dynamicloader.h */,
+				8E131518100F7C6B00367510 /* genericcommand.cpp */,
+				8E131519100F7C6B00367510 /* genericcommand.h */,
+				8E13151A100F7C6B00367510 /* internalfile.cpp */,
+				8E13151B100F7C6B00367510 /* internalfile.h */,
+				8E13151C100F7C6B00367510 /* loadcommand.cpp */,
+				8E13151D100F7C6B00367510 /* loadcommand.h */,
+				8E13151E100F7C6B00367510 /* macho.cpp */,
+				8E13151F100F7C6B00367510 /* macho.h */,
+				8E131520100F7C6B00367510 /* macho32header.cpp */,
+				8E131521100F7C6B00367510 /* macho32header.h */,
+				8E131522100F7C6B00367510 /* macho64header.cpp */,
+				8E131523100F7C6B00367510 /* macho64header.h */,
+				8E131524100F7C6B00367510 /* macho_global.h */,
+				8E131525100F7C6B00367510 /* machoarchitecture.cpp */,
+				8E131526100F7C6B00367510 /* machoarchitecture.h */,
+				8E131527100F7C6B00367510 /* machoexception.cpp */,
+				8E212E91101237A50078924A /* machodemangleexception.h */,
+				8E212E92101237A50078924A /* machodemangleexception.cpp */,
+				8E131528100F7C6B00367510 /* machoexception.h */,
+				8E131529100F7C6B00367510 /* machofile.cpp */,
+				8E13152A100F7C6B00367510 /* machofile.h */,
+				8E13152B100F7C6B00367510 /* machoheader.cpp */,
+				8E13152C100F7C6B00367510 /* machoheader.h */,
+				8E13152D100F7C6B00367510 /* rpathcommand.cpp */,
+				8E13152E100F7C6B00367510 /* rpathcommand.h */,
+				8E13152F100F7C6B00367510 /* symboltablecommand.cpp */,
+				8E131530100F7C6B00367510 /* symboltablecommand.h */,
+				8E131531100F7C6B00367510 /* symboltableentry.cpp */,
+				8E131532100F7C6B00367510 /* symboltableentry.h */,
+				8E131533100F7C6B00367510 /* symboltableentry32.cpp */,
+				8E131534100F7C6B00367510 /* symboltableentry32.h */,
+				8E13156F100F7DB600367510 /* symboltableentry64.cpp */,
+				8E131570100F7DB600367510 /* symboltableentry64.h */,
+				8ED32FDC100B99EC00EBF623 /* machocache.h */,
+				8ED32FDD100B99EC00EBF623 /* machocache.cpp */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8E8C73DF106AA95D0037CF19 /* libboost_filesystem.a */,
+				8E8C73E0106AA95D0037CF19 /* libboost_system.a */,
+				8E49393E100AA468004B7E53 /* CoreFoundation.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7B2FEA5585E11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
+				D2F7E79907B2D74100F64583 /* CoreData.framework */,
+				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		32C88DFF0371C24200C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32DBCF5E0370ADEE00C91783 /* MachO_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8DC2EF500486A6940098B216 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8ED32FDE100B99EC00EBF623 /* machocache.h in Headers */,
+				8E131536100F7C6B00367510 /* demangler.h in Headers */,
+				8E131538100F7C6B00367510 /* dylibcommand.h in Headers */,
+				8E13153A100F7C6B00367510 /* dynamicloader.h in Headers */,
+				8E13153C100F7C6B00367510 /* genericcommand.h in Headers */,
+				8E13153E100F7C6B00367510 /* internalfile.h in Headers */,
+				8E131540100F7C6B00367510 /* loadcommand.h in Headers */,
+				8E131542100F7C6B00367510 /* macho.h in Headers */,
+				8E131544100F7C6B00367510 /* macho32header.h in Headers */,
+				8E131546100F7C6B00367510 /* macho64header.h in Headers */,
+				8E131547100F7C6B00367510 /* macho_global.h in Headers */,
+				8E131549100F7C6B00367510 /* machoarchitecture.h in Headers */,
+				8E13154B100F7C6B00367510 /* machoexception.h in Headers */,
+				8E13154D100F7C6B00367510 /* machofile.h in Headers */,
+				8E13154F100F7C6B00367510 /* machoheader.h in Headers */,
+				8E131551100F7C6B00367510 /* rpathcommand.h in Headers */,
+				8E131553100F7C6B00367510 /* symboltablecommand.h in Headers */,
+				8E131555100F7C6B00367510 /* symboltableentry.h in Headers */,
+				8E131557100F7C6B00367510 /* symboltableentry32.h in Headers */,
+				8E131572100F7DB600367510 /* symboltableentry64.h in Headers */,
+				8E212E93101237A50078924A /* machodemangleexception.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8DC2EF4F0486A6940098B216 /* MachO */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB91AD08733DA50010E9CD /* Build configuration list for PBXNativeTarget "MachO" */;
+			buildPhases = (
+				8DC2EF500486A6940098B216 /* Headers */,
+				8DC2EF520486A6940098B216 /* Resources */,
+				8DC2EF540486A6940098B216 /* Sources */,
+				8DC2EF560486A6940098B216 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MachO;
+			productInstallPath = "$(HOME)/Library/Frameworks";
+			productName = MachO;
+			productReference = 8DC2EF5B0486A6940098B216 /* MachO.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0867D690FE84028FC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "MachO" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 0867D691FE84028FC02AAC07 /* MachO */;
+			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8DC2EF4F0486A6940098B216 /* MachO */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8DC2EF520486A6940098B216 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8DC2EF540486A6940098B216 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8ED32FDF100B99EC00EBF623 /* machocache.cpp in Sources */,
+				8E131535100F7C6B00367510 /* demangler.cpp in Sources */,
+				8E131537100F7C6B00367510 /* dylibcommand.cpp in Sources */,
+				8E131539100F7C6B00367510 /* dynamicloader.cpp in Sources */,
+				8E13153B100F7C6B00367510 /* genericcommand.cpp in Sources */,
+				8E13153D100F7C6B00367510 /* internalfile.cpp in Sources */,
+				8E13153F100F7C6B00367510 /* loadcommand.cpp in Sources */,
+				8E131541100F7C6B00367510 /* macho.cpp in Sources */,
+				8E131543100F7C6B00367510 /* macho32header.cpp in Sources */,
+				8E131545100F7C6B00367510 /* macho64header.cpp in Sources */,
+				8E131548100F7C6B00367510 /* machoarchitecture.cpp in Sources */,
+				8E13154A100F7C6B00367510 /* machoexception.cpp in Sources */,
+				8E13154C100F7C6B00367510 /* machofile.cpp in Sources */,
+				8E13154E100F7C6B00367510 /* machoheader.cpp in Sources */,
+				8E131550100F7C6B00367510 /* rpathcommand.cpp in Sources */,
+				8E131552100F7C6B00367510 /* symboltablecommand.cpp in Sources */,
+				8E131554100F7C6B00367510 /* symboltableentry.cpp in Sources */,
+				8E131556100F7C6B00367510 /* symboltableentry32.cpp in Sources */,
+				8E131571100F7DB600367510 /* symboltableentry64.cpp in Sources */,
+				8E212E94101237A50078924A /* machodemangleexception.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C1666FE841158C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C1667FE841158C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB91AE08733DA50010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = MachO_Prefix.pch;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_EFFECTIVE_CPLUSPLUS_VIOLATIONS = YES;
+				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib/static;
+				OTHER_LDFLAGS = "-Wl,-search_paths_first";
+				PRODUCT_NAME = MachO;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		1DEB91AF08733DA50010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = MachO_Prefix.pch;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib/static;
+				OTHER_LDFLAGS = "-Wl,-search_paths_first";
+				PRODUCT_NAME = MachO;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		1DEB91B208733DA50010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				DEPLOYMENT_LOCATION = NO;
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.5;
+			};
+			name = Debug;
+		};
+		1DEB91B308733DA50010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.5;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB91AD08733DA50010E9CD /* Build configuration list for PBXNativeTarget "MachO" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB91AE08733DA50010E9CD /* Debug */,
+				1DEB91AF08733DA50010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "MachO" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB91B208733DA50010E9CD /* Debug */,
+				1DEB91B308733DA50010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+}
