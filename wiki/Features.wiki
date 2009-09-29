@@ -7,6 +7,5 @@
   * shows all imported/exported functions of each dependency as well as the root file
   * shows warnings if a dependent library is not found or only found in an incompatible version
 
-= Open Issues =
-  * Due to a problem with QProcess, which is already reported to QtSoftware, it is currently not possible to demangle C++ method names. It will be enabled, as soon as a workaround or a patched version of Qt is available.
-  * So far library names containing @rpath are not supported. Those libraries are currently not found by macdependency.
+= Known Issues =
+  * None so far. If you experience any problems, please report them via the Issues tab.
