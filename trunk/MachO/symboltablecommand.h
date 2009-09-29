@@ -6,7 +6,7 @@
 #include <list>
 
 class SymbolTableEntry;
-class SymbolTableCommand : public LoadCommand
+class EXPORT SymbolTableCommand : public LoadCommand
 {
 private:
 	typedef list<const SymbolTableEntry*> SymbolTableEntries;

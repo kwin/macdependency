@@ -25,7 +25,7 @@ InternalFile::InternalFile(const string& filename) :
 	filename(filename), counter(1)
 {
 	// open file handle
-	file.open(this->filename);
+	file.open(this->filename, ios_base::in|ios_base::binary);
 	if (file.fail()) {
 		ostringstream error;
 		error << "Couldn't open file '" << filename << "'.";
@@ -57,7 +57,7 @@ string InternalFile::getName() const {
 		return filename.file_string();
 	string resolvedFileName(resolvedName);
 	free(resolvedName);
-	return resolvedName;
+	return resolvedFileName;
 }
 
 /* returns filename without path */

@@ -6,7 +6,7 @@
 class MachOHeader;
 class MachOFile;
 
-class MACHOSHARED_EXPORT LoadCommand
+class EXPORT LoadCommand
 {
 protected:
     LoadCommand(MachOHeader* header);

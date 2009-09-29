@@ -21,8 +21,14 @@ MachOFile::~MachOFile() {
     file->release();
 }
 
-string MachOFile::getPath() const { return file->getPath(); }
-string MachOFile::getName() const { return file->getName(); }
+string MachOFile::getPath() const { 
+	return file->getPath(); 
+}
+
+string MachOFile::getName() const { 
+	string filename = file->getName(); 
+	return filename;
+}
 string MachOFile::getTitle() const { return file->getTitle(); }
 long long int MachOFile::getSize() const { return file->getSize(); }
 time_t MachOFile::getLastModificationTime() const { return file->getLastModificationTime(); }

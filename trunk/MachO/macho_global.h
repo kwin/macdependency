@@ -3,12 +3,16 @@
 
 #include <string>
 
-using namespace std;        // macht alles aus dem Namensraum std bekannt
+using namespace std;    
+
+
+
+// TODO: use visibility options http://developer.apple.com/mac/library/documentation/DeveloperTools/Conceptual/CppRuntimeEnv/Articles/SymbolVisibility.html
 
 #if defined(MACHO_LIBRARY)
-#  define MACHOSHARED_EXPORT 
+#define EXPORT 
 #else
-#  define MACHOSHARED_EXPORT 
+#define EXPORT __attribute__((visibility("default")))
 #endif
 
 #endif // MACHO_GLOBAL_H

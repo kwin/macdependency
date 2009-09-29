@@ -3,7 +3,7 @@
 
 #include "macho_global.h"
 #include "loadcommand.h"
-class MACHOSHARED_EXPORT DylibCommand : public LoadCommand
+class EXPORT DylibCommand : public LoadCommand
 {
 public:
     enum DependencyType {

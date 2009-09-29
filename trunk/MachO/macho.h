@@ -10,7 +10,7 @@ class MachOArchitecture;
 class Demangler;
 class DynamicLoader;
 
-class MACHOSHARED_EXPORT MachO {
+class EXPORT MachO {
 private:
 	typedef std::list<MachOArchitecture*> MachOArchitectures;
 public:

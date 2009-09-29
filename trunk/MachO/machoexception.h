@@ -3,7 +3,7 @@
 
 #include "macho_global.h"
 
-class MACHOSHARED_EXPORT MachOException
+class EXPORT MachOException
 {
 public:
     MachOException(const string&);

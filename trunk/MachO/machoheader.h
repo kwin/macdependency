@@ -5,7 +5,7 @@
 #include "machofile.h"
 #include "/usr/include/mach-o/loader.h"
 
-class MACHOSHARED_EXPORT MachOHeader
+class EXPORT MachOHeader
 {
 public:
     static MachOHeader* getHeader(MachOFile& file, uint32_t magic);

@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
-		8E11B80B104DA00600C3B363 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E11B809104DA00500C3B363 /* libboost_filesystem.a */; };
-		8E11B80C104DA00600C3B363 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E11B80A104DA00500C3B363 /* libboost_system.a */; };
 		8E131535100F7C6B00367510 /* demangler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E131512100F7C6B00367510 /* demangler.cpp */; };
 		8E131536100F7C6B00367510 /* demangler.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E131513100F7C6B00367510 /* demangler.h */; settings = {ATTRIBUTES = (); }; };
 		8E131537100F7C6B00367510 /* dylibcommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E131514100F7C6B00367510 /* dylibcommand.cpp */; };
@@ -50,6 +48,8 @@
 		8E212E93101237A50078924A /* machodemangleexception.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E212E91101237A50078924A /* machodemangleexception.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8E212E94101237A50078924A /* machodemangleexception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E212E92101237A50078924A /* machodemangleexception.cpp */; };
 		8E49393F100AA468004B7E53 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E49393E100AA468004B7E53 /* CoreFoundation.framework */; };
+		8E8C73E1106AA95D0037CF19 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E8C73DF106AA95D0037CF19 /* libboost_filesystem.a */; };
+		8E8C73E2106AA95D0037CF19 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E8C73E0106AA95D0037CF19 /* libboost_system.a */; };
 		8ED32FDE100B99EC00EBF623 /* machocache.h in Headers */ = {isa = PBXBuildFile; fileRef = 8ED32FDC100B99EC00EBF623 /* machocache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8ED32FDF100B99EC00EBF623 /* machocache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ED32FDD100B99EC00EBF623 /* machocache.cpp */; };
 /* End PBXBuildFile section */
@@ -60,8 +60,6 @@
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		32DBCF5E0370ADEE00C91783 /* MachO_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MachO_Prefix.pch; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* MachO.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MachO.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8E11B809104DA00500C3B363 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = /usr/local/lib/libboost_filesystem.a; sourceTree = "<absolute>"; };
-		8E11B80A104DA00500C3B363 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = /usr/local/lib/libboost_system.a; sourceTree = "<absolute>"; };
 		8E131512100F7C6B00367510 /* demangler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = demangler.cpp; sourceTree = "<group>"; };
 		8E131513100F7C6B00367510 /* demangler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = demangler.h; sourceTree = "<group>"; };
 		8E131514100F7C6B00367510 /* dylibcommand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dylibcommand.cpp; sourceTree = "<group>"; };
@@ -103,6 +101,8 @@
 		8E212E91101237A50078924A /* machodemangleexception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = machodemangleexception.h; sourceTree = "<group>"; };
 		8E212E92101237A50078924A /* machodemangleexception.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = machodemangleexception.cpp; sourceTree = "<group>"; };
 		8E49393E100AA468004B7E53 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
+		8E8C73DF106AA95D0037CF19 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = /usr/local/lib/static/libboost_filesystem.a; sourceTree = "<absolute>"; };
+		8E8C73E0106AA95D0037CF19 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = /usr/local/lib/static/libboost_system.a; sourceTree = "<absolute>"; };
 		8ED32FDC100B99EC00EBF623 /* machocache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = machocache.h; sourceTree = "<group>"; };
 		8ED32FDD100B99EC00EBF623 /* machocache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = machocache.cpp; sourceTree = "<group>"; };
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
@@ -114,8 +114,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E49393F100AA468004B7E53 /* CoreFoundation.framework in Frameworks */,
-				8E11B80B104DA00600C3B363 /* libboost_filesystem.a in Frameworks */,
-				8E11B80C104DA00600C3B363 /* libboost_system.a in Frameworks */,
+				8E8C73E1106AA95D0037CF19 /* libboost_filesystem.a in Frameworks */,
+				8E8C73E2106AA95D0037CF19 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -211,8 +211,8 @@
 		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8E11B809104DA00500C3B363 /* libboost_filesystem.a */,
-				8E11B80A104DA00500C3B363 /* libboost_system.a */,
+				8E8C73DF106AA95D0037CF19 /* libboost_filesystem.a */,
+				8E8C73E0106AA95D0037CF19 /* libboost_system.a */,
 				8E49393E100AA468004B7E53 /* CoreFoundation.framework */,
 			);
 			name = "Linked Frameworks";
@@ -384,8 +384,8 @@
 				HEADER_SEARCH_PATHS = /usr/local/include;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = /usr/local/lib;
-				OTHER_LDFLAGS = "-search_paths_first";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib/static;
+				OTHER_LDFLAGS = "-Wl,-search_paths_first";
 				PRODUCT_NAME = MachO;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -394,8 +394,8 @@
 		1DEB91AF08733DA50010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -406,8 +406,8 @@
 				HEADER_SEARCH_PATHS = /usr/local/include;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = /usr/local/lib;
-				OTHER_LDFLAGS = "-search_paths_first";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib/static;
+				OTHER_LDFLAGS = "-Wl,-search_paths_first";
 				PRODUCT_NAME = MachO;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -433,6 +433,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
