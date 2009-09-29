@@ -5,7 +5,7 @@
 #include <map>
 
 class MachO;
-class MachOCache
+class EXPORT MachOCache
 	{
 	public:
 		MachOCache();

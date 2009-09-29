@@ -5,7 +5,7 @@
 #include "machoexception.h"
 
 
-class MACHOSHARED_EXPORT MachODemangleException : public MachOException
+class EXPORT MachODemangleException : public MachOException
 {
 
 public:

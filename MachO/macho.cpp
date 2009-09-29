@@ -211,7 +211,10 @@ string MachO::getPath() const {
     return file->getPath();
 }
 
-string MachO::getFileName() const { return file->getName(); }
+string MachO::getFileName() const { 
+	string filename = file->getName();
+	return filename;
+}
     
 MachO::MachOArchitecturesIterator MachO::getArchitecturesBegin() { return architectures.begin(); }
 

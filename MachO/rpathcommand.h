@@ -4,7 +4,7 @@
 #include "MachO_global.h"
 #include "loadcommand.h"
 
-class MACHOSHARED_EXPORT RPathCommand : public LoadCommand
+class EXPORT RPathCommand : public LoadCommand
 {
 public:
     RPathCommand(MachOHeader* header);

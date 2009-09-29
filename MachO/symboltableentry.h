@@ -5,7 +5,7 @@
 #include <mach-o/nlist.h>
 class MachOFile;
 
-class SymbolTableEntry
+class EXPORT SymbolTableEntry
 {
 public:
     SymbolTableEntry(MachOFile& file, char* stringTable);

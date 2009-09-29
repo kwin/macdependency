@@ -10,7 +10,7 @@ class MachOHeader;
 class LoadCommand;
 class DylibCommand;
 
-class MACHOSHARED_EXPORT MachOArchitecture
+class EXPORT MachOArchitecture
 {
 private:
 	typedef std::list<LoadCommand*> LoadCommands;
