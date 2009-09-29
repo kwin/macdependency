@@ -81,22 +81,8 @@
 
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
-{
-	/*if ( outError != NULL ) {
-	 
-	 //An error occurred
-	 NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
-	 [errorDetail setValue:@"Failed to do something wicked" forKey:NSLocalizedDescriptionKey];
-	 *outError = [NSError errorWithDomain:@"myDomain" code:100 userInfo:errorDetail];
-	 //*outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:dskFulErr userInfo:nil]; 
-	 return NO;
-	 
-	 
-	 }*/
-	//return YES;
-	
-	
-	// TODO: detect changes on document or alternatively make reload possible
+{	
+	// TODO: detect changes on document file (FSEvents) or alternatively make reload possible
 	
 	// load file
 	NSString* file = [super fileName];
