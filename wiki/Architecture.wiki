@@ -2,9 +2,12 @@
 #labels Phase-Design,Featured
 
 = Overview =
-macdependency consists out of two separate projects
-  * macdependency, which contains the GUI as well as some checking functionality for existing dependencies.
-  * macho, which provides access to the properties of Mach-O files in the form of a static library.
+MacDependency consists out of two separate projects
+  * MacDependency, which contains the Cocoa GUI as well as some checking functionality for existing dependencies.
+  * MachO, which provides access to the properties of Mach-O files in the form of a static library.
 
 = Used Libraries =
-Both macdependency and macho make use of Qt (http://www.qtsoftware.com), although this program does only make sense on a Mac. I chose that library because it provides a nice abstraction layer of pure cocoa programming. I also used the file access methods of Qt.
+MachO uses some libraries from boost
+ * [http://www.boost.org/doc/libs/1_40_0/libs/filesystem/index.html filesystem] for file handling
+ * [http://www.boost.org/doc/libs/1_40_0/libs/system/doc/index.html system] as dependent library from filesystem
+ * [http://www.highscore.de/boost/process/ process] (still in incubation) to start c++filt for demangling file names
