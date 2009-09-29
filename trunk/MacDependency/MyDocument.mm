@@ -95,6 +95,9 @@
 	 }*/
 	//return YES;
 	
+	
+	// TODO: detect changes on document or alternatively make reload possible
+	
 	// load file
 	NSString* file = [super fileName];
 	
@@ -106,17 +109,14 @@
 		NSString* msg = [NSString stringWithUTF8String:exc.getCause().c_str()];
 		
 		
-		// Make and return custom domain error
-		NSArray *objArray = [NSArray arrayWithObjects:@"hello", msg, @"Try again with another file", nil];
+		// create and return custom domain error (the localized description key is overwritten by OS, so no point in setting it here)
+		NSArray *objArray = [NSArray arrayWithObjects:@"", msg, @"Try again with another file", nil];
 		NSArray *keyArray = [NSArray arrayWithObjects:NSLocalizedDescriptionKey, NSLocalizedFailureReasonErrorKey, NSLocalizedRecoverySuggestionErrorKey, nil];
 		
 		NSDictionary *eDict = [NSDictionary dictionaryWithObjects:objArray forKeys:keyArray];
 		
 		// fill outError
 		*outError = [NSError errorWithDomain:@"MachO" code:0 userInfo:eDict];
-		
-		//NSAlert* alert = [NSAlert alertWithMessageText:msg defaultButton:nil alternateButton:nil otherButton:nil informativeTextWithFormat:nil];
-		//[alert runModal];
 		return NO;
 	}
 	return YES;
@@ -164,10 +164,6 @@
 	}
 	
 	NSString* newLine = [NSString stringWithFormat:@"%@%@\n\n", prefix, line];
-	// new line consist of prefix and link
-	//NSString* link = [self serializeIndexPath:indexPath];
-	
-	
 	NSDictionary* attributes;
 	
 	if (model) {
@@ -213,11 +209,7 @@
 
 // delegate method 
 - (BOOL)textView:(NSTextView *)aTextView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex {
-	
-	// link must be NSString which should be deserialized here
-	//NSIndexPath* indexPath = [self deserializeIndexPath:link];
 	[dependenciesController setSelectedObject:link];
-	
 	
 	// we need no further processing of the link
 	return YES;
