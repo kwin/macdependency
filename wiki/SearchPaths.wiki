@@ -10,7 +10,7 @@ First of all the dependent filename is stripped, so that only the filename witho
   # find filename in all paths given by LD_LIBRARY_PATH (separated by ":")
   # if filename is a framework: find framework name (without path information) in all paths given by DYLD_FRAMEWORK_PATH (separated by ":")
   # find filename in all paths given by DYLD_LIBRARY_PATH (separated by ":")
-  # if filename starts with @executable_path, @loader_library or @rpath those strings are replaced by the path of the current executable, the path of library which depends on this file or the given RPATHs
+  # if filename starts with @executable_path, @loader_path or @rpath those strings are replaced by the path of the current executable, the path of the binary which depends on this file or the given RPATHs (see http://www.mikeash.com/pyblog/friday-qa-2009-11-06-linking-and-install-names.html)
   # find filename (including original path information)
   # if filename is a framework: find framework name (without path information) in all paths given by DYLD_FALLBACK_FRAMEWORK_PATH (separated by ":"). If this environment variable isn't set, it instead looks in the following default paths: ~/Library/Frameworks,/Library/Frameworks,/Network/Library/Frameworks,/System/Library/Frameworks
   # find filename in all paths given by DYLD_FALLBACK_LIBRARY_PATH (separated by ":"). If this environment variable isn't set, it instead looks in the following default paths: ~/lib,/usr/local/lib,/lib,/usr/lib
