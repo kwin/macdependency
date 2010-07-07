@@ -6,7 +6,7 @@ You can either download the binary from the download section, which I provide in
 If you like, you can also compile the file directly from the sources.
 
 = Usage =
-You can either open an bundle, library or framework via the menu or you can just drop any Mach-O file on the program icon or on the program itself. It then shows all dependencies as well as some other informations like type, version and imported/exported symbols. The dependencies form a hierarchy, since the dependent files may have dependencies itself.
+You can either open a bundle, library or framework via the menu or you can just drop any Mach-O file on the program icon or on the program itself. It then shows all dependencies as well as some other information like type, version and imported/exported symbols. The dependencies form a hierarchy, since the dependent files may have dependencies itself.
 
 = Support =
 If you find any bugs, please report them in the Issues section.
