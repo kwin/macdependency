@@ -30,7 +30,7 @@ string MachOFile::getName() const {
 	return filename;
 }
 string MachOFile::getTitle() const { return file->getTitle(); }
-long long int MachOFile::getSize() const { return file->getSize(); }
+unsigned long long MachOFile::getSize() const { return file->getSize(); }
 time_t MachOFile::getLastModificationTime() const { return file->getLastModificationTime(); }
 
 uint32_t MachOFile::readUint32() {

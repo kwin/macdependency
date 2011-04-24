@@ -43,7 +43,7 @@ MachOHeader::CpuType MachOHeader::getHostCpuType() {
 	mach_port_t hostPort = mach_host_self();
 	kern_return_t result = host_info(hostPort, HOST_BASIC_INFO, (host_info_t)&info, &count);
 	mach_port_deallocate(mach_task_self(), hostPort);
-	if ( result != KERN_SUCCESS )
+	if (result != KERN_SUCCESS)
 		throw "host_info() failed";
 	//sHostCPUsubtype = info.cpu_subtype;
 	return getCpuType(info.cpu_type);
@@ -73,8 +73,7 @@ MachOHeader::CpuType MachOHeader::getCpuType(unsigned int cpu) {
 MachOHeader::FileType MachOHeader::getFileType() const {
     unsigned int fileType = getInternalFileType();
     if (fileType > NumFileTypes || fileType < 1) {
-        throw MachOException("Invalid file type");
+        return NumFileTypes;
     }
     return static_cast<FileType>(fileType-1);
 }
-

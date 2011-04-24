@@ -50,6 +50,10 @@
 		8E49393F100AA468004B7E53 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E49393E100AA468004B7E53 /* CoreFoundation.framework */; };
 		8E8C73E1106AA95D0037CF19 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E8C73DF106AA95D0037CF19 /* libboost_filesystem.a */; };
 		8E8C73E2106AA95D0037CF19 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E8C73E0106AA95D0037CF19 /* libboost_system.a */; };
+		8EA3DFF411AFD3790093CD87 /* uuidcommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EA3DFF211AFD3790093CD87 /* uuidcommand.cpp */; };
+		8EA3DFF511AFD3790093CD87 /* uuidcommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EA3DFF311AFD3790093CD87 /* uuidcommand.h */; };
+		8EA3E17A11B12B5A0093CD87 /* dylinkercommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EA3E17811B12B5A0093CD87 /* dylinkercommand.cpp */; };
+		8EA3E17B11B12B5A0093CD87 /* dylinkercommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EA3E17911B12B5A0093CD87 /* dylinkercommand.h */; };
 		8ED32FDE100B99EC00EBF623 /* machocache.h in Headers */ = {isa = PBXBuildFile; fileRef = 8ED32FDC100B99EC00EBF623 /* machocache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8ED32FDF100B99EC00EBF623 /* machocache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ED32FDD100B99EC00EBF623 /* machocache.cpp */; };
 /* End PBXBuildFile section */
@@ -103,6 +107,10 @@
 		8E49393E100AA468004B7E53 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
 		8E8C73DF106AA95D0037CF19 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = /usr/local/lib/static/libboost_filesystem.a; sourceTree = "<absolute>"; };
 		8E8C73E0106AA95D0037CF19 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = /usr/local/lib/static/libboost_system.a; sourceTree = "<absolute>"; };
+		8EA3DFF211AFD3790093CD87 /* uuidcommand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = uuidcommand.cpp; sourceTree = "<group>"; };
+		8EA3DFF311AFD3790093CD87 /* uuidcommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = uuidcommand.h; sourceTree = "<group>"; };
+		8EA3E17811B12B5A0093CD87 /* dylinkercommand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dylinkercommand.cpp; sourceTree = "<group>"; };
+		8EA3E17911B12B5A0093CD87 /* dylinkercommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dylinkercommand.h; sourceTree = "<group>"; };
 		8ED32FDC100B99EC00EBF623 /* machocache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = machocache.h; sourceTree = "<group>"; };
 		8ED32FDD100B99EC00EBF623 /* machocache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = machocache.cpp; sourceTree = "<group>"; };
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
@@ -163,6 +171,10 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				8EA3E17811B12B5A0093CD87 /* dylinkercommand.cpp */,
+				8EA3E17911B12B5A0093CD87 /* dylinkercommand.h */,
+				8EA3DFF211AFD3790093CD87 /* uuidcommand.cpp */,
+				8EA3DFF311AFD3790093CD87 /* uuidcommand.h */,
 				8E131512100F7C6B00367510 /* demangler.cpp */,
 				8E131513100F7C6B00367510 /* demangler.h */,
 				8E131514100F7C6B00367510 /* dylibcommand.cpp */,
@@ -264,6 +276,8 @@
 				8E131557100F7C6B00367510 /* symboltableentry32.h in Headers */,
 				8E131572100F7DB600367510 /* symboltableentry64.h in Headers */,
 				8E212E93101237A50078924A /* machodemangleexception.h in Headers */,
+				8EA3DFF511AFD3790093CD87 /* uuidcommand.h in Headers */,
+				8EA3E17B11B12B5A0093CD87 /* dylinkercommand.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,7 +310,11 @@
 			isa = PBXProject;
 			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "MachO" */;
 			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* MachO */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
 			projectDirPath = "";
@@ -343,6 +361,8 @@
 				8E131556100F7C6B00367510 /* symboltableentry32.cpp in Sources */,
 				8E131571100F7DB600367510 /* symboltableentry64.cpp in Sources */,
 				8E212E94101237A50078924A /* machodemangleexception.cpp in Sources */,
+				8EA3DFF411AFD3790093CD87 /* uuidcommand.cpp in Sources */,
+				8EA3E17A11B12B5A0093CD87 /* dylinkercommand.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -387,6 +407,7 @@
 				LIBRARY_SEARCH_PATHS = /usr/local/lib/static;
 				OTHER_LDFLAGS = "-Wl,-search_paths_first";
 				PRODUCT_NAME = MachO;
+				SDKROOT = macosx10.6;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -409,6 +430,7 @@
 				LIBRARY_SEARCH_PATHS = /usr/local/lib/static;
 				OTHER_LDFLAGS = "-Wl,-search_paths_first";
 				PRODUCT_NAME = MachO;
+				SDKROOT = macosx10.6;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
@@ -419,6 +441,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DEPLOYMENT_LOCATION = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -433,7 +456,6 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;

@@ -23,7 +23,7 @@ public:
     string getPath() const;
     string getName() const;
 	string getTitle() const;
-    long long int getSize() const;
+    unsigned long long getSize() const;
     void seek(long long int offset) { position = offset; }
     long long int getPosition() const {  return position; }
     const string& getExecutablePath() const { return executablePath; }

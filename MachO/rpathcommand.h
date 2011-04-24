@@ -4,11 +4,11 @@
 #include "MachO_global.h"
 #include "loadcommand.h"
 
-class EXPORT RPathCommand : public LoadCommand
+class EXPORT RpathCommand : public LoadCommand
 {
 public:
-    RPathCommand(MachOHeader* header);
-    virtual ~RPathCommand();
+    RpathCommand(MachOHeader* header);
+    virtual ~RpathCommand();
 
     virtual unsigned int getSize() const;
     virtual unsigned int getStructureSize() const { return sizeof(command); }

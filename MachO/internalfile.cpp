@@ -65,7 +65,7 @@ string InternalFile::getTitle() const {
 	return filename.filename();
 }
 
-long long int InternalFile::getSize() const {
+unsigned long long InternalFile::getSize() const {
 	return file_size(filename);
 }
 

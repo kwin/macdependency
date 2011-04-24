@@ -30,7 +30,4 @@ protected:
     char* stringTable;
 };
 
-
-//QDebug &operator<<(QDebug &dbg, const SymbolTableEntry &symbolTable);
-
 #endif // SYMBOLTABLEENTRY_H

@@ -25,7 +25,7 @@ public:
     MachOArchitecturesIterator getArchitecturesEnd();
     MachOArchitecture* getCompatibleArchitecture(MachOArchitecture* destArchitecture) const;
 	MachOArchitecture* getHostCompatibleArchitecture() const;
-    long long int getSize() const;
+    unsigned long long getSize() const;
     time_t getLastModificationTime() const;
     string getVersion() const;
     string getName() const;
