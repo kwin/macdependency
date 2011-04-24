@@ -165,6 +165,12 @@
 	[newLog release];
 }
 
+- (NSString*) workingDirectory {
+	// don't release the returned string!!, apparently then filename is released also
+	return [[super fileName] stringByDeletingLastPathComponent];
+}
+
+
 - (NSString*) serializeIndexPath:(NSIndexPath*)indexPath {
 	NSMutableString* link = [NSMutableString stringWithCapacity:20];
 	for (int depth = 0; depth < [indexPath length]; depth++) {

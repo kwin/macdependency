@@ -28,49 +28,50 @@
 
 @implementation MachOModel
 
-- (id) initWithFile:(MachO*)machO document:(MyDocument*)document architecture:(MachOArchitecture*)architecture loadChildren:(BOOL)loadChildren {
-	self->state = StateNormal;
-	[self initWithFile:machO command:nil document:document parent:nil architecture:architecture];
+- (id) initWithFile:(MachO*)aFile document:(MyDocument*)aDocument architecture:(MachOArchitecture*)anArchitecture loadChildren:(BOOL)loadChildren {
+	state = StateNormal;
+	[self initWithFile:aFile command:nil document:aDocument parent:nil architecture:anArchitecture];
 	if (loadChildren) {
 		[self initChildren];
 	}
 	return self;
 }
 
-// called by initChildren
-- (id) initWithFilename:(std::string&)filename command:(DylibCommand*)command document:(MyDocument*)document parent:(MachOModel*)parent {
+// called by initChildren (calls initWithFile internally)
+- (id) initWithFilename:(std::string&)filename command:(DylibCommand*)aCommand document:(MyDocument*)aDocument parent:(MachOModel*)aParent {
 	BOOL isWeakReference = (command && !command->isNecessary());
-	self->state = StateNormal;
+    MachO* aFile;
+    MachOArchitecture* anArchitecture;
+    state = StateNormal;
 	try {
-		file = [document cache]->getFile(filename, parent->file); // throws exception in case file is not found
-		architecture = file->getCompatibleArchitecture(parent->architecture);
-		if (!architecture) {
+		aFile = [aDocument cache]->getFile(filename, aParent->file); // throws exception in case file is not found
+		anArchitecture = aFile->getCompatibleArchitecture(aParent->architecture);
+		if (!anArchitecture) {
 			[self setStateWithWarning:isWeakReference];
 			NSString* log = [NSString stringWithFormat:NSLocalizedString(@"ERR_ARCHITECTURE_MISMATCH", nil), filename.c_str(), [parent name]];
-			[document appendLogLine:log withModel:self state:state];
-			
+			[aDocument appendLogLine:log withModel:self state:state];
 		}
 		
 	}  catch (MachOException& exc) {
 		[self setStateWithWarning:isWeakReference];
 		NSString* log = [NSString stringWithStdString:exc.getCause()];
-		[document appendLogLine:log withModel:self state:state];
+		[aDocument appendLogLine:log withModel:self state:state];
 		// distinguish between weak and strong. In both cases append to tree with a status color				
 	}
-	[document incrementNumDependencies];
-	[self initWithFile:file command:command document:document parent:parent architecture:architecture];
+	[aDocument incrementNumDependencies];
+	[self initWithFile:aFile command:aCommand document:aDocument parent:aParent architecture:anArchitecture];
 	return self;
 }				 
 
 // private
-- (id) initWithFile:(MachO*)file command:(DylibCommand*)command document:(MyDocument*)document parent:(MachOModel*)parent architecture:(MachOArchitecture*)architecture {
+- (id) initWithFile:(MachO*)aFile command:(DylibCommand*)aCommand document:(MyDocument*)aDocument parent:(MachOModel*)aParent architecture:(MachOArchitecture*)anArchitecture {
 	if (self = [super init]) {
-		self->document = document;
-		self->parent = parent;
-		self->command = command;
-		self->file = file;
-		self->children = nil;
-		self->architecture = architecture;
+		document = aDocument;
+		parent = aParent;
+		command = aCommand;
+		file = aFile;
+		children = nil;
+		architecture = anArchitecture;
 		if (architecture) {
 			DylibCommand* dylibId = architecture->getDynamicLibIdCommand();
 			if (dylibId && command) {
@@ -87,13 +88,13 @@
 }
 
 - (void) setStateWithWarning:(BOOL)isWarning {
-	State state = StateError;
+	State newState = StateError;
 	if (isWarning) {
-		state = StateWarning;
+		newState = StateWarning;
 	}
 	
-	if (self->state < state) {
-		self->state = state;
+	if (self->state < newState) {
+		self->state = newState;
 	}
 }
 
@@ -130,44 +131,16 @@
 		
 	}
 	
-	
 	// check names
 	if (dylibId->getName() != command->getName()) {
 		[self setStateWithWarning:YES];
 		log = [NSString stringWithFormat:NSLocalizedString(@"ERR_NAME_MISMATCH", nil), command->getName().c_str(), [parent name], dylibId->getName().c_str()];
 		[document appendLogLine:log withModel:self state:state];
 	}
+	
+	// TODO: check for relative paths, since they can lead to problems
 	[versionFormatter release];
 } 
-
-/*
-- (NSIndexPath*) calculateIndexPath {
-	unsigned int depth = 0;
-	
-	// determine current depth
-	MachOModel* model = self;
-	while (model = model->parent) {
-		depth++;
-	}
-	unsigned int length = depth+1;
-	NSUInteger* indices = new NSUInteger[length];
-	MachOModel* child;
-	// search me in parent (recursively)
-	model = child = self;
-	
-	while (model = model->parent) {
-		// go through children
-		NSEnumerator *enumerator = [[model children] objectEnumerator];
-		NSUInteger index = 0;
-		while (child != [enumerator nextObject]) {
-			index++;			
-		}
-		indices[depth--] = index;
-		child = model;
-	}
-	indices[0] = 0;
-	return [NSIndexPath indexPathWithIndexes:indices length:length];
-}*/
 
 - (NSArray*)children {
 	if (children == nil) {
@@ -181,17 +154,16 @@
 	children = [NSMutableArray arrayWithCapacity:20];
 	[children retain];
 	if (architecture) {
+		std::string workingDirectory = [[document workingDirectory] stdString];
 		for (MachOArchitecture::LoadCommandsConstIterator it = architecture->getLoadCommandsBegin();
 			 it != architecture->getLoadCommandsEnd();
 			 ++it) {
-			
 			
 			LoadCommand* childLoadCommand = (*it);
 			// check if it is dylibcommand
 			DylibCommand* dylibCommand = dynamic_cast<DylibCommand*> (childLoadCommand);
 			if (dylibCommand != NULL && !dylibCommand->isId()) {
-				// TODO: check RPath handling, must use root for working path
-				std::string filename = architecture->getResolvedName(dylibCommand->getName(), "");
+				std::string filename = architecture->getResolvedName(dylibCommand->getName(), workingDirectory);
 				
 				MachOModel* child = [MachOModel alloc];
 				[children addObject:child]; // must add children before initializing them, because in init we rely on parent children being correct					 
@@ -238,10 +210,13 @@
 	return @"";
 }
 
-- (unsigned int) size {
+- (NSNumber*) size {
+	NSNumber* size = [NSNumber alloc];
 	if (file)
-		return file->getSize();
-	return 0;
+		[size initWithUnsignedLongLong:file->getSize()];
+	else 
+		[size initWithInt:0];
+	return size;
 }
 
 - (NSString*) name {
@@ -315,13 +290,4 @@
 	}
 	return  architectures;
 }
-
-
-
-- (NSString*) idName {
-	// TODO: what should we return here?
-	return @"";
-}
-
-
 @end
