@@ -5,6 +5,7 @@
 #include <boost/filesystem.hpp>
 #include <pwd.h>
 #include <stdlib.h>
+#include <sstream>
 
 /*
  This class emulates the search path mechanism of dyld
@@ -13,7 +14,7 @@
  http://www.opensource.apple.com/source/dyld/dyld-97.1/src/dyld.cpp
  */
 
-const char DynamicLoader::EnvironmentPathVariable::PATHS_SEPARATOR[] = ":";
+const char DynamicLoader::EnvironmentPathVariable::PATHS_SEPARATOR = ':';
 
 DynamicLoader::EnvironmentPathVariable::EnvironmentPathVariable() {
     // never call that explicitly
@@ -29,13 +30,12 @@ DynamicLoader::EnvironmentPathVariable::EnvironmentPathVariable(const char* home
 	}
 	
 	if (!values.empty()) {
-		size_t start = 0;
-		size_t end;
-		while ((end = values.find(PATHS_SEPARATOR)) != string::npos) {
-			addPath(values.substr(start, end-start));
-			start = end+1;
-		}
-	} else {
+		std::stringstream v(values);
+        std::string item;
+        while (std::getline(v, item, PATHS_SEPARATOR)) {
+            addPath(item);
+ 		}	
+    } else {
         setPaths(defaultValues);
     }
 }
