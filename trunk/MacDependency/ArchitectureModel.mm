@@ -24,17 +24,17 @@
 
 @implementation ArchitectureModel
 
-- (id) initWithArchitecture:(MachOArchitecture*)architecture file:(MachO*)file document:(MyDocument*)document isRoot:(BOOL)isRoot{
-	self->architecture = architecture;
-	self->file = file;
-	self->document = document;
-	self->symbolEntries = nil;
+- (id) initWithArchitecture:(MachOArchitecture*)anArchitecture file:(MachO*)aFile document:(MyDocument*)aDocument isRoot:(BOOL)isRoot{
+	architecture = anArchitecture;
+	file = aFile;
+	document = aDocument;
+	symbolEntries = nil;
 	
 	// create model with the current architecture selected (create from existing model)
 	if (isRoot) {
 		machOModel = nil;
 	} else {
-		machOModel = [[MachOModel alloc]initWithFile:file document:document architecture:architecture loadChildren:NO];
+		machOModel = [[MachOModel alloc]initWithFile:aFile document:aDocument architecture:anArchitecture loadChildren:NO];
 	}
 	
 	return self;
@@ -75,12 +75,18 @@
 			
 	}
 	return label;
-	
-
 }
 
 - (NSString*) label {
 	return [ArchitectureModel cpuType:architecture->getHeader()->getCpuType()];
+}
+
+- (NSString*) uuid {
+	// use CFUUID
+	CFUUIDRef uuid = CFUUIDCreateFromUUIDBytes(kCFAllocatorDefault, *((CFUUIDBytes*)architecture->getUuid()));
+	CFStringRef result = CFUUIDCreateString(kCFAllocatorDefault, uuid);
+	CFRelease(uuid);
+	return (NSString*) result;
 }
 
 - (NSString*) fileType {
@@ -116,32 +122,63 @@
 		case MachOHeader::FileTypeDsym:   		/* companion file with only debug sections */
 			type = NSLocalizedString(@"FILE_TYPE_DSYM", nil);
 			break;
+		case MachOHeader::FileTypeKextBundle:  		/* kext bundle */
+			type = NSLocalizedString(@"FILE_TYPE_KEXT_BUNDLE", nil);
+			break;
 		default:
 			type = NSLocalizedString(@"UNDEFINED", @"Unknown");
 	}
 	return type;
 }
 
-- (NSString*) idName {
-	NSString* idName = [NSString string];
+- (NSString*) identifier {
+	NSString* identifier = [NSString string];
 	DylibCommand* dynamicLibraryIdCommand = architecture->getDynamicLibIdCommand();
 	if (dynamicLibraryIdCommand != NULL) {
-		idName = [NSString stringWithStdString:dynamicLibraryIdCommand->getName()];
+		identifier = [NSString stringWithStdString:dynamicLibraryIdCommand->getName()];
 	}
-	return idName;
+	return identifier;
+}
+
+- (NSString*) dynamicLinker {
+	NSString* dynamicLinker;
+	dynamicLinker = [NSString stringWithStdString:architecture->getDynamicLinker()];
+	return dynamicLinker;
+}
+
+- (NSString*) rpath {
+	std::vector<string*> rpaths = architecture->getRpaths(false);
+	NSMutableString* rpath = [NSMutableString string];
+	for (std::vector<string*>::iterator it = rpaths.begin();
+		 it != rpaths.end();
+		 ++it)
+    {
+        [rpath appendFormat:@"%@; ", [NSString stringWithStdString:**it]];
+    }
+	return rpath;
+}
+
+- (NSNumber*) showIdentifier {
+	NSNumber* result;
+	if ([[self identifier] length] == 0) {
+		result = [NSNumber numberWithBool:true];
+	} else {
+		result = [NSNumber numberWithBool:false];
+	}
+	return result;
 }
 
 - (NSString*) size {
 	NSString* size;
-	// somehow we can't use this directly in stringWithFormat, because then the second parameter is always zero.
+	// regard the correct format specifier %qu for unsigned long
 	unsigned int architectureSize = architecture->getSize();
-	unsigned int fileSize = [machOModel size];
+	unsigned long long fileSize = file->getSize();
 	if (fileSize != architectureSize) {
 		size = [NSString stringWithFormat:NSLocalizedString(@"SIZE_FORMAT_ARCHITECTURE", nil), 
-				fileSize/1024, architectureSize/1024];
+				fileSize/1024L, architectureSize/1024];
 	} else {
 		size = [NSString stringWithFormat:NSLocalizedString(@"SIZE_FORMAT", nil), 
-				fileSize/1024];
+				fileSize/1024L];
 	}
 	return size;
 }
@@ -208,10 +245,10 @@
 	return symbolEntries;
 }
 
-- (void) setSymbols:(NSMutableArray*) symbolEntries {
-	[symbolEntries retain];
-	[self->symbolEntries release];
-	self->symbolEntries = symbolEntries;
+- (void) setSymbols:(NSMutableArray*) newSymbolEntries {
+	[newSymbolEntries retain];
+	[symbolEntries release];
+	symbolEntries = symbolEntries;
 }
 
 - (void) refreshSymbols {

@@ -24,9 +24,13 @@
 - (id) initWithArchitecture:(MachOArchitecture*)architecture file:(MachO*)file document:(MyDocument*)document isRoot:(BOOL)isRoot;
 - (NSString*) label;
 - (NSString*) fileType;
-- (NSString*) idName;
+- (NSString*) identifier;
 - (NSString*) size;
 - (NSString*) version;
+- (NSString*) uuid;
+- (NSString*) rpath;
+- (NSString*) dynamicLinker;
+- (NSNumber*) showIdentifier;
 
 + (NSString*) cpuType:(MachOHeader::CpuType)cpuType;
 

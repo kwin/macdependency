@@ -30,8 +30,9 @@
 }
 - (NSAttributedString*)log;
 - (void)setLog:(NSAttributedString *)newLog;
-- (void)appendLogLine:(NSString *)line withModel:(MachOModel*)model state:(State)state;
+- (void)appendLogLine:(NSString *)line withModel:(MachOModel*)aModel state:(State)aState;
 - (void)clearLog;
+- (NSString*) workingDirectory;
 
 - (void)incrementNumDependencies;
 - (void)resetNumDependencies;

@@ -43,10 +43,8 @@ typedef enum State{
 - (NSString*) filename;
 - (NSString*) dependencyType;
 - (NSString*) version;
-- (NSString*) idName;
 - (NSDate*) lastModificationTime;
 - (NSArray*) architectures;
-- (unsigned int) size;
-
+- (NSNumber*) size;
 
 @end
