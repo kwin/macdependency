@@ -5,12 +5,14 @@
 #include "dylibcommand.h"
 #include "machoexception.h"
 #include "rpathcommand.h"
+#include "uuidcommand.h"
+#include "dylinkercommand.h"
 #include "macho.h"
 #include "dynamicloader.h"
 
 
 MachOArchitecture::MachOArchitecture(MachOFile& file, uint32_t magic, unsigned int size) :
-    header(MachOHeader::getHeader(file, magic)), file(header->getFile()), size(size), hasReadLoadCommands(false), parent(0), dynamicLibIdCommand(0)
+    header(MachOHeader::getHeader(file, magic)), file(header->getFile()), size(size), hasReadLoadCommands(false), parent(0), dynamicLibIdCommand(0), uuid(0)
 {
 }
 
@@ -26,12 +28,17 @@ string MachOArchitecture::getResolvedName(const string& name, const string& work
     return name;
 }
 
-std::vector<string*> MachOArchitecture::getRPaths() const {
+std::vector<string*> MachOArchitecture::getRpaths(bool recursively) const {
     // try to get it from the parent (recursively)
-    std::vector<string*> prevRPaths = parent?(std::vector<string*>(parent->getRPaths())):(std::vector<string*>());
+	std::vector<string*> prevRpaths;
+	if (recursively && parent) {
+		prevRpaths = parent->getRpaths(recursively);
+	} else {
+		prevRpaths = std::vector<string*>();
+	}
     // add own rpaths to the end
-    prevRPaths.insert(prevRPaths.end(), rPaths.begin(), rPaths.end());
-    return prevRPaths;
+    prevRpaths.insert(prevRpaths.end(), rpaths.begin(), rpaths.end());
+    return prevRpaths;
 }
 
 void MachOArchitecture::readLoadCommands() const {
@@ -44,21 +51,37 @@ void MachOArchitecture::readLoadCommands() const {
 
         file.seek(commandOffset);
         LoadCommand* loadCommand = LoadCommand::getLoadCommand(cmd, header);
-        DylibCommand* dylibCommand = dynamic_cast<DylibCommand*>(loadCommand);
+        
+		// for dylibCommand...
+		DylibCommand* dylibCommand = dynamic_cast<DylibCommand*>(loadCommand);
         if (dylibCommand != 0 && dylibCommand->isId()) {
             dynamicLibIdCommand = dylibCommand;
         }
 
-        RPathCommand* rPathCommand = dynamic_cast<RPathCommand*>(loadCommand);
-        if (rPathCommand != 0) {
+		// for rpath command...
+        RpathCommand* rpathCommand = dynamic_cast<RpathCommand*>(loadCommand);
+        if (rpathCommand != 0) {
             // try to replace placeholder
-            string resolvedRPath = MachO::dynamicLoader->replacePlaceholder(rPathCommand->getPath(), this);
-            if (resolvedRPath.empty()) {
-                resolvedRPath = rPathCommand->getPath();
+            string resolvedRpath = MachO::dynamicLoader->replacePlaceholder(rpathCommand->getPath(), this);
+            if (resolvedRpath.empty()) {
+                resolvedRpath = rpathCommand->getPath();
             }
-            rPaths.push_back(new string(resolvedRPath));
+            rpaths.push_back(new string(resolvedRpath));
         }
-        loadCommands.push_back(loadCommand);
+		
+		// for uuid command...
+		UuidCommand* uuidCommand = dynamic_cast<UuidCommand*>(loadCommand);
+        if (uuidCommand != 0) {
+			uuid = uuidCommand->getUuid();
+        }
+		
+		// for dylinker command
+		DylinkerCommand* dylinkerCommand = dynamic_cast<DylinkerCommand*>(loadCommand);
+        if (dylinkerCommand != 0) {
+			dylinker = dylinkerCommand->getName();
+        }
+		
+		loadCommands.push_back(loadCommand);
         file.seek(commandOffset + loadCommand->getSize());
     }
     hasReadLoadCommands = true;
@@ -74,8 +97,8 @@ MachOArchitecture::~MachOArchitecture() {
         delete *it;
     }
 
-    for (std::vector<string*>::iterator it2 = rPaths.begin();
-    it2 != rPaths.end();
+    for (std::vector<string*>::iterator it2 = rpaths.begin();
+    it2 != rpaths.end();
     ++it2)
     {
         delete *it2;
@@ -84,6 +107,10 @@ MachOArchitecture::~MachOArchitecture() {
 
 unsigned int MachOArchitecture::getSize() const {
     return size;
+}
+
+const uint8_t* MachOArchitecture::getUuid() const {
+	return uuid;
 }
 
 

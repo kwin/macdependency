@@ -16,7 +16,7 @@ public:
     string getPath() const;
     string getName() const;
 	string getTitle() const;
-    long long int getSize() const;
+	unsigned long long getSize() const;
     bool seek(long long int position);
     streamsize read(char* buffer, streamsize size);
     long long int getPosition();

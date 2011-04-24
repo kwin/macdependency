@@ -32,7 +32,8 @@ public:
         FileTypeBundle,                 /* dynamically bound bundle file */
         FileTypeDylibStub,              /* shared library stub for static linking only, no section contents */
         FileTypeDsym,   		/* companion file with only debug sections */
-        NumFileTypes
+		FileTypeKextBundle,   /* x86 64 kext bundle */
+        NumFileTypes		/* stands also for unknown types */
     };
     FileType getFileType() const;
 	virtual CpuType getCpuType() const = 0;

@@ -8,6 +8,8 @@
 
 #include <mach-o/fat.h>
 
+// see http://developer.apple.com/mac/library/documentation/DeveloperTools/Conceptual/MachORuntime/Reference/reference.html 
+// for MachO specification
 
 // static variables
 Demangler* MachO::demangler = 0;
@@ -143,7 +145,7 @@ MachOArchitecture* MachO::getHostCompatibleArchitecture() const {
     return 0;
 }
 
-long long int MachO::getSize() const {
+unsigned long long MachO::getSize() const {
     return file->getSize();
 }
 

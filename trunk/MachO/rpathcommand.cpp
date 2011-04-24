@@ -2,19 +2,19 @@
 #include "machofile.h"
 #include "machoheader.h"
 
-RPathCommand::RPathCommand(MachOHeader* header) :
+RpathCommand::RpathCommand(MachOHeader* header) :
         LoadCommand(header)
 {
     file.readBytes((char*)&command, sizeof(command));
 }
 
-RPathCommand::~RPathCommand() {
+RpathCommand::~RpathCommand() {
 }
 
-unsigned int RPathCommand::getSize() const {
+unsigned int RpathCommand::getSize() const {
     return file.getUint32(command.cmdsize);
 }
 
-const char* RPathCommand::getPath() const {
+const char* RpathCommand::getPath() const {
     return getLcDataString(command.path.offset);
 }

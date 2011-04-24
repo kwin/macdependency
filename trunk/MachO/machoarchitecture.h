@@ -28,10 +28,11 @@ public:
     unsigned int getSize() const;
     void initParentArchitecture(const MachOArchitecture* parent);
     const MachOFile* getFile() const { return &file; }
-
-    std::vector<string*> getRPaths() const;
+	std::string getDynamicLinker() const { return dylinker; }
+    std::vector<string*> getRpaths(bool recursively = true) const;
     string getResolvedName(const string& name, const string& workingPath) const;
-
+	const uint8_t* getUuid() const;
+	
 private:
     MachOHeader* header;
     MachOFile& file;
@@ -40,9 +41,12 @@ private:
     void readLoadCommands() const;
     const MachOArchitecture* parent;	// architecture from which this architecture was loaded
 
+	// all those are mutable, because they are initialized not in the constructor, but in the readLoadCommands method
     mutable LoadCommands loadCommands;
     mutable DylibCommand* dynamicLibIdCommand;
-    mutable std::vector<string*> rPaths;
+    mutable std::vector<string*> rpaths;
+	mutable const uint8_t* uuid;
+	mutable std::string dylinker;
 };
 
 #endif // MACHOARCHITECTURE_H
