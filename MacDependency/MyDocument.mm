@@ -85,10 +85,10 @@
 	// TODO: detect changes on document file (FSEvents) or alternatively make reload possible
 	
 	// load file
-	NSString* file = [super fileName];
+	NSString* filePath = [absoluteURL path];
 	
 	// convert to std:string
-	std::string fileString = [file stdString];
+	std::string fileString = [filePath stdString];
 	try {
 		machO = cache->getFile(fileString, NULL);
 	} catch (MachOException& exc) {
@@ -167,7 +167,8 @@
 
 - (NSString*) workingDirectory {
 	// don't release the returned string!!, apparently then filename is released also
-	return [[super fileName] stringByDeletingLastPathComponent];
+    NSString* filePath = [[super fileURL] path];
+	return [filePath stringByDeletingLastPathComponent];
 }
 
 
@@ -190,7 +191,7 @@
 	NSString* token = [enumerator nextObject];
 	if (token) {
 		indexPath = [NSIndexPath indexPathWithIndex:[token intValue]];
-		while (token = [enumerator nextObject]) {
+		while ((token = [enumerator nextObject])) {
 			if ([token length] > 0)
 				indexPath = [indexPath indexPathByAddingIndex:[token intValue]];
 		}

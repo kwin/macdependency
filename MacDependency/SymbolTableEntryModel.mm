@@ -15,7 +15,8 @@
 @implementation SymbolTableEntryModel
 
 - (id) initWithEntry:(const SymbolTableEntry*)anEntry demangleNamesPtr:(BOOL*)demangleNames document:(MyDocument*)aDocument {
-	if (self = [super init]) {
+	self = [super init];
+    if (self) {
 		entry = anEntry;
 		self->demangleNames = demangleNames;
 		document = aDocument;
