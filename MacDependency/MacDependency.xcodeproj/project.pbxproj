@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -17,7 +17,7 @@
 		8E1315C5100F8F1400367510 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8E1315C3100F8F1400367510 /* Localizable.strings */; };
 		8E212D84101212FF0078924A /* SymbolTableEntryTypeFormatter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E212D83101212FF0078924A /* SymbolTableEntryTypeFormatter.mm */; };
 		8E49358B100A5714004B7E53 /* MachO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E493565100A53DA004B7E53 /* MachO.framework */; };
-		8E493597100A5871004B7E53 /* MachO.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8E493565100A53DA004B7E53 /* MachO.framework */; };
+		8E493597100A5871004B7E53 /* MachO.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8E493565100A53DA004B7E53 /* MachO.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8EAEBA2310126AB100E1D5D2 /* SymbolTableController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8EAEBA2210126AB100E1D5D2 /* SymbolTableController.mm */; };
 		8EB56272104EA241006A44CD /* TreeControllerExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB56271104EA241006A44CD /* TreeControllerExtension.m */; };
 		8EB5640E104FE62F006A44CD /* AutoExpandOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB5640D104FE62F006A44CD /* AutoExpandOutlineView.m */; };
@@ -260,10 +260,11 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Konrad Windszus";
 			};
 			buildConfigurationList = C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "MacDependency" */;
-			compatibilityVersion = "Xcode 3.1";
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -389,8 +390,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -404,8 +405,9 @@
 				GCC_PREFIX_HEADER = MacDependency_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.googlecode.${PRODUCT_NAME:identifier}";
 				PRODUCT_NAME = MacDependency;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -413,8 +415,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -425,15 +427,16 @@
 				GCC_PREFIX_HEADER = MacDependency_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.googlecode.${PRODUCT_NAME:identifier}";
 				PRODUCT_NAME = MacDependency;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
 		C05733CC08A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
@@ -456,21 +459,20 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
 		C05733CD08A9546B00998B17 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
