@@ -1,5 +1,5 @@
 #include "machoexception.h"
-MachOException::MachOException(const string& cause) :
+MachOException::MachOException(const QString& cause) :
         cause(cause)
 {
 }

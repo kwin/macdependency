@@ -7,8 +7,8 @@ MachO32Header::MachO32Header(const MachOFile& file, bool reversedBO) :
     this->file.readBytes((char*)&header, sizeof(header));
 }
 
-MachOHeader::CpuType MachO32Header::getCpuType() const {
-    return MachOHeader::getCpuType(file.getUint32(header.cputype));
+unsigned int MachO32Header::getInternalCpuType() const {
+    return file.getUint32(header.cputype);
 }
 
 unsigned int MachO32Header::getInternalFileType() const {
@@ -24,7 +24,8 @@ unsigned int MachO32Header::getNumberOfLoadCommands() const {
 }
 
 unsigned int MachO32Header::getLoadCommandSize() const {
-    return file.getUint32(header.sizeofcmds);;
+    unsigned int test = file.getUint32(header.sizeofcmds);
+    return test;
 }
 
 unsigned int MachO32Header::getSize() const {

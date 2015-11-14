@@ -1,12 +1,9 @@
 #ifndef LOADCOMMAND_H
 #define LOADCOMMAND_H
-#include "macho_global.h"
+#include "MachO_global.h"
+#include "machoheader.h"
 #include "/usr/include/mach-o/loader.h"
-
-class MachOHeader;
-class MachOFile;
-
-class EXPORT LoadCommand
+class MACHOSHARED_EXPORT LoadCommand
 {
 protected:
     LoadCommand(MachOHeader* header);

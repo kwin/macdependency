@@ -1,50 +1,45 @@
 #ifndef MACHO_H
 #define MACHO_H
 
-#include "macho_global.h"
-#include <list>
+#include "MachO_global.h"
+#include "machofile.h"
+#include "machoarchitecture.h"
+#include "demangler.h"
+#include "dynamicloader.h"
+
+#include <vector>
+
+#include <QtCore/QString>
+#include <QtGui/QIcon>
 #include <CoreFoundation/CoreFoundation.h>
 
-class MachOFile;
-class MachOArchitecture;
-class Demangler;
-class DynamicLoader;
-
-class EXPORT MachO {
-private:
-	typedef std::list<MachOArchitecture*> MachOArchitectures;
+class MACHOSHARED_EXPORT MachO {
 public:
-    MachO(const string& fileName, const MachO* parent = 0);
+    MachO(const QString& fileName, const MachO* parent = 0);
     ~MachO();
 
-    string getFileName() const;
-	
-	typedef MachOArchitectures::iterator MachOArchitecturesIterator;
-	typedef MachOArchitectures::const_iterator MachOArchitecturesConstIterator;
-    MachOArchitecturesIterator getArchitecturesBegin();
-    MachOArchitecturesIterator getArchitecturesEnd();
-    MachOArchitecture* getCompatibleArchitecture(MachOArchitecture* destArchitecture) const;
-	MachOArchitecture* getHostCompatibleArchitecture() const;
-    unsigned long long getSize() const;
-    time_t getLastModificationTime() const;
-    string getVersion() const;
-    string getName() const;
-    //sQIcon getIcon() const;*/
-	const MachO* getParent() { return parent;}
-    string getPath() const;
+    QString getFileName() const { return file->getName(); }
+    std::vector<MachOArchitecture*>::iterator getArchitecturesBegin() { return architectures.begin(); }
+    std::vector<MachOArchitecture*>::iterator getArchitecturesEnd() { return architectures.end(); }
+    MachOArchitecture* MachO::getCompatibleArchitecture(MachOArchitecture* destArchitecture) const;
+    long long int getSize() const;
+    time_t getLastModificationDate() const;
+    QString getBundleVersion() const;
+    QString getBundleName() const;
+    QIcon getIcon() const;
+    QString getPath() const;
     static Demangler* demangler;
     static DynamicLoader* dynamicLoader;
     static int referenceCounter;
 private:
-	const MachO* parent;
     MachOFile* file;
-	MachOArchitectures architectures;
+    std::vector<MachOArchitecture*> architectures;
     CFBundleRef bundle;
+    QString bundlePath;
 
-    string getApplicationInBundle(const string& bundlePath);
-    static string extractStringFromCFStringRef(CFStringRef cfStringRef);
-    void init(const string& fileName, const MachO* parent);
-	
+    QString getApplicationInBundle(const QString& bundlePath);
+    static QString extractStringFromCFStringRef(CFStringRef cfStringRef);
+    void init(const QString& fileName, const MachO* parent);
 };
 
 #endif // MACHO_H

@@ -1,5 +1,4 @@
 #include "symboltableentry64.h"
-#include "machofile.h"
 
 SymbolTableEntry64::SymbolTableEntry64(MachOFile& file, struct nlist_64* entry, char* stringTable) :
         SymbolTableEntry(file, stringTable), entry(entry)
