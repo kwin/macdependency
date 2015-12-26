@@ -1,18 +1,14 @@
 #ifndef MACHO_GLOBAL_H
 #define MACHO_GLOBAL_H
 
-#include <string>
+#include <QtCore/qglobal.h>
+#include <QtCore/QString>
 
-using namespace std;    
-
-
-
-// TODO: use visibility options http://developer.apple.com/mac/library/documentation/DeveloperTools/Conceptual/CppRuntimeEnv/Articles/SymbolVisibility.html
 
 #if defined(MACHO_LIBRARY)
-#define EXPORT 
+#  define MACHOSHARED_EXPORT Q_DECL_EXPORT
 #else
-#define EXPORT __attribute__((visibility("default")))
+#  define MACHOSHARED_EXPORT Q_DECL_IMPORT
 #endif
 
 #endif // MACHO_GLOBAL_H

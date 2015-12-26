@@ -1,9 +1,10 @@
 #ifndef DYLIBCOMMAND_H
 #define DYLIBCOMMAND_H
 
-#include "macho_global.h"
+#include "MachO_global.h"
+
 #include "loadcommand.h"
-class EXPORT DylibCommand : public LoadCommand
+class MACHOSHARED_EXPORT DylibCommand : public LoadCommand
 {
 public:
     enum DependencyType {
@@ -20,11 +21,11 @@ public:
     bool isId() const { return type==DependencyId; }
     bool isNecessary() const { return type!=DependencyWeak; }
     DependencyType getType() const { return type; }
-    string getName() const;
+    QString getName() const;
     unsigned int getCurrentVersion() const;
     unsigned int getCompatibleVersion() const;
     time_t getTimeStamp() const;
-    static string getVersionString(unsigned int version);
+    static QString getVersionString(unsigned int version);
 
 private:
     dylib_command command;

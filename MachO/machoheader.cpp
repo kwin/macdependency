@@ -1,9 +1,8 @@
 #include "machoheader.h"
-#include "machofile.h"
+
 #include "macho32header.h"
 #include "macho64header.h"
 #include "machoexception.h"
-#include <mach/mach.h>
 
 MachOHeader* MachOHeader::getHeader(MachOFile& file, uint32_t magic) {
     MachOHeader* header;
@@ -36,21 +35,9 @@ MachOHeader::~MachOHeader() {
 
 }
 
-// taken over from dyld.cpp (V 97.1)
-MachOHeader::CpuType MachOHeader::getHostCpuType() {
-	struct host_basic_info info;
-	mach_msg_type_number_t count = HOST_BASIC_INFO_COUNT;
-	mach_port_t hostPort = mach_host_self();
-	kern_return_t result = host_info(hostPort, HOST_BASIC_INFO, (host_info_t)&info, &count);
-	mach_port_deallocate(mach_task_self(), hostPort);
-	if (result != KERN_SUCCESS)
-		throw "host_info() failed";
-	//sHostCPUsubtype = info.cpu_subtype;
-	return getCpuType(info.cpu_type);
-}
-
-MachOHeader::CpuType MachOHeader::getCpuType(unsigned int cpu) {
+MachOHeader::CpuType MachOHeader::getCpuType() const {
     MachOHeader::CpuType cpuType;
+    unsigned int cpu = getInternalCpuType();
     switch(cpu) {
         case CPU_TYPE_POWERPC:
             cpuType = MachOHeader::CpuTypePowerPc;
@@ -73,7 +60,8 @@ MachOHeader::CpuType MachOHeader::getCpuType(unsigned int cpu) {
 MachOHeader::FileType MachOHeader::getFileType() const {
     unsigned int fileType = getInternalFileType();
     if (fileType > NumFileTypes || fileType < 1) {
-        return NumFileTypes;
+        throw MachOException("Invalid file type");
     }
     return static_cast<FileType>(fileType-1);
 }
+

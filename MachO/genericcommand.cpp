@@ -1,6 +1,4 @@
 #include "genericcommand.h"
-#include "machofile.h"
-#include "machoheader.h"
 
 GenericCommand::GenericCommand(MachOHeader* header) :
         LoadCommand(header)

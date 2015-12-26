@@ -1,16 +1,16 @@
 #ifndef SYMBOLTABLEENTRY_H
 #define SYMBOLTABLEENTRY_H
 
-#include "macho_global.h"
-#include <mach-o/nlist.h>
-class MachOFile;
+#include "/usr/include/mach-o/nlist.h"
+#include "machofile.h"
+#include <QtCore/QDebug>
 
-class EXPORT SymbolTableEntry
+class SymbolTableEntry
 {
 public:
     SymbolTableEntry(MachOFile& file, char* stringTable);
     virtual ~SymbolTableEntry();
-    string getName(bool shouldDemangle) const;
+    QString getName(bool shouldDemangle) const;
 
     enum Type {
         TypeExported = 0,
@@ -29,5 +29,8 @@ protected:
     MachOFile& file;
     char* stringTable;
 };
+
+
+QDebug &operator<<(QDebug &dbg, const SymbolTableEntry &symbolTable);
 
 #endif // SYMBOLTABLEENTRY_H

@@ -1,9 +1,6 @@
 #include "symboltablecommand.h"
-#include "symboltableentry.h"
 #include "symboltableentry32.h"
 #include "symboltableentry64.h"
-#include "machofile.h"
-#include "machoheader.h"
 
 SymbolTableCommand::SymbolTableCommand(MachOHeader* header) :
         LoadCommand(header), symbols32(0), symbols64(0), stringTable(0)
@@ -43,37 +40,40 @@ void SymbolTableCommand::readSymbolTable() const {
 
 SymbolTableCommand::~SymbolTableCommand()
 {
-    for (SymbolTableEntriesIterator it = symbolTableEntries.begin();
+    for (std::vector<const SymbolTableEntry*>::iterator it = symbolTableEntries.begin();
     it != symbolTableEntries.end();
     ++it)
     {
         delete *it;
     }
-	delete[] symbols32;
-    delete[] symbols64;
-    delete[] stringTable;
+    if (symbols32)
+        delete[] symbols32;
+    if (symbols64)
+        delete[] symbols64;
+    if (stringTable)
+        delete[] stringTable;
 }
 
 unsigned int SymbolTableCommand::getSize() const {
     return file.getUint32(command.cmdsize);
 }
 
-SymbolTableCommand::SymbolTableEntriesConstIterator SymbolTableCommand::getSymbolTableEntryBegin() const {
+std::vector<const SymbolTableEntry*>::const_iterator SymbolTableCommand::getSymbolTableEntryBegin() const {
     if (stringTable == 0)
         readSymbolTable();
     return symbolTableEntries.begin();
 }
 
-SymbolTableCommand::SymbolTableEntriesConstIterator SymbolTableCommand::getSymbolTableEntryEnd() const {
+std::vector<const SymbolTableEntry*>::const_iterator SymbolTableCommand::getSymbolTableEntryEnd() const {
     if (stringTable == 0)
         readSymbolTable();
     return symbolTableEntries.end();
 }
 
-/*
+
 const std::vector<const SymbolTableEntry*>* SymbolTableCommand::getSymbolTableEntries() const {
     if (stringTable == 0)
         readSymbolTable();
     return &symbolTableEntries;
-}*/
+}
 

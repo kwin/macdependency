@@ -8,8 +8,8 @@ MachO64Header::MachO64Header(const MachOFile& file, bool reversedBO) :
     this->file.readBytes((char*)&header, sizeof(header));
 }
 
-MachOHeader::CpuType MachO64Header::getCpuType() const {
-	return MachOHeader::getCpuType(file.getUint32(header.cputype));
+unsigned int MachO64Header::getInternalCpuType() const {
+     return file.getUint32(header.cputype);
 }
 
 unsigned int MachO64Header::getInternalFileType() const {

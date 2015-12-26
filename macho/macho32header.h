@@ -12,8 +12,8 @@ public:
     virtual bool is64Bit() const;
     virtual unsigned int getLoadCommandSize() const;    // size of load command following the header
     virtual unsigned int getSize() const;   // size of header only
-    virtual MachOHeader::CpuType getCpuType() const;
 protected:
+    virtual unsigned int getInternalCpuType() const;
     virtual unsigned int getInternalFileType() const;
 private:
     mach_header header;
