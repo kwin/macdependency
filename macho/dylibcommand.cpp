@@ -1,7 +1,7 @@
 #include "dylibcommand.h"
-#include "machofile.h"
-#include "machoheader.h"
-#include <sstream>
+#include <QtCore/QTime>
+#include <QtCore/QStringList>
+#include <QtCore/QFileInfo>
 
 #define HIBYTE(x)	( (unsigned char) ((x) >> 8) )
 #define LOBYTE(x)	( (unsigned char) (x) )
@@ -23,8 +23,8 @@ unsigned int DylibCommand::getSize() const {
     return file.getUint32(command.cmdsize);
 }
 
-string DylibCommand::getName() const {
-    return string(getLcDataString(command.dylib.name.offset));
+QString DylibCommand::getName() const {
+    return QString(getLcDataString(command.dylib.name.offset));
 }
 
 unsigned int DylibCommand::getCurrentVersion() const {
@@ -39,10 +39,8 @@ time_t DylibCommand::getTimeStamp() const {
     return file.getUint32(command.dylib.timestamp);
 }
 
-string DylibCommand::getVersionString(unsigned int version) {
-    stringstream versionString;
-    versionString << HIWORD(version) << "." << (unsigned short)HIBYTE(LOWORD(version)) << "." << (unsigned short)LOBYTE(LOWORD(version));
-	return versionString.str();
+QString DylibCommand::getVersionString(unsigned int version) {
+    return QString("%1.%2.%3").arg(HIWORD(version)).arg((unsigned short)HIBYTE(LOWORD(version))).arg((unsigned short)LOBYTE(LOWORD(version)));
 }
 
 

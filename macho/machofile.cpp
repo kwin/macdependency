@@ -1,9 +1,10 @@
 #include "machofile.h"
 #include "machoexception.h"
-#include "internalfile.h"
+#include <QtCore/QtDebug>
+#include <QtCore/QThread>
 
-MachOFile::MachOFile(const string& filename,const MachOFile* parent,  bool reversedByteOrder) :
-        file(InternalFile::create(filename)), position(0), reversedByteOrder(reversedByteOrder), parent(parent)
+MachOFile::MachOFile(const QString& fileName,const MachOFile* parent,  bool reversedByteOrder) :
+        file(InternalFile::create(fileName)), position(0), reversedByteOrder(reversedByteOrder), parent(parent)
 {
     if (parent) {
         executablePath = parent->executablePath;
@@ -20,18 +21,6 @@ MachOFile::MachOFile(const MachOFile& file, bool reversedByteOrder) :
 MachOFile::~MachOFile() {
     file->release();
 }
-
-string MachOFile::getPath() const { 
-	return file->getPath(); 
-}
-
-string MachOFile::getName() const { 
-	string filename = file->getName(); 
-	return filename;
-}
-string MachOFile::getTitle() const { return file->getTitle(); }
-unsigned long long MachOFile::getSize() const { return file->getSize(); }
-time_t MachOFile::getLastModificationTime() const { return file->getLastModificationTime(); }
 
 uint32_t MachOFile::readUint32() {
     unsigned int temp;
@@ -60,11 +49,11 @@ uint32_t MachOFile::getUint32LE(uint32_t data) {
 }
 
 void MachOFile::readBytes(char* result, size_t size) {
-    if (file->getPosition() != position) {
+    if (file->pos() != position) {
         file->seek(position);
     }
     if (file->read(result, size) != size)
-        throw MachOException("File '" + file->getName() + "' not big enough. Probably no valid Mach-O!");
+        throw MachOException("File '" + file->fileName() + "' not big enough. Probably no valid Mach-O!");
     position += size;
 }
 

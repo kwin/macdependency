@@ -1,13 +1,14 @@
 #ifndef MACHOFILE_H
 #define MACHOFILE_H
 
-#include "macho_global.h"
+#include "MachO_global.h"
+#include "internalfile.h"
+#include <QtCore/QFileInfo>
 
-class InternalFile;
 class MachOFile
 {
 public:
-    MachOFile(const string& filename, const MachOFile* parent, bool reversedByteOrder = false);
+    MachOFile(const QString&, const MachOFile* parent, bool reversedByteOrder = false);
     MachOFile(const MachOFile& file, bool reversedByteOrder);
     ~MachOFile();
 
@@ -20,14 +21,12 @@ public:
     uint32_t getUint32(unsigned int data) const {return (reversedByteOrder?reverseByteOrder(data):data);}
     static uint32_t getUint32LE(uint32_t data);
     static uint32_t getUint32BE(uint32_t data);
-    string getPath() const;
-    string getName() const;
-	string getTitle() const;
-    unsigned long long getSize() const;
+    QString getPath() const { return QFileInfo(getName()).absolutePath(); }
+    QString getName() const { return file->fileName(); }
+    long long int getSize() const { return file->size(); }
     void seek(long long int offset) { position = offset; }
     long long int getPosition() const {  return position; }
-    const string& getExecutablePath() const { return executablePath; }
-	time_t getLastModificationTime() const;
+    const QString& getExecutablePath() const { return executablePath; }
 
  private:
     static unsigned int convertByteOrder(char* data, bool isBigEndian, unsigned int numberOfBytes);
@@ -37,7 +36,7 @@ public:
     long long int position;
     const bool reversedByteOrder;
     const MachOFile* parent;
-    string executablePath;
+    QString executablePath;
 
 };
 

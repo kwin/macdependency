@@ -1,50 +1,87 @@
 #include "demangler.h"
-#include "machodemangleexception.h"
+#include <QtCore/QDebug>
 
-using namespace boost::process;
-/**
- class for using c++flt to demangle names. Uses Boost.Process from http://www.highscore.de/cpp/process/index.html
- */
-Demangler::Demangler() : child(NULL), isRunning(false)
+Demangler::Demangler()
 {
-	init();
+    connect(this, SIGNAL(error(QProcess::ProcessError)), this, SLOT(error(QProcess::ProcessError)));
+    connect(this, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(finished(int, QProcess::ExitStatus)));
+    connect(this, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(stateChanged(QProcess::ProcessState)));
 }
 
 Demangler::~Demangler()
 {
-	if (child)
-		child->terminate();
-	delete child;
+    if (isOpen()) {
+        close();
+    }
 }
 
-string Demangler::demangleName(const string& name) {
-	if (isRunning){
-		(*stdin) << name << endl;
-		string line;
-		getline(*stdout, line);
-		return line;
-	} else {
-		throw MachODemangleException("Could not find/start process c++flt.");
-	}
+void Demangler::error(QProcess::ProcessError error) {
+    qDebug() << "some error occurred" << error;
+}
+
+void Demangler::finished(int exitCode, QProcess::ExitStatus exitStatus) {
+    qDebug() << "process finished with status" << exitStatus;
+}
+
+void Demangler::stateChanged(QProcess::ProcessState newState) {
+    qDebug() << "state changed to" << newState;
+}
+
+QString Demangler::demangleName(const char* name) {
+    if (state() != QProcess::Running) {
+        close();
+        init();
+    }
+    /*
+    qDebug(name); //<< "try to resolve" << name << "in thread" << QThread::currentThread();
+    QByteArray buffer;
+    buffer.append(name);
+    buffer.append("\n");
+    writtenBytes += write(buffer);
+    */
+    write(name);
+    if (!waitForBytesWritten()) {
+        qDebug() << "Could not wait for the bytes1 to be written:" << errorString() << "exit status" << exitStatus();
+    }
+    write("\n");
+    if (!waitForBytesWritten()) {
+        qDebug() << "Could not wait for the bytes2 to be written:" << errorString() << "exit status" << exitStatus();
+    }
+
+    if (!waitForReadyRead(100)) {
+        qDebug() << "Could not wait for read " << errorString() << " exit status" << exitStatus();
+        //qDebug() << "Written bytes (not trying to restart)" << writtenBytes << "read bytes" << readBytes;
+        // try to restart process
+        return demangleName(name);
+    }
+
+    QString test = readAllStandardOutput();
+    readBytes += test.length();
+    //qDebug() << test;
+    //qDebug() << "standard error" << readAllStandardError() << "standard output" << test;
+
+    // remove linebreak
+    test.remove(test.length()-1, 1);
+    //QString test = demangleProcess.readAllStandardOutput();
+    return test;
 }
 
 void Demangler::init() {
-	try {
-	std::string exec = find_executable_in_path("c++filt"); 
-	std::vector<std::string> args;
-	args.push_back("--strip-underscore"); 
-	context ctx; 
-	ctx.environment = self::get_environment(); 
-	ctx.stdout_behavior = capture_stream(); 
-	ctx.stdin_behavior = capture_stream(); 
-	child = new boost::process::child(launch(exec, args, ctx)); 
-	stdout = &child->get_stdout(); 
-	stdin = &child->get_stdin();
-	isRunning = true;
-	// TODO: check exceptions
-	} catch (boost::filesystem::filesystem_error& e) {
-		// errors during finding executable
-	} catch (boost::system::system_error& e2) {
-		// errors during starting of process
-	}
+    writtenBytes = 0;
+    readBytes = 0;
+    start("c++filt", QStringList() << "--strip-underscore");
+    if (!waitForStarted())
+        qDebug("Could not start process");
+    setReadChannel(QProcess::StandardOutput);
+    qDebug() << "PID:" << this->pid();
+}
+
+// for gdb this is necessary (only for debugging purposes)
+void Demangler::waitForDone() {
+    QString out;
+    do {
+        waitForReadyRead(); // reading symbols...
+        out = readAllStandardOutput();
+        qDebug() << out;
+    } while (!out.contains(" done"));
 }

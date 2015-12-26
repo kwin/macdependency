@@ -4,15 +4,15 @@
 #include "MachO_global.h"
 #include "loadcommand.h"
 
-class EXPORT RpathCommand : public LoadCommand
+class MACHOSHARED_EXPORT RPathCommand : public LoadCommand
 {
 public:
-    RpathCommand(MachOHeader* header);
-    virtual ~RpathCommand();
+    RPathCommand(MachOHeader* header);
+    virtual ~RPathCommand();
 
     virtual unsigned int getSize() const;
     virtual unsigned int getStructureSize() const { return sizeof(command); }
-    const char* getPath() const;
+    const char* RPathCommand::getPath() const;
 private:
     rpath_command command;
 };

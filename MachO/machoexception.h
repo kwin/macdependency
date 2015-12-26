@@ -1,15 +1,15 @@
 #ifndef MACHOEXCEPTION_H
 #define MACHOEXCEPTION_H
 
-#include "macho_global.h"
+#include "MachO_global.h"
 
-class EXPORT MachOException
+class MACHOSHARED_EXPORT MachOException
 {
 public:
-    MachOException(const string&);
-    const string& getCause() { return cause; }
+    MachOException(const QString&);
+    const QString& getCause() { return cause; }
 private:
-    const string cause;
+    const QString cause;
 };
 
 #endif // MACHOEXCEPTION_H

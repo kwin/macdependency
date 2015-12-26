@@ -1,26 +1,27 @@
 #include "macho.h"
 #include "machoexception.h"
-#include "machofile.h"
-#include "machoarchitecture.h"
-#include "demangler.h"
-#include "dynamicloader.h"
-#include "machoheader.h"
 
-#include <mach-o/fat.h>
+#include "/usr/include/mach-o/fat.h"
 
-// see http://developer.apple.com/mac/library/documentation/DeveloperTools/Conceptual/MachORuntime/Reference/reference.html 
-// for MachO specification
+#include <QtCore/QFileInfo>
+#include <QtCore/QDir>
+#include <QtCore/QDateTime>
+#include <QtGui/QFileIconProvider>
 
 // static variables
 Demangler* MachO::demangler = 0;
 DynamicLoader* MachO::dynamicLoader = 0;
 int MachO::referenceCounter = 0;
 
-MachO::MachO(const string& filename, const MachO* parent) : parent(parent), bundle(NULL)
+MachO::MachO(const QString& fileName, const MachO* parent) : bundle(0)
 {
-	// check if filename is bundle
-    string appFilename = getApplicationInBundle(filename);
-    init(appFilename, parent);
+    // check if filename is bundle
+    QString machOFileName;
+    machOFileName = getApplicationInBundle(fileName);
+    if (machOFileName.isNull())
+        machOFileName = fileName;
+
+    init(machOFileName, parent);
 
     if (referenceCounter == 0) {
         demangler = new Demangler();
@@ -29,10 +30,19 @@ MachO::MachO(const string& filename, const MachO* parent) : parent(parent), bund
     referenceCounter++;
 }
 
-string MachO::getApplicationInBundle(const string& filename) {
+QString MachO::getApplicationInBundle(const QString& bundlePath) {
+    QFileInfo fileInformation(bundlePath);
+
+    QString appPath;
+    // check if it is bundle at all
+    if (!fileInformation.isBundle() || !fileInformation.isExecutable()) {
+        return QString();
+    }
+
     CFURLRef bundleUrl = 0;
-	string appFilename = filename;
-    bundleUrl = CFURLCreateFromFileSystemRepresentation(NULL, (const UInt8 *)filename.c_str() , filename.length(), true);
+    QByteArray utf8BundlePath = bundlePath.toUtf8();
+
+    bundleUrl = CFURLCreateFromFileSystemRepresentation(NULL, (const UInt8 *)utf8BundlePath.data() , utf8BundlePath.length(), true);
     if (bundleUrl != NULL) {
         bundle = CFBundleCreate(NULL, bundleUrl);
         CFRelease(bundleUrl);
@@ -41,16 +51,16 @@ string MachO::getApplicationInBundle(const string& filename) {
             if (executableUrl != 0) {
                 char executableFile[FILENAME_MAX];
                 CFURLGetFileSystemRepresentation(executableUrl, true, (UInt8 *)executableFile, FILENAME_MAX);
-                appFilename = executableFile;
+                appPath = executableFile;
                 CFRelease(executableUrl);
-                //this->bundlePath = filename;
+                this->bundlePath = bundlePath;
             }
         }
     }
-    return appFilename;
+    return appPath;
 }
 
-void MachO::init(const string& fileName, const MachO* parent)
+void MachO::init(const QString& fileName, const MachO* parent)
 {
     MachOFile* parentFile = 0;
     if (parent) {
@@ -103,7 +113,7 @@ MachO::~MachO() {
         dynamicLoader = 0;
     }
 
-    for (MachOArchitecturesIterator it = architectures.begin();
+    for (std::vector<MachOArchitecture*>::iterator it = architectures.begin();
     it != architectures.end();
     ++it)
     {
@@ -119,7 +129,7 @@ MachOArchitecture* MachO::getCompatibleArchitecture(MachOArchitecture* destArchi
     MachOHeader::CpuType destCpuType = destArchitecture->getHeader()->getCpuType();
 
     // go through all architectures
-    for (MachOArchitecturesConstIterator it = architectures.begin();
+    for (std::vector<MachOArchitecture*>::const_iterator it = architectures.begin();
     it != architectures.end();
     ++it)
     {
@@ -130,33 +140,17 @@ MachOArchitecture* MachO::getCompatibleArchitecture(MachOArchitecture* destArchi
     return 0;
 }
 
-MachOArchitecture* MachO::getHostCompatibleArchitecture() const {
-	
-	unsigned int destCpuType = MachOHeader::getHostCpuType();
-	// go through all architectures
-    for (MachOArchitecturesConstIterator it = architectures.begin();
-		 it != architectures.end();
-		 ++it)
-    {
-        // TODO: match subtypes (only for PowerPC necessary)
-        if ((*it)->getHeader()->getCpuType() == destCpuType)
-            return  *it;
-    }
-    return 0;
-}
-
-unsigned long long MachO::getSize() const {
+long long int MachO::getSize() const {
     return file->getSize();
 }
 
-
-time_t MachO::getLastModificationTime() const {
-    return file->getLastModificationTime();
+time_t MachO::getLastModificationDate() const {
+    return QFileInfo(file->getName()).lastModified().toTime_t();
 }
 
 // return bundle version if available, otherwise NULL string
-string MachO::getVersion() const {
-    string version;
+QString MachO::getBundleVersion() const {
+    QString version;
     if (bundle != 0) {
         CFStringRef cfVersion = (CFStringRef)CFBundleGetValueForInfoDictionaryKey(bundle, kCFBundleVersionKey);
         // is version available at all?
@@ -167,30 +161,20 @@ string MachO::getVersion() const {
     return version;
 }
 
-string MachO::getName() const {
-    string name;
+QString MachO::getBundleName() const {
+    QString bundleName;
     if (bundle != 0) {
         CFStringRef cfBundleName = (CFStringRef)CFBundleGetValueForInfoDictionaryKey(bundle, kCFBundleNameKey);
         // is version available at all?
         if (cfBundleName) {
-            name = extractStringFromCFStringRef(cfBundleName);
-        } else {
-			// take bundle executable name
-			CFURLRef bundleUrl = CFBundleCopyExecutableURL(bundle);
-			cfBundleName = CFURLCopyLastPathComponent(bundleUrl);
-			name = extractStringFromCFStringRef(cfBundleName);
-			CFRelease(cfBundleName);
-			CFRelease(bundleUrl);
-			
-		}
-    } else {
-		name = file->getTitle();
-	}
-    return name;
+            bundleName = extractStringFromCFStringRef(cfBundleName);
+        }
+    }
+    return bundleName;
 }
 
-string MachO::extractStringFromCFStringRef(CFStringRef cfStringRef) {
-    string string;
+QString MachO::extractStringFromCFStringRef(CFStringRef cfStringRef) {
+    QString string;
     const char* szString = CFStringGetCStringPtr(cfStringRef, kCFStringEncodingASCII);
     if (szString == NULL) {
         CFIndex stringLength = CFStringGetMaximumSizeForEncoding(CFStringGetLength(cfStringRef), kCFStringEncodingASCII);
@@ -209,15 +193,20 @@ string MachO::extractStringFromCFStringRef(CFStringRef cfStringRef) {
     return string;
 }
 
-string MachO::getPath() const {
+QIcon MachO::getIcon() const {
+    QFileIconProvider iconProvider;
+    QFileInfo fileInfo;
+    // get icon from bundle
+    if (!bundlePath.isNull())
+        fileInfo = QFileInfo(bundlePath);
+    else
+        fileInfo = QFileInfo(getFileName());
+
+    return iconProvider.icon(fileInfo);
+}
+
+QString MachO::getPath() const {
     return file->getPath();
 }
 
-string MachO::getFileName() const { 
-	string filename = file->getName();
-	return filename;
-}
-    
-MachO::MachOArchitecturesIterator MachO::getArchitecturesBegin() { return architectures.begin(); }
 
-MachO::MachOArchitecturesIterator MachO::getArchitecturesEnd() { return architectures.end(); }
