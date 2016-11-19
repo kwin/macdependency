@@ -193,7 +193,7 @@
 
 // delegate method 
 - (BOOL)textView:(NSTextView *)aTextView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex {
-	[dependenciesController setSelectedObject:link];
+	[dependenciesController setSelectedObject: link];
 	
 	// we need no further processing of the link
 	return YES;

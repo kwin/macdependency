@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		27817EA41DE0C139000AA552 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27817EA31DE0C139000AA552 /* Images.xcassets */; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		8E1314FA100F7BFC00367510 /* MyDocument.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E1314F9100F7BFC00367510 /* MyDocument.mm */; };
 		8E1314FC100F7C0C00367510 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E1314FB100F7C0C00367510 /* main.m */; };
@@ -65,6 +66,7 @@
 /* Begin PBXFileReference section */
 		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		13E42FBA07B3F13500E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		27817EA31DE0C139000AA552 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32DBCF750370BD2300C91783 /* MacDependency_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacDependency_Prefix.h; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				27817EA31DE0C139000AA552 /* Images.xcassets */,
 				8E1314FF100F7C3C00367510 /* Credits.rtf */,
 				8E131501100F7C3C00367510 /* InfoPlist.strings */,
 				8E131503100F7C3C00367510 /* MainMenu.xib */,
@@ -303,6 +306,7 @@
 				8E131507100F7C3C00367510 /* Credits.rtf in Resources */,
 				8E131508100F7C3C00367510 /* InfoPlist.strings in Resources */,
 				8E131509100F7C3C00367510 /* MainMenu.xib in Resources */,
+				27817EA41DE0C139000AA552 /* Images.xcassets in Resources */,
 				8E13150A100F7C3C00367510 /* MyDocument.xib in Resources */,
 				8E1315C5100F8F1400367510 /* Localizable.strings in Resources */,
 			);
@@ -389,6 +393,7 @@
 		C05733C808A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -405,6 +410,7 @@
 		C05733C908A9546B00998B17 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_MODEL_TUNING = G5;
