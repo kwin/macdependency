@@ -43,10 +43,6 @@
 - (void) dealloc
 {
 	delete cache;
-	[splitViewDelegate release];
-	[contents release];
-	[log release];
-	[super dealloc];
 }
 
 
@@ -123,15 +119,12 @@
 }
 
 - (void)setLog:(NSAttributedString *)newLog {
-	[newLog retain];
-	[log release];
 	log = newLog;
 }
 
 - (void)clearLog {
 	NSAttributedString* newLog = [[NSAttributedString alloc] initWithString:@""];
 	[self setLog:newLog];
-	[newLog release];
 }
 
 - (void)appendLogLine:(NSString *)line withModel:(MachOModel*)model state:(State)state {
@@ -160,9 +153,7 @@
 	NSAttributedString* newLogLine = [[NSAttributedString alloc]initWithString:newLine attributes:attributes];
 	
 	[newLog appendAttributedString:newLogLine];
-	[newLogLine release];
 	[self setLog:newLog];
-	[newLog release];
 }
 
 - (NSString*) workingDirectory {
@@ -232,7 +223,6 @@
 				[architectures addObject:currentArchitecture]; // insert at end
 			}
 			
-			[currentArchitecture release];
 		}
 	}
 	return  architectures;

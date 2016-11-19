@@ -70,8 +70,8 @@
 		32DBCF750370BD2300C91783 /* MacDependency_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacDependency_Prefix.h; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* MacDependency.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacDependency.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E1314F8100F7BFC00367510 /* MyDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDocument.h; sourceTree = "<group>"; wrapsLines = 0; };
-		8E1314F9100F7BFC00367510 /* MyDocument.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyDocument.mm; sourceTree = "<group>"; };
-		8E1314FB100F7C0C00367510 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		8E1314F9100F7BFC00367510 /* MyDocument.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyDocument.mm; sourceTree = "<group>"; wrapsLines = 0; };
+		8E1314FB100F7C0C00367510 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; wrapsLines = 0; };
 		8E1314FD100F7C1D00367510 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E131500100F7C3C00367510 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
 		8E131502100F7C3C00367510 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -79,31 +79,31 @@
 		8E131506100F7C3C00367510 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MyDocument.xib; sourceTree = "<group>"; };
 		8E1315C4100F8F1400367510 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8E212D82101212FF0078924A /* SymbolTableEntryTypeFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolTableEntryTypeFormatter.h; sourceTree = "<group>"; wrapsLines = 0; };
-		8E212D83101212FF0078924A /* SymbolTableEntryTypeFormatter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SymbolTableEntryTypeFormatter.mm; sourceTree = "<group>"; };
+		8E212D83101212FF0078924A /* SymbolTableEntryTypeFormatter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SymbolTableEntryTypeFormatter.mm; sourceTree = "<group>"; wrapsLines = 0; };
 		8E493560100A53DA004B7E53 /* MachO.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MachO.xcodeproj; path = ../MachO/MachO.xcodeproj; sourceTree = SOURCE_ROOT; };
 		8EAEBA2110126AB100E1D5D2 /* SymbolTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolTableController.h; sourceTree = "<group>"; wrapsLines = 0; };
-		8EAEBA2210126AB100E1D5D2 /* SymbolTableController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SymbolTableController.mm; sourceTree = "<group>"; };
+		8EAEBA2210126AB100E1D5D2 /* SymbolTableController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SymbolTableController.mm; sourceTree = "<group>"; wrapsLines = 0; };
 		8EB56270104EA241006A44CD /* TreeControllerExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeControllerExtension.h; sourceTree = "<group>"; wrapsLines = 0; };
-		8EB56271104EA241006A44CD /* TreeControllerExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeControllerExtension.m; sourceTree = "<group>"; };
+		8EB56271104EA241006A44CD /* TreeControllerExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeControllerExtension.m; sourceTree = "<group>"; wrapsLines = 0; };
 		8EB56382104EF61E006A44CD /* ExtTreeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExtTreeModel.h; sourceTree = "<group>"; wrapsLines = 0; };
 		8EB5640C104FE62F006A44CD /* AutoExpandOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoExpandOutlineView.h; sourceTree = "<group>"; wrapsLines = 0; };
-		8EB5640D104FE62F006A44CD /* AutoExpandOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoExpandOutlineView.m; sourceTree = "<group>"; };
+		8EB5640D104FE62F006A44CD /* AutoExpandOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoExpandOutlineView.m; sourceTree = "<group>"; wrapsLines = 0; };
 		8EC4F15E10400F02001F9FB8 /* ArchitecturesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArchitecturesController.h; sourceTree = "<group>"; wrapsLines = 0; };
-		8EC4F15F10400F02001F9FB8 /* ArchitecturesController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ArchitecturesController.mm; sourceTree = "<group>"; };
+		8EC4F15F10400F02001F9FB8 /* ArchitecturesController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ArchitecturesController.mm; sourceTree = "<group>"; wrapsLines = 0; };
 		8EC4F1681040126A001F9FB8 /* ArchitectureModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArchitectureModel.h; sourceTree = "<group>"; wrapsLines = 0; };
-		8EC4F1691040126A001F9FB8 /* ArchitectureModel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ArchitectureModel.mm; sourceTree = "<group>"; };
+		8EC4F1691040126A001F9FB8 /* ArchitectureModel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ArchitectureModel.mm; sourceTree = "<group>"; wrapsLines = 0; };
 		8ECFE3441061192D00685EDF /* PrioritySplitViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrioritySplitViewDelegate.h; sourceTree = "<group>"; wrapsLines = 0; };
-		8ECFE3451061192D00685EDF /* PrioritySplitViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrioritySplitViewDelegate.m; sourceTree = "<group>"; };
+		8ECFE3451061192D00685EDF /* PrioritySplitViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrioritySplitViewDelegate.m; sourceTree = "<group>"; wrapsLines = 0; };
 		8ED32F46100B68FF00EBF623 /* MachOModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MachOModel.h; sourceTree = "<group>"; wrapsLines = 0; };
-		8ED32F47100B68FF00EBF623 /* MachOModel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MachOModel.mm; sourceTree = "<group>"; };
+		8ED32F47100B68FF00EBF623 /* MachOModel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MachOModel.mm; sourceTree = "<group>"; wrapsLines = 0; };
 		8ED330CC100BD19800EBF623 /* SymbolTableEntryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolTableEntryModel.h; sourceTree = "<group>"; wrapsLines = 0; };
-		8ED330CD100BD19800EBF623 /* SymbolTableEntryModel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SymbolTableEntryModel.mm; sourceTree = "<group>"; };
+		8ED330CD100BD19800EBF623 /* SymbolTableEntryModel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SymbolTableEntryModel.mm; sourceTree = "<group>"; wrapsLines = 0; };
 		8ED4567910516D6200FAC99F /* MyDocumentWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDocumentWindow.h; sourceTree = "<group>"; wrapsLines = 0; };
-		8ED4567A10516D6200FAC99F /* MyDocumentWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyDocumentWindow.m; sourceTree = "<group>"; };
+		8ED4567A10516D6200FAC99F /* MyDocumentWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyDocumentWindow.m; sourceTree = "<group>"; wrapsLines = 0; };
 		8EFDEF78101007B300E4D54D /* ConversionStdString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversionStdString.h; sourceTree = "<group>"; wrapsLines = 0; };
-		8EFDEF79101007B300E4D54D /* ConversionStdString.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ConversionStdString.mm; sourceTree = "<group>"; };
+		8EFDEF79101007B300E4D54D /* ConversionStdString.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ConversionStdString.mm; sourceTree = "<group>"; wrapsLines = 0; };
 		8EFDEF9110100F1700E4D54D /* VersionFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionFormatter.h; sourceTree = "<group>"; wrapsLines = 0; };
-		8EFDEF9210100F1700E4D54D /* VersionFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VersionFormatter.m; sourceTree = "<group>"; };
+		8EFDEF9210100F1700E4D54D /* VersionFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VersionFormatter.m; sourceTree = "<group>"; wrapsLines = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -389,6 +389,7 @@
 		C05733C808A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -404,6 +405,7 @@
 		C05733C908A9546B00998B17 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_MODEL_TUNING = G5;
 				INFOPLIST_FILE = Info.plist;

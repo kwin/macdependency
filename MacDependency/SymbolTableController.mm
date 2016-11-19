@@ -63,8 +63,6 @@ const int TYPE[] = {SymbolTableEntry::TypeExported, SymbolTableEntry::TypeImport
 
 
 - (void)setNameFilter:(NSPredicate*) newNameFilter {
-	[newNameFilter retain];
-	[nameFilter release];
 	nameFilter = newNameFilter;
 	[self setFilter];
 }

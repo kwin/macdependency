@@ -40,15 +40,9 @@
 	return self;
 }
 
-- (void)dealloc {
-	[symbolEntries release];
-	[machOModel release];
-	[super dealloc];
-}
 
 - (NSArray*) rootModel {
 	// always reload model (for error messages)
-	[machOModel release];
 	machOModel = [[MachOModel alloc]initWithFile:file document:document architecture:architecture loadChildren:YES];
 	NSArray* rootModel = [NSArray arrayWithObject:machOModel];
 	return rootModel;
@@ -86,7 +80,7 @@
 	CFUUIDRef uuid = CFUUIDCreateFromUUIDBytes(kCFAllocatorDefault, *((CFUUIDBytes*)architecture->getUuid()));
 	CFStringRef result = CFUUIDCreateString(kCFAllocatorDefault, uuid);
 	CFRelease(uuid);
-	return (NSString*) result;
+	return (NSString*) CFBridgingRelease(result);
 }
 
 - (NSString*) fileType {
@@ -197,7 +191,7 @@
 				NSDate* date = [NSDate dateWithTimeIntervalSince1970:timestamp];
 				
 				// this date formatter should be identical to NSDateFormatter in IB
-				NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]  autorelease];
+				NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 				[dateFormatter setDateStyle:NSDateFormatterMediumStyle];
 				[dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
 				
@@ -212,7 +206,6 @@
 						   compatibleVersion];
 			}
 		}
-		[versionFormatter release];
 	} else {
 		version = [machOModel version];
 	}
@@ -222,7 +215,6 @@
 
 - (void) initSymbols {
 	symbolEntries = [NSMutableArray arrayWithCapacity:20];
-	[symbolEntries retain];
 	for (MachOArchitecture::LoadCommandsConstIterator lcIter = architecture->getLoadCommandsBegin();
 		 lcIter != architecture->getLoadCommandsEnd();
 		 ++lcIter)
@@ -246,13 +238,10 @@
 }
 
 - (void) setSymbols:(NSMutableArray*) newSymbolEntries {
-	[newSymbolEntries retain];
-	[symbolEntries release];
 	symbolEntries = newSymbolEntries;
 }
 
 - (void) refreshSymbols {
-	[symbolEntries release];
 	[self initSymbols];
 	[self setSymbols:symbolEntries];
 }

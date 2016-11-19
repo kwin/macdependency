@@ -31,8 +31,8 @@ CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingUTF32LE);
 	char* data = (char*)ws.data();
 	size_t size = ws.size() * sizeof(wchar_t);
 	
-	NSString* result = [[[NSString alloc] initWithBytes:data length:size 
-											   encoding:kEncoding_wchar_t] autorelease];
+	NSString* result = [[NSString alloc] initWithBytes:data length:size 
+											   encoding:kEncoding_wchar_t];
 	return result;
 }
 

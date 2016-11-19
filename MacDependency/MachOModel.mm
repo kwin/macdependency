@@ -30,7 +30,7 @@
 
 - (id) initWithFile:(MachO*)aFile document:(MyDocument*)aDocument architecture:(MachOArchitecture*)anArchitecture loadChildren:(BOOL)loadChildren {
 	state = StateNormal;
-	[self initWithFile:aFile command:nil document:aDocument parent:nil architecture:anArchitecture];
+	if (!(self = [self initWithFile:aFile command:nil document:aDocument parent:nil architecture:anArchitecture])) return nil;
 	if (loadChildren) {
 		[self initChildren];
 	}
@@ -59,7 +59,7 @@
 		// distinguish between weak and strong. In both cases append to tree with a status color				
 	}
 	[aDocument incrementNumDependencies];
-	[self initWithFile:aFile command:aCommand document:aDocument parent:aParent architecture:anArchitecture];
+	if (!(self = [self initWithFile:aFile command:aCommand document:aDocument parent:aParent architecture:anArchitecture])) return nil;
 	return self;
 }				 
 
@@ -82,10 +82,6 @@
 	} return self;
 }
 
-- (void)dealloc {
-	[children release];
-	[super dealloc];
-}
 
 - (void) setStateWithWarning:(BOOL)isWarning {
 	State newState = StateError;
@@ -139,7 +135,6 @@
 	}
 	
 	// TODO: check for relative paths, since they can lead to problems
-	[versionFormatter release];
 } 
 
 - (NSArray*)children {
@@ -152,7 +147,6 @@
 - (void) initChildren {
 	// TODO: tweak capacity
 	children = [NSMutableArray arrayWithCapacity:20];
-	[children retain];
 	if (architecture) {
 		std::string workingDirectory = [[document workingDirectory] stdString];
 		for (MachOArchitecture::LoadCommandsConstIterator it = architecture->getLoadCommandsBegin();
@@ -164,11 +158,8 @@
 			DylibCommand* dylibCommand = dynamic_cast<DylibCommand*> (childLoadCommand);
 			if (dylibCommand != NULL && !dylibCommand->isId()) {
 				std::string filename = architecture->getResolvedName(dylibCommand->getName(), workingDirectory);
-				
-				MachOModel* child = [MachOModel alloc];
-				[children addObject:child]; // must add children before initializing them, because in init we rely on parent children being correct					 
-				[child initWithFilename:filename command:dylibCommand document:document parent:self];
-				[child release];
+
+        [children addObject: [[MachOModel alloc] initWithFilename: filename command: dylibCommand document: document parent: self]];
 			}
 		}
 	}
@@ -211,12 +202,9 @@
 }
 
 - (NSNumber*) size {
-	NSNumber* size = [NSNumber alloc];
-	if (file)
-		[size initWithUnsignedLongLong:file->getSize()];
-	else 
-		[size initWithInt:0];
-	return size;
+  if (file != nullptr)
+    return @(file->getSize());
+  return @(0);
 }
 
 - (NSString*) name {
@@ -285,7 +273,6 @@
 				[architectures addObject:currentArchitecture]; // insert at end
 			}
 			
-			[currentArchitecture release];
 		}
 	}
 	return  architectures;
