@@ -1,6 +1,6 @@
 #include "machoexception.h"
-MachOException::MachOException(const string& cause) :
-        cause(cause)
+
+MachOException::MachOException(const std::string& cause) : cause(cause)
 {
 }
 

@@ -10,7 +10,7 @@ public:
     virtual ~DylinkerCommand();
     virtual unsigned int getSize() const;
     virtual unsigned int getStructureSize() const { return sizeof(command); }
-    string getName() const;
+    std::string getName() const;
 private:
     dylinker_command command;
 

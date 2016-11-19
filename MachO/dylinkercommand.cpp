@@ -15,7 +15,7 @@ unsigned int DylinkerCommand::getSize() const {
     return file.getUint32(command.cmdsize);
 }
 
-string DylinkerCommand::getName() const {
-    return string(getLcDataString(command.name.offset));
+std::string DylinkerCommand::getName() const {
+    return getLcDataString(command.name.offset);
 }
 

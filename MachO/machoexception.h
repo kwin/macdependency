@@ -6,10 +6,10 @@
 class EXPORT MachOException
 {
 public:
-    MachOException(const string&);
-    const string& getCause() { return cause; }
+  MachOException(const std::string&);
+  const std::string& getCause() { return cause; }
 private:
-    const string cause;
+  const std::string cause;
 };
 
 #endif // MACHOEXCEPTION_H

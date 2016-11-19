@@ -9,7 +9,7 @@ class EXPORT MachODemangleException : public MachOException
 {
 
 public:
-	MachODemangleException(const string&);
+  MachODemangleException(const std::string&);
 };
 
 #endif // MACHODEMANGLEEXCEPTION_H

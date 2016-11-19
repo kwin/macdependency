@@ -2,14 +2,12 @@
 #define SYMBOLTABLECOMMAND_H
 
 #include "loadcommand.h"
-#include <mach-o/nlist.h>
-#include <list>
 
 class SymbolTableEntry;
 class EXPORT SymbolTableCommand : public LoadCommand
 {
 private:
-	typedef list<const SymbolTableEntry*> SymbolTableEntries;
+	typedef std::list<const SymbolTableEntry*> SymbolTableEntries;
 	typedef SymbolTableEntries::iterator SymbolTableEntriesIterator;
 public:
 	typedef SymbolTableEntries::const_iterator SymbolTableEntriesConstIterator;

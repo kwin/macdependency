@@ -2,7 +2,6 @@
 #include "machoexception.h"
 #include "machofile.h"
 #include "machoarchitecture.h"
-#include "demangler.h"
 #include "dynamicloader.h"
 #include "machoheader.h"
 
@@ -12,26 +11,24 @@
 // for MachO specification
 
 // static variables
-Demangler* MachO::demangler = 0;
 DynamicLoader* MachO::dynamicLoader = 0;
 int MachO::referenceCounter = 0;
 
-MachO::MachO(const string& filename, const MachO* parent) : parent(parent), bundle(NULL)
+MachO::MachO(const std::string& filename, const MachO* parent) : parent(parent), bundle(NULL)
 {
 	// check if filename is bundle
-    string appFilename = getApplicationInBundle(filename);
+    std::string appFilename = getApplicationInBundle(filename);
     init(appFilename, parent);
 
     if (referenceCounter == 0) {
-        demangler = new Demangler();
         dynamicLoader = new DynamicLoader();
     }
     referenceCounter++;
 }
 
-string MachO::getApplicationInBundle(const string& filename) {
+std::string MachO::getApplicationInBundle(const std::string& filename) {
     CFURLRef bundleUrl = 0;
-	string appFilename = filename;
+	std::string appFilename = filename;
     bundleUrl = CFURLCreateFromFileSystemRepresentation(NULL, (const UInt8 *)filename.c_str() , filename.length(), true);
     if (bundleUrl != NULL) {
         bundle = CFBundleCreate(NULL, bundleUrl);
@@ -50,7 +47,7 @@ string MachO::getApplicationInBundle(const string& filename) {
     return appFilename;
 }
 
-void MachO::init(const string& fileName, const MachO* parent)
+void MachO::init(const std::string& fileName, const MachO* parent)
 {
     MachOFile* parentFile = 0;
     if (parent) {
@@ -97,8 +94,6 @@ void MachO::init(const string& fileName, const MachO* parent)
 MachO::~MachO() {
     referenceCounter--;
     if (referenceCounter == 0) {
-        delete demangler;
-        demangler = 0;
         delete dynamicLoader;
         dynamicLoader = 0;
     }
@@ -155,8 +150,8 @@ time_t MachO::getLastModificationTime() const {
 }
 
 // return bundle version if available, otherwise NULL string
-string MachO::getVersion() const {
-    string version;
+std::string MachO::getVersion() const {
+    std::string version;
     if (bundle != 0) {
         CFStringRef cfVersion = (CFStringRef)CFBundleGetValueForInfoDictionaryKey(bundle, kCFBundleVersionKey);
         // is version available at all?
@@ -167,8 +162,8 @@ string MachO::getVersion() const {
     return version;
 }
 
-string MachO::getName() const {
-    string name;
+std::string MachO::getName() const {
+    std::string name;
     if (bundle != 0) {
         CFStringRef cfBundleName = (CFStringRef)CFBundleGetValueForInfoDictionaryKey(bundle, kCFBundleNameKey);
         // is version available at all?
@@ -189,8 +184,8 @@ string MachO::getName() const {
     return name;
 }
 
-string MachO::extractStringFromCFStringRef(CFStringRef cfStringRef) {
-    string string;
+std::string MachO::extractStringFromCFStringRef(CFStringRef cfStringRef) {
+    std::string string;
     const char* szString = CFStringGetCStringPtr(cfStringRef, kCFStringEncodingASCII);
     if (szString == NULL) {
         CFIndex stringLength = CFStringGetMaximumSizeForEncoding(CFStringGetLength(cfStringRef), kCFStringEncodingASCII);
@@ -209,12 +204,12 @@ string MachO::extractStringFromCFStringRef(CFStringRef cfStringRef) {
     return string;
 }
 
-string MachO::getPath() const {
+std::string MachO::getPath() const {
     return file->getPath();
 }
 
-string MachO::getFileName() const { 
-	string filename = file->getName();
+std::string MachO::getFileName() const { 
+	std::string filename = file->getName();
 	return filename;
 }
     

@@ -3,7 +3,6 @@
 
 #include "MachO_global.h"
 #include "machofile.h"
-#include "/usr/include/mach-o/loader.h"
 
 class EXPORT MachOHeader
 {

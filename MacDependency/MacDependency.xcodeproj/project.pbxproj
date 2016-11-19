@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -17,7 +17,7 @@
 		8E1315C5100F8F1400367510 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8E1315C3100F8F1400367510 /* Localizable.strings */; };
 		8E212D84101212FF0078924A /* SymbolTableEntryTypeFormatter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E212D83101212FF0078924A /* SymbolTableEntryTypeFormatter.mm */; };
 		8E49358B100A5714004B7E53 /* MachO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E493565100A53DA004B7E53 /* MachO.framework */; };
-		8E493597100A5871004B7E53 /* MachO.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8E493565100A53DA004B7E53 /* MachO.framework */; };
+		8E493597100A5871004B7E53 /* MachO.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8E493565100A53DA004B7E53 /* MachO.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8EAEBA2310126AB100E1D5D2 /* SymbolTableController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8EAEBA2210126AB100E1D5D2 /* SymbolTableController.mm */; };
 		8EB56272104EA241006A44CD /* TreeControllerExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB56271104EA241006A44CD /* TreeControllerExtension.m */; };
 		8EB5640E104FE62F006A44CD /* AutoExpandOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB5640D104FE62F006A44CD /* AutoExpandOutlineView.m */; };
@@ -67,42 +67,42 @@
 		13E42FBA07B3F13500E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		32DBCF750370BD2300C91783 /* MacDependency_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacDependency_Prefix.pch; sourceTree = "<group>"; };
+		32DBCF750370BD2300C91783 /* MacDependency_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacDependency_Prefix.h; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* MacDependency.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacDependency.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		8E1314F8100F7BFC00367510 /* MyDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDocument.h; sourceTree = "<group>"; };
+		8E1314F8100F7BFC00367510 /* MyDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDocument.h; sourceTree = "<group>"; wrapsLines = 0; };
 		8E1314F9100F7BFC00367510 /* MyDocument.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyDocument.mm; sourceTree = "<group>"; };
 		8E1314FB100F7C0C00367510 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8E1314FD100F7C1D00367510 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E131500100F7C3C00367510 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
-		8E131502100F7C3C00367510 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8E131502100F7C3C00367510 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8E131504100F7C3C00367510 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		8E131506100F7C3C00367510 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MyDocument.xib; sourceTree = "<group>"; };
 		8E1315C4100F8F1400367510 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
-		8E212D82101212FF0078924A /* SymbolTableEntryTypeFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolTableEntryTypeFormatter.h; sourceTree = "<group>"; };
+		8E212D82101212FF0078924A /* SymbolTableEntryTypeFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolTableEntryTypeFormatter.h; sourceTree = "<group>"; wrapsLines = 0; };
 		8E212D83101212FF0078924A /* SymbolTableEntryTypeFormatter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SymbolTableEntryTypeFormatter.mm; sourceTree = "<group>"; };
 		8E493560100A53DA004B7E53 /* MachO.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MachO.xcodeproj; path = ../MachO/MachO.xcodeproj; sourceTree = SOURCE_ROOT; };
-		8EAEBA2110126AB100E1D5D2 /* SymbolTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolTableController.h; sourceTree = "<group>"; };
+		8EAEBA2110126AB100E1D5D2 /* SymbolTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolTableController.h; sourceTree = "<group>"; wrapsLines = 0; };
 		8EAEBA2210126AB100E1D5D2 /* SymbolTableController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SymbolTableController.mm; sourceTree = "<group>"; };
-		8EB56270104EA241006A44CD /* TreeControllerExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeControllerExtension.h; sourceTree = "<group>"; };
+		8EB56270104EA241006A44CD /* TreeControllerExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeControllerExtension.h; sourceTree = "<group>"; wrapsLines = 0; };
 		8EB56271104EA241006A44CD /* TreeControllerExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeControllerExtension.m; sourceTree = "<group>"; };
-		8EB56382104EF61E006A44CD /* ExtTreeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExtTreeModel.h; sourceTree = "<group>"; };
-		8EB5640C104FE62F006A44CD /* AutoExpandOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoExpandOutlineView.h; sourceTree = "<group>"; };
+		8EB56382104EF61E006A44CD /* ExtTreeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExtTreeModel.h; sourceTree = "<group>"; wrapsLines = 0; };
+		8EB5640C104FE62F006A44CD /* AutoExpandOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoExpandOutlineView.h; sourceTree = "<group>"; wrapsLines = 0; };
 		8EB5640D104FE62F006A44CD /* AutoExpandOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoExpandOutlineView.m; sourceTree = "<group>"; };
-		8EC4F15E10400F02001F9FB8 /* ArchitecturesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArchitecturesController.h; sourceTree = "<group>"; };
+		8EC4F15E10400F02001F9FB8 /* ArchitecturesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArchitecturesController.h; sourceTree = "<group>"; wrapsLines = 0; };
 		8EC4F15F10400F02001F9FB8 /* ArchitecturesController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ArchitecturesController.mm; sourceTree = "<group>"; };
-		8EC4F1681040126A001F9FB8 /* ArchitectureModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArchitectureModel.h; sourceTree = "<group>"; };
+		8EC4F1681040126A001F9FB8 /* ArchitectureModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArchitectureModel.h; sourceTree = "<group>"; wrapsLines = 0; };
 		8EC4F1691040126A001F9FB8 /* ArchitectureModel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ArchitectureModel.mm; sourceTree = "<group>"; };
-		8ECFE3441061192D00685EDF /* PrioritySplitViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrioritySplitViewDelegate.h; sourceTree = "<group>"; };
+		8ECFE3441061192D00685EDF /* PrioritySplitViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrioritySplitViewDelegate.h; sourceTree = "<group>"; wrapsLines = 0; };
 		8ECFE3451061192D00685EDF /* PrioritySplitViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrioritySplitViewDelegate.m; sourceTree = "<group>"; };
-		8ED32F46100B68FF00EBF623 /* MachOModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MachOModel.h; sourceTree = "<group>"; };
+		8ED32F46100B68FF00EBF623 /* MachOModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MachOModel.h; sourceTree = "<group>"; wrapsLines = 0; };
 		8ED32F47100B68FF00EBF623 /* MachOModel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MachOModel.mm; sourceTree = "<group>"; };
-		8ED330CC100BD19800EBF623 /* SymbolTableEntryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolTableEntryModel.h; sourceTree = "<group>"; };
+		8ED330CC100BD19800EBF623 /* SymbolTableEntryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolTableEntryModel.h; sourceTree = "<group>"; wrapsLines = 0; };
 		8ED330CD100BD19800EBF623 /* SymbolTableEntryModel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SymbolTableEntryModel.mm; sourceTree = "<group>"; };
-		8ED4567910516D6200FAC99F /* MyDocumentWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDocumentWindow.h; sourceTree = "<group>"; };
+		8ED4567910516D6200FAC99F /* MyDocumentWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDocumentWindow.h; sourceTree = "<group>"; wrapsLines = 0; };
 		8ED4567A10516D6200FAC99F /* MyDocumentWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyDocumentWindow.m; sourceTree = "<group>"; };
-		8EFDEF78101007B300E4D54D /* ConversionStdString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversionStdString.h; sourceTree = "<group>"; };
+		8EFDEF78101007B300E4D54D /* ConversionStdString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversionStdString.h; sourceTree = "<group>"; wrapsLines = 0; };
 		8EFDEF79101007B300E4D54D /* ConversionStdString.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ConversionStdString.mm; sourceTree = "<group>"; };
-		8EFDEF9110100F1700E4D54D /* VersionFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionFormatter.h; sourceTree = "<group>"; };
+		8EFDEF9110100F1700E4D54D /* VersionFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionFormatter.h; sourceTree = "<group>"; wrapsLines = 0; };
 		8EFDEF9210100F1700E4D54D /* VersionFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VersionFormatter.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -122,7 +122,6 @@
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8E493560100A53DA004B7E53 /* MachO.xcodeproj */,
 				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -149,6 +148,7 @@
 		2A37F4AAFDCFA73011CA2CEA /* MacDependency */ = {
 			isa = PBXGroup;
 			children = (
+				8E493560100A53DA004B7E53 /* MachO.xcodeproj */,
 				2A37F4ABFDCFA73011CA2CEA /* Classes */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
@@ -196,7 +196,7 @@
 			isa = PBXGroup;
 			children = (
 				8E1314FB100F7C0C00367510 /* main.m */,
-				32DBCF750370BD2300C91783 /* MacDependency_Prefix.pch */,
+				32DBCF750370BD2300C91783 /* MacDependency_Prefix.h */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -260,10 +260,11 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "Konrad Windszus";
 			};
 			buildConfigurationList = C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "MacDependency" */;
-			compatibilityVersion = "Xcode 3.1";
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -388,54 +389,52 @@
 		C05733C808A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../MachO/build/Debug\"",
-				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = MacDependency_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.googlecode.${PRODUCT_NAME:identifier}";
 				PRODUCT_NAME = MacDependency;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
 		C05733C908A9546B00998B17 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../MachO/build/Release\"",
-				);
 				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = MacDependency_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.googlecode.${PRODUCT_NAME:identifier}";
 				PRODUCT_NAME = MacDependency;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
 		C05733CC08A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = MacDependency_Prefix.h;
 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
-				GCC_VERSION = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
@@ -447,28 +446,45 @@
 				GCC_WARN_SHADOW = YES;
 				GCC_WARN_STRICT_SELECTOR_MATCH = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
 		C05733CD08A9546B00998B17 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_VERSION = "";
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = MacDependency_Prefix.h;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};

@@ -3,76 +3,74 @@
 
 #include "macho_global.h"
 
-#include <list>
-
-typedef list<string> StringList;
+typedef std::list<std::string> StringList;
 
 class MachOArchitecture;
 class DynamicLoader
 {
 public:
-    DynamicLoader();
-    virtual ~DynamicLoader();
+  DynamicLoader();
+  virtual ~DynamicLoader();
 
-    string replacePlaceholder(const string& name, const MachOArchitecture* architecture) const;
-    string getPathname(const string& name, const MachOArchitecture* architecture, const string& workingDirectory) const;
+  std::string replacePlaceholder(const std::string& name, const MachOArchitecture* architecture) const;
+  std::string getPathname(const std::string& name, const MachOArchitecture* architecture, const std::string& workingDirectory) const;
 
 private:
-    class EnvironmentPathVariable
-    {
-    public:
-            EnvironmentPathVariable();
-            EnvironmentPathVariable(const char* homePath, const string& name, const StringList& defaultValues = StringList());
+  class EnvironmentPathVariable
+  {
+  public:
+    EnvironmentPathVariable();
+    EnvironmentPathVariable(const char* homePath, const std::string& name, const StringList& defaultValues = StringList());
 
-            bool isEmpty() const;
-            const StringList& getPaths() const { return paths; }
+    bool isEmpty() const;
+    const StringList& getPaths() const { return paths; }
 
-    private:
-            
-            void setPaths(const StringList& paths);
-            void addPath(const string& path);
-            bool replaceHomeDirectory(string& path);
-            StringList paths;
-            static const char PATHS_SEPARATOR;
-            const char* homePath;
-    };
+  private:
 
-    enum {
-        LdLibraryPath,
-        DyldFrameworkPath,
-        DyldLibraryPath,
-        DyldFallbackFrameworkPath,
-        DyldFallbackLibraryPath,
-        DyldImageSuffix,
-        NumEnvironmentVariables
-    };
-
-    enum Placeholder {
-        ExecutablePath,
-        LoaderPath,
-        Rpath,
-        NumPlaceholders
-    };
-
-    static const char* PLACEHOLDERS[NumPlaceholders];
-    static const char* ENVIRONMENT_VARIABLE_NAMES[NumEnvironmentVariables];
-    static const char* PATH_SEPARATOR;
-    static const StringList ENVIRONMENT_VARIABLE_DEFAULT_VALUES[NumEnvironmentVariables];
-
-    static const char* DEFAULT_FRAMEWORK_PATH[];
-    static const char* DEFAULT_LIBRARY_PATH[];
+    void setPaths(const StringList& paths);
+    void addPath(const std::string& path);
+    bool replaceHomeDirectory(std::string& path);
+    StringList paths;
+    static const char PATHS_SEPARATOR;
     const char* homePath;
+  };
 
-    EnvironmentPathVariable environmentVariables[NumEnvironmentVariables];
+  enum {
+    LdLibraryPath,
+    DyldFrameworkPath,
+    DyldLibraryPath,
+    DyldFallbackFrameworkPath,
+    DyldFallbackLibraryPath,
+    DyldImageSuffix,
+    NumEnvironmentVariables
+  };
 
-    string getFrameworkName(const string& name, const bool strippedSuffix = false) const;
-    const char* getUserHomeDirectory() const;
-	
-    string getExistingPathname(const string& name, const EnvironmentPathVariable& environmentPathVariable, const string& workingPath) const;
-    string getExistingPathname(const string& name, const string& directory, const string& workingPath) const;
-    string getExistingPathname(const string& name, const string& workingPath, bool withSuffix=true) const;
-	
-	static bool endsWith(const string& str, const string& substr);
+  enum Placeholder {
+    ExecutablePath,
+    LoaderPath,
+    Rpath,
+    NumPlaceholders
+  };
+
+  static const char* PLACEHOLDERS[NumPlaceholders];
+  static const char* ENVIRONMENT_VARIABLE_NAMES[NumEnvironmentVariables];
+  static const char* PATH_SEPARATOR;
+  static const StringList ENVIRONMENT_VARIABLE_DEFAULT_VALUES[NumEnvironmentVariables];
+
+  static const char* DEFAULT_FRAMEWORK_PATH[];
+  static const char* DEFAULT_LIBRARY_PATH[];
+  const char* homePath;
+
+  EnvironmentPathVariable environmentVariables[NumEnvironmentVariables];
+
+  std::string getFrameworkName(const std::string& name, const bool strippedSuffix = false) const;
+  const char* getUserHomeDirectory() const;
+
+  std::string getExistingPathname(const std::string& name, const EnvironmentPathVariable& environmentPathVariable, const std::string& workingPath) const;
+  std::string getExistingPathname(const std::string& name, const std::string& directory, const std::string& workingPath) const;
+  std::string getExistingPathname(const std::string& name, const std::string& workingPath, bool withSuffix=true) const;
+
+  static bool endsWith(const std::string& str, const std::string& substr);
 };
 
 #endif // DYNAMICLOADER_H

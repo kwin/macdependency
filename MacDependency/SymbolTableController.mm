@@ -93,8 +93,8 @@ const int TYPE[] = {SymbolTableEntry::TypeExported, SymbolTableEntry::TypeImport
 	return &demangleNames;
 }
 
-- (void)setDemangleNames:(BOOL)demangleNames {
-	self->demangleNames = demangleNames;
+- (void)setDemangleNames:(BOOL)demangle {
+	self->demangleNames = demangle;
 	
 	// refresh
 	[self rearrangeObjects];

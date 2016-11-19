@@ -175,13 +175,13 @@
 - (NSString*) serializeIndexPath:(NSIndexPath*)indexPath {
 	NSMutableString* link = [NSMutableString stringWithCapacity:20];
 	for (int depth = 0; depth < [indexPath length]; depth++) {
-		[link appendFormat:@"%d;", [indexPath indexAtPosition:depth]];
+		[link appendFormat: @"%ld;", [indexPath indexAtPosition: depth]];
 	}
 	return link;
 }
 
 - (NSIndexPath*) deserializeIndexPath:(NSString*)link {
-	NSIndexPath* indexPath;
+	NSIndexPath* indexPath = nil;
 	
 	// tokenize string
 	NSArray* indices = [link componentsSeparatedByString:@";"];
@@ -190,7 +190,7 @@
 	NSEnumerator *enumerator = [indices objectEnumerator];
 	NSString* token = [enumerator nextObject];
 	if (token) {
-		indexPath = [NSIndexPath indexPathWithIndex:[token intValue]];
+		indexPath = [NSIndexPath indexPathWithIndex: [token intValue]];
 		while ((token = [enumerator nextObject])) {
 			if ([token length] > 0)
 				indexPath = [indexPath indexPathByAddingIndex:[token intValue]];
@@ -241,8 +241,7 @@
 - (IBAction)clickRevealInFinder:(id)sender {
 	NSString* filename = [textFieldFilename stringValue];
 	
-	[[NSWorkspace sharedWorkspace] selectFile:filename 
-					 inFileViewerRootedAtPath:nil];
+	[[NSWorkspace sharedWorkspace] selectFile: filename inFileViewerRootedAtPath: @""];
 
 }
 

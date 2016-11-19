@@ -20,11 +20,11 @@ public:
     bool isId() const { return type==DependencyId; }
     bool isNecessary() const { return type!=DependencyWeak; }
     DependencyType getType() const { return type; }
-    string getName() const;
+    std::string getName() const;
     unsigned int getCurrentVersion() const;
     unsigned int getCompatibleVersion() const;
     time_t getTimeStamp() const;
-    static string getVersionString(unsigned int version);
+    static std::string getVersionString(unsigned int version);
 
 private:
     dylib_command command;

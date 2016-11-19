@@ -147,9 +147,9 @@
 }
 
 - (NSString*) rpath {
-	std::vector<string*> rpaths = architecture->getRpaths(false);
+  std::vector<std::string*> rpaths = architecture->getRpaths(false);
 	NSMutableString* rpath = [NSMutableString string];
-	for (std::vector<string*>::iterator it = rpaths.begin();
+	for (std::vector<std::string*>::iterator it = rpaths.begin();
 		 it != rpaths.end();
 		 ++it)
     {
@@ -248,7 +248,7 @@
 - (void) setSymbols:(NSMutableArray*) newSymbolEntries {
 	[newSymbolEntries retain];
 	[symbolEntries release];
-	symbolEntries = symbolEntries;
+	symbolEntries = newSymbolEntries;
 }
 
 - (void) refreshSymbols {

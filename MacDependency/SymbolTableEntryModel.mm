@@ -14,11 +14,11 @@
 
 @implementation SymbolTableEntryModel
 
-- (id) initWithEntry:(const SymbolTableEntry*)anEntry demangleNamesPtr:(BOOL*)demangleNames document:(MyDocument*)aDocument {
+- (id) initWithEntry:(const SymbolTableEntry*)anEntry demangleNamesPtr:(BOOL*)demangle document:(MyDocument*)aDocument {
 	self = [super init];
     if (self) {
 		entry = anEntry;
-		self->demangleNames = demangleNames;
+		self->demangleNames = demangle;
 		document = aDocument;
 	}
 	return self;
@@ -26,7 +26,7 @@
 
 - (NSString*) name {
 	try {
-		return [NSString stringWithStdString:entry->getName(*demangleNames)];
+		return [NSString stringWithStdString: entry->getName(*demangleNames)];
 	} catch (MachODemangleException& e) {
         // in case of demangling problems (probably c++filt not installed)
 		NSString* error = NSLocalizedString(@"ERR_NO_DEMANGLER", nil);

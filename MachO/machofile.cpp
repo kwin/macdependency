@@ -2,7 +2,7 @@
 #include "machoexception.h"
 #include "internalfile.h"
 
-MachOFile::MachOFile(const string& filename,const MachOFile* parent,  bool reversedByteOrder) :
+MachOFile::MachOFile(const std::string& filename,const MachOFile* parent,  bool reversedByteOrder) :
         file(InternalFile::create(filename)), position(0), reversedByteOrder(reversedByteOrder), parent(parent)
 {
     if (parent) {
@@ -21,15 +21,15 @@ MachOFile::~MachOFile() {
     file->release();
 }
 
-string MachOFile::getPath() const { 
+std::string MachOFile::getPath() const { 
 	return file->getPath(); 
 }
 
-string MachOFile::getName() const { 
-	string filename = file->getName(); 
+std::string MachOFile::getName() const { 
+	std::string filename = file->getName(); 
 	return filename;
 }
-string MachOFile::getTitle() const { return file->getTitle(); }
+std::string MachOFile::getTitle() const { return file->getTitle(); }
 unsigned long long MachOFile::getSize() const { return file->getSize(); }
 time_t MachOFile::getLastModificationTime() const { return file->getLastModificationTime(); }
 

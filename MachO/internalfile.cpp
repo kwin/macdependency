@@ -1,8 +1,5 @@
 #include "internalfile.h"
 #include "machoexception.h"
-#include <sstream>
-
-using namespace boost::filesystem;
 
 // use reference counting to reuse files for all used architectures
 InternalFile* InternalFile::create(InternalFile* file) {
@@ -10,7 +7,7 @@ InternalFile* InternalFile::create(InternalFile* file) {
     return file;
 }
 
-InternalFile* InternalFile::create(const string& filename) {
+InternalFile* InternalFile::create(const std::string& filename) {
 	return new InternalFile(filename);
 }
 
@@ -21,16 +18,22 @@ void InternalFile::release() {
     }
 }
 
-InternalFile::InternalFile(const string& filename) :
+InternalFile::InternalFile(const std::string& filename) :
 	filename(filename), counter(1)
 {
 	// open file handle
-	file.open(this->filename, ios_base::in|ios_base::binary);
+	file.open(this->filename, std::ios_base::in | std::ios_base::binary);
 	if (file.fail()) {
-		ostringstream error;
+		std::ostringstream error;
 		error << "Couldn't open file '" << filename << "'.";
 		throw MachOException(error.str());
 	}
+
+  struct stat buffer;
+  if (stat(filename.c_str(), &buffer) >= 0) {
+    _fileSize = buffer.st_size;
+    _lastWriteTime = buffer.st_mtime;
+  }
 }
 
 // destructor is private since we use reference counting mechanism
@@ -38,39 +41,32 @@ InternalFile::~InternalFile()  {
     file.close();
 }
 
-string InternalFile::getPath() const {
-	return filename.parent_path().string();
+std::string InternalFile::getPath() const {
+	return filename;
 
 }
 
 /* returns whole filename (including path)*/
-string InternalFile::getName() const {
-	
-	/* unfortunately canonized is not available in newer versions of boost filesystem.
-	 For the reasons see the filsystem proposal at http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1889.html.
-	 As an alternative I use realpath but I don't know if it handles unicode strings also.
-	 */
-	
-	// try to canonicalize path
-	char* resolvedName = realpath(filename.file_string().c_str(), NULL);
-	if (!resolvedName)
-		return filename.file_string();
-	string resolvedFileName(resolvedName);
-	free(resolvedName);
-	return resolvedFileName;
+std::string InternalFile::getName() const {
+	// Try to canonicalize path.
+  char buffer[PATH_MAX];
+	if (realpath(filename.c_str(), buffer) == nullptr)
+    return filename;
+
+	return buffer;
 }
 
 /* returns filename without path */
-string InternalFile::getTitle() const {
-	return filename.filename();
+std::string InternalFile::getTitle() const {
+	return filename;
 }
 
 unsigned long long InternalFile::getSize() const {
-	return file_size(filename);
+  return _fileSize;
 }
 
 bool InternalFile::seek(long long int position) {
-	file.seekg(position, ios_base::beg);
+	file.seekg(position, std::ios_base::beg);
 	if (file.fail()) {
 		file.clear();
 		return false;
@@ -78,7 +74,7 @@ bool InternalFile::seek(long long int position) {
 	return true;
 }
 
-streamsize InternalFile::read(char* buffer, streamsize size) {
+std::streamsize InternalFile::read(char* buffer, std::streamsize size) {
 	file.read(buffer, size);
 	if (file.fail()) {
 		file.clear();
@@ -93,5 +89,5 @@ long long int InternalFile::getPosition() {
  }
 
 time_t InternalFile::getLastModificationTime() const {
-	return last_write_time(filename);
+  return _lastWriteTime;
 }

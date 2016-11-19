@@ -21,7 +21,7 @@ MachOCache::~MachOCache() {
 	}
 }
 
-MachO* MachOCache::getFile(const string& filename, const MachO* parent) {
+MachO* MachOCache::getFile(const std::string& filename, const MachO* parent) {
 	CacheMapIterator it = cache.find(filename);
 
 	// check if already in cache?
