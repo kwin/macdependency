@@ -6,7 +6,6 @@
 //  Copyright 2009 Konrad Windszus. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
 @class MyDocument;
 
 @interface SymbolTableController : NSArrayController {
@@ -24,6 +23,6 @@
 
 - (BOOL)demangleNames;
 - (BOOL*)demangleNamesPtr;
-- (void)setDemangleNames:(BOOL)demangleNames;
+- (void)setDemangleNames:(BOOL)demangle;
 
 @end

@@ -7,7 +7,7 @@
 #include "dylinkercommand.h"
 #include "machoexception.h"
 #include "machoheader.h"
-#include "/usr/include/mach-o/loader.h"
+
 
 LoadCommand* LoadCommand::getLoadCommand(unsigned int cmd, MachOHeader* header) {
 

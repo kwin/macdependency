@@ -15,7 +15,7 @@
 
 @class MyDocument;
 
-typedef enum State{
+enum State {
 	StateNormal,
 	StateWarning,
 	StateError

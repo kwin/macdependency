@@ -20,21 +20,21 @@ void MachOArchitecture::initParentArchitecture(const MachOArchitecture* parent) 
     this->parent = parent;
 }
 
-string MachOArchitecture::getResolvedName(const string& name, const string& workingPath) const {
-    string absoluteFileName = MachO::dynamicLoader->getPathname(name, this, workingPath);
+std::string MachOArchitecture::getResolvedName(const std::string& name, const std::string& workingPath) const {
+    std::string absoluteFileName = MachO::dynamicLoader->getPathname(name, this, workingPath);
     if (!absoluteFileName.empty())
         return absoluteFileName;
     // return unresolved name if it cannot be resolved to a valid absolute name
     return name;
 }
 
-std::vector<string*> MachOArchitecture::getRpaths(bool recursively) const {
+std::vector<std::string*> MachOArchitecture::getRpaths(bool recursively) const {
     // try to get it from the parent (recursively)
-	std::vector<string*> prevRpaths;
+	std::vector<std::string*> prevRpaths;
 	if (recursively && parent) {
 		prevRpaths = parent->getRpaths(recursively);
 	} else {
-		prevRpaths = std::vector<string*>();
+		prevRpaths = std::vector<std::string*>();
 	}
     // add own rpaths to the end
     prevRpaths.insert(prevRpaths.end(), rpaths.begin(), rpaths.end());
@@ -62,11 +62,11 @@ void MachOArchitecture::readLoadCommands() const {
         RpathCommand* rpathCommand = dynamic_cast<RpathCommand*>(loadCommand);
         if (rpathCommand != 0) {
             // try to replace placeholder
-            string resolvedRpath = MachO::dynamicLoader->replacePlaceholder(rpathCommand->getPath(), this);
+            std::string resolvedRpath = MachO::dynamicLoader->replacePlaceholder(rpathCommand->getPath(), this);
             if (resolvedRpath.empty()) {
                 resolvedRpath = rpathCommand->getPath();
             }
-            rpaths.push_back(new string(resolvedRpath));
+            rpaths.push_back(new std::string(resolvedRpath));
         }
 		
 		// for uuid command...
@@ -97,7 +97,7 @@ MachOArchitecture::~MachOArchitecture() {
         delete *it;
     }
 
-    for (std::vector<string*>::iterator it2 = rpaths.begin();
+    for (std::vector<std::string*>::iterator it2 = rpaths.begin();
     it2 != rpaths.end();
     ++it2)
     {

@@ -43,10 +43,6 @@
 - (void) dealloc
 {
 	delete cache;
-	[splitViewDelegate release];
-	[contents release];
-	[log release];
-	[super dealloc];
 }
 
 
@@ -123,15 +119,12 @@
 }
 
 - (void)setLog:(NSAttributedString *)newLog {
-	[newLog retain];
-	[log release];
 	log = newLog;
 }
 
 - (void)clearLog {
 	NSAttributedString* newLog = [[NSAttributedString alloc] initWithString:@""];
 	[self setLog:newLog];
-	[newLog release];
 }
 
 - (void)appendLogLine:(NSString *)line withModel:(MachOModel*)model state:(State)state {
@@ -160,9 +153,7 @@
 	NSAttributedString* newLogLine = [[NSAttributedString alloc]initWithString:newLine attributes:attributes];
 	
 	[newLog appendAttributedString:newLogLine];
-	[newLogLine release];
 	[self setLog:newLog];
-	[newLog release];
 }
 
 - (NSString*) workingDirectory {
@@ -175,13 +166,13 @@
 - (NSString*) serializeIndexPath:(NSIndexPath*)indexPath {
 	NSMutableString* link = [NSMutableString stringWithCapacity:20];
 	for (int depth = 0; depth < [indexPath length]; depth++) {
-		[link appendFormat:@"%d;", [indexPath indexAtPosition:depth]];
+		[link appendFormat: @"%ld;", [indexPath indexAtPosition: depth]];
 	}
 	return link;
 }
 
 - (NSIndexPath*) deserializeIndexPath:(NSString*)link {
-	NSIndexPath* indexPath;
+	NSIndexPath* indexPath = nil;
 	
 	// tokenize string
 	NSArray* indices = [link componentsSeparatedByString:@";"];
@@ -190,7 +181,7 @@
 	NSEnumerator *enumerator = [indices objectEnumerator];
 	NSString* token = [enumerator nextObject];
 	if (token) {
-		indexPath = [NSIndexPath indexPathWithIndex:[token intValue]];
+		indexPath = [NSIndexPath indexPathWithIndex: [token intValue]];
 		while ((token = [enumerator nextObject])) {
 			if ([token length] > 0)
 				indexPath = [indexPath indexPathByAddingIndex:[token intValue]];
@@ -202,7 +193,7 @@
 
 // delegate method 
 - (BOOL)textView:(NSTextView *)aTextView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex {
-	[dependenciesController setSelectedObject:link];
+	[dependenciesController setSelectedObject: link];
 	
 	// we need no further processing of the link
 	return YES;
@@ -232,7 +223,6 @@
 				[architectures addObject:currentArchitecture]; // insert at end
 			}
 			
-			[currentArchitecture release];
 		}
 	}
 	return  architectures;
@@ -241,8 +231,7 @@
 - (IBAction)clickRevealInFinder:(id)sender {
 	NSString* filename = [textFieldFilename stringValue];
 	
-	[[NSWorkspace sharedWorkspace] selectFile:filename 
-					 inFileViewerRootedAtPath:nil];
+	[[NSWorkspace sharedWorkspace] selectFile: filename inFileViewerRootedAtPath: @""];
 
 }
 
