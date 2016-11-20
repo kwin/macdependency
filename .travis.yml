@@ -1,0 +1,3 @@
+language: objective-c
+xcode_project: MacDependency/MacDependency.xcodeproj
+xcode_scheme: MacDependency
