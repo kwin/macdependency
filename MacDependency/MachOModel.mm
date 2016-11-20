@@ -40,8 +40,8 @@
 // called by initChildren (calls initWithFile internally)
 - (id) initWithFilename:(std::string&)filename command:(DylibCommand*)aCommand document:(MyDocument*)aDocument parent:(MachOModel*)aParent {
 	BOOL isWeakReference = (command && !command->isNecessary());
-    MachO* aFile;
-    MachOArchitecture* anArchitecture;
+    MachO* aFile = nullptr;
+    MachOArchitecture* anArchitecture = nullptr;
     state = StateNormal;
 	try {
 		aFile = [aDocument cache]->getFile(filename, aParent->file); // throws exception in case file is not found
