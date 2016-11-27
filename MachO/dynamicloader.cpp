@@ -315,9 +315,11 @@ std::string DynamicLoader::getExistingPathname(const std::string& name, const st
     tryAgainWithoutSuffix = true;
   }
 
-  // complete path (with working directory)
-  usedName = workingPath + "/" + usedName;
-
+  // make path absolute (with working directory) if it is not absolute yet
+  if (usedName.compare(0, 1, "/") != 0) {
+    usedName = workingPath + "/" + usedName;
+  }
+  
   struct stat buffer;
   if (stat(usedName.c_str(), &buffer) == 0) {
     return usedName;
