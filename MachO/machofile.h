@@ -32,7 +32,6 @@ public:
 private:
   static unsigned int convertByteOrder(char* data, bool isBigEndian, unsigned int numberOfBytes);
   static unsigned int reverseByteOrder(unsigned int data);
-  static std::string getDirectory(const std::string& path);
 
   InternalFile* file;
   long long int position;
