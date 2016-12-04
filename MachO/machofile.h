@@ -20,7 +20,7 @@ public:
   uint32_t getUint32(unsigned int data) const {return (reversedByteOrder?reverseByteOrder(data):data);}
   static uint32_t getUint32LE(uint32_t data);
   static uint32_t getUint32BE(uint32_t data);
-  std::string getPath() const;
+  std::string getDirectory() const;
   std::string getName() const;
   std::string getTitle() const;
   unsigned long long getSize() const;
@@ -32,6 +32,7 @@ public:
 private:
   static unsigned int convertByteOrder(char* data, bool isBigEndian, unsigned int numberOfBytes);
   static unsigned int reverseByteOrder(unsigned int data);
+  static std::string getDirectory(const std::string& path);
 
   InternalFile* file;
   long long int position;

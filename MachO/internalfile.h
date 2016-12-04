@@ -13,7 +13,7 @@ public:
   static InternalFile* create(const std::string& filename);
   void release();
 
-  std::string getPath() const;
+  std::string getFolder() const;
   std::string getName() const;
   std::string getTitle() const;
   unsigned long long getSize() const;

@@ -27,7 +27,7 @@ DynamicLoader::EnvironmentPathVariable::EnvironmentPathVariable(const char* home
   if (envValue) {
     values = envValue;
   }
-
+  
   if (!values.empty()) {
     std::stringstream v(values);
     std::string item;
@@ -41,7 +41,7 @@ DynamicLoader::EnvironmentPathVariable::EnvironmentPathVariable(const char* home
 
 void DynamicLoader::EnvironmentPathVariable::setPaths(const StringList& paths) {
   this->paths = paths;
-
+  
   for (StringList::iterator it = this->paths.begin(); it!=this->paths.end(); ++it) {
     replaceHomeDirectory(*it);
   }
@@ -117,7 +117,7 @@ DynamicLoader::DynamicLoader()
   for (unsigned int i=0; i < NumEnvironmentVariables; i++) {
     environmentVariables[i] = EnvironmentPathVariable(homePath, ENVIRONMENT_VARIABLE_NAMES[i], ENVIRONMENT_VARIABLE_DEFAULT_VALUES[i]);
   }
-
+  
 }
 
 DynamicLoader::~DynamicLoader() {
@@ -142,7 +142,7 @@ std::string DynamicLoader::replacePlaceholder(const std::string& name, const Mac
   if (name.find(PLACEHOLDERS[ExecutablePath]) == 0) {
     resolvedName.replace(0, strlen(PLACEHOLDERS[ExecutablePath]), architecture->getFile()->getExecutablePath());
   } else if (name.find(PLACEHOLDERS[LoaderPath]) == 0) {
-    resolvedName.replace(0, strlen(PLACEHOLDERS[LoaderPath]), architecture->getFile()->getPath());
+    resolvedName.replace(0, strlen(PLACEHOLDERS[LoaderPath]), architecture->getFile()->getDirectory());
   }
   return resolvedName;
 }
@@ -156,13 +156,13 @@ std::string DynamicLoader::getPathname(const std::string& name, const MachOArchi
   } else {
     simpleName = name;
   }
-
+  
   // try LD_LIBRARY_PATH
   std::string pathName;
   pathName = getExistingPathname(simpleName, environmentVariables[LdLibraryPath], workingPath);
   if (!pathName.empty())
     return pathName;
-
+  
   std::string frameworkName = getFrameworkName(name);
   if (!frameworkName.empty()) {
     // strip the already contained suffix
@@ -170,11 +170,11 @@ std::string DynamicLoader::getPathname(const std::string& name, const MachOArchi
     if (!pathName.empty())
       return pathName;
   }
-
+  
   pathName = getExistingPathname(simpleName, environmentVariables[DyldLibraryPath], workingPath);
   if (!pathName.empty())
     return pathName;
-
+  
   // resolve placeholder
   std::string resolvedName = replacePlaceholder(name, architecture);
   if (!resolvedName.empty()) {
@@ -182,11 +182,11 @@ std::string DynamicLoader::getPathname(const std::string& name, const MachOArchi
     if (!pathName.empty())
       return pathName;
   }
-
+  
   if (name.find(PLACEHOLDERS[Rpath]) == 0) {
     // substitute @rpath with all -rpath paths up the load chain
     std::vector<std::string*> rpaths = architecture->getRpaths();
-
+    
     for (std::vector<std::string*>::iterator it = rpaths.begin(); it != rpaths.end(); ++it) {
       // rpath may contain @loader_path or @executable_path
       std::string rpath = replacePlaceholder((**it), architecture);
@@ -196,7 +196,7 @@ std::string DynamicLoader::getPathname(const std::string& name, const MachOArchi
       if (!pathName.empty())
         return pathName;
     }
-
+    
     // after checking against all stored rpaths substitute @rpath with LD_LIBRARY_PATH (if it is set)
     EnvironmentPathVariable ldLibraryPaths = environmentVariables[LdLibraryPath];
     if (!ldLibraryPaths.isEmpty()) {
@@ -209,19 +209,19 @@ std::string DynamicLoader::getPathname(const std::string& name, const MachOArchi
       }
     }
   }
-
+  
   // check pure path (either absolute or relative to working directory)
   pathName = getExistingPathname(name, workingPath);
   if (!pathName.empty())
     return pathName;
-
+  
   // try fallbacks (or its defaults)
   if (!frameworkName.empty()) {
     pathName = getExistingPathname(frameworkName, environmentVariables[DyldFallbackFrameworkPath], workingPath);
     if (!pathName.empty())
       return pathName;
   }
-
+  
   return getExistingPathname(name, environmentVariables[DyldFallbackLibraryPath], workingPath);
 }
 
@@ -231,28 +231,28 @@ std::string DynamicLoader::getFrameworkName(const std::string& name, const bool 
   if (name.find(".framework/") == std::string::npos) {
     return "";
   }
-
+  
   /*  first look for the form Foo.framework/Foo
    next look for the form Foo.framework/Versions/A/Foo
    A and Foo are arbitrary strings without a slash */
-
+  
   // get Foo (part after last slash)
   size_t lastSlashPosition = name.rfind(PATH_SEPARATOR);
   if (lastSlashPosition == std::string::npos || lastSlashPosition == name.length() -1) {
     return "";
   }
-
+  
   const std::string foo = name.substr(lastSlashPosition+1);
   const std::string frameworkPart = foo+".framework/";
   const std::string framework = frameworkPart + foo;
-
+  
   if (endsWith(name, framework)) {
     // strip first part
     return framework;
   }
   int startPosition = name.find(frameworkPart+"Versions/");
   bool hasCorrectEnd = endsWith(name, foo);
-
+  
   // TODO: check between Versions/ and foo there must be no additional slash
   if (startPosition != std::string::npos) {
     if (hasCorrectEnd) {
@@ -268,7 +268,7 @@ std::string DynamicLoader::getFrameworkName(const std::string& name, const bool 
       }
     }
   }
-
+  
   // if we are at this part the given name was no framework
   return "";
 }
@@ -297,11 +297,11 @@ std::string DynamicLoader::getExistingPathname(const std::string& file, const st
 }
 
 std::string DynamicLoader::getExistingPathname(const std::string& name, const std::string& workingPath, bool withSuffix) const {
-
+  
   // complete path
   std::string usedName = name;
   bool tryAgainWithoutSuffix = false;
-
+  
   // first try with suffix
   if (withSuffix && !environmentVariables[DyldImageSuffix].isEmpty()) {
     // only one suffix is considered

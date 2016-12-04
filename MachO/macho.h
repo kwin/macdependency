@@ -27,9 +27,7 @@ public:
   time_t getLastModificationTime() const;
   std::string getVersion() const;
   std::string getName() const;
-  //sQIcon getIcon() const;*/
   const MachO* getParent() { return parent;}
-  std::string getPath() const;
   static DynamicLoader* dynamicLoader;
   static int referenceCounter;
 private:

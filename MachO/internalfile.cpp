@@ -3,32 +3,32 @@
 
 // use reference counting to reuse files for all used architectures
 InternalFile* InternalFile::create(InternalFile* file) {
-    file->counter++;
-    return file;
+  file->counter++;
+  return file;
 }
 
 InternalFile* InternalFile::create(const std::string& filename) {
-	return new InternalFile(filename);
+  return new InternalFile(filename);
 }
 
 void InternalFile::release() {
-    counter--;
-    if (counter < 1) {
-        delete this;
-    }
+  counter--;
+  if (counter < 1) {
+    delete this;
+  }
 }
 
 InternalFile::InternalFile(const std::string& filename) :
-	filename(filename), counter(1)
+filename(filename), counter(1)
 {
-	// open file handle
-	file.open(this->filename, std::ios_base::in | std::ios_base::binary);
-	if (file.fail()) {
-		std::ostringstream error;
-		error << "Couldn't open file '" << filename << "'.";
-		throw MachOException(error.str());
-	}
-
+  // open file handle
+  file.open(this->filename, std::ios_base::in | std::ios_base::binary);
+  if (file.fail()) {
+    std::ostringstream error;
+    error << "Couldn't open file '" << filename << "'.";
+    throw MachOException(error.str());
+  }
+  
   struct stat buffer;
   if (stat(filename.c_str(), &buffer) >= 0) {
     _fileSize = buffer.st_size;
@@ -38,12 +38,7 @@ InternalFile::InternalFile(const std::string& filename) :
 
 // destructor is private since we use reference counting mechanism
 InternalFile::~InternalFile()  {
-    file.close();
-}
-
-std::string InternalFile::getPath() const {
-	return filename;
-
+  file.close();
 }
 
 /* returns whole filename (including path)*/
@@ -58,7 +53,7 @@ std::string InternalFile::getName() const {
 
 /* returns filename without path */
 std::string InternalFile::getTitle() const {
-	return filename;
+  return filename;
 }
 
 unsigned long long InternalFile::getSize() const {
@@ -66,27 +61,27 @@ unsigned long long InternalFile::getSize() const {
 }
 
 bool InternalFile::seek(long long int position) {
-	file.seekg(position, std::ios_base::beg);
-	if (file.fail()) {
-		file.clear();
-		return false;
-	}
-	return true;
+  file.seekg(position, std::ios_base::beg);
+  if (file.fail()) {
+    file.clear();
+    return false;
+  }
+  return true;
 }
 
 std::streamsize InternalFile::read(char* buffer, std::streamsize size) {
-	file.read(buffer, size);
-	if (file.fail()) {
-		file.clear();
-		return file.gcount();
-	}
-	// TODO: handle badbit
-	return size;
+  file.read(buffer, size);
+  if (file.fail()) {
+    file.clear();
+    return file.gcount();
+  }
+  // TODO: handle badbit
+  return size;
 }
 
 long long int InternalFile::getPosition() {
-	return file.tellg();
- }
+  return file.tellg();
+}
 
 time_t InternalFile::getLastModificationTime() const {
   return _lastWriteTime;

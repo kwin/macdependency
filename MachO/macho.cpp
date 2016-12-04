@@ -204,10 +204,6 @@ std::string MachO::extractStringFromCFStringRef(CFStringRef cfStringRef) {
     return string;
 }
 
-std::string MachO::getPath() const {
-    return file->getPath();
-}
-
 std::string MachO::getFileName() const { 
 	std::string filename = file->getName();
 	return filename;
