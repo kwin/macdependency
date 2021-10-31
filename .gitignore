@@ -4,6 +4,7 @@
 ### Xcode ###
 ## User settings
 xcuserdata/
+*.xcuserstate
 
 ## Xcode 8 and earlier
 *.xcscmblueprint
