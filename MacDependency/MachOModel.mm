@@ -51,17 +51,17 @@
 			NSString* log = [NSString stringWithFormat:NSLocalizedString(@"ERR_ARCHITECTURE_MISMATCH", nil), filename.c_str(), [parent name]];
 			[aDocument appendLogLine:log withModel:self state:state];
 		}
-		
+
 	}  catch (MachOException& exc) {
 		[self setStateWithWarning:isWeakReference];
 		NSString* log = [NSString stringWithStdString:exc.getCause()];
 		[aDocument appendLogLine:log withModel:self state:state];
-		// distinguish between weak and strong. In both cases append to tree with a status color				
+		// distinguish between weak and strong. In both cases append to tree with a status color
 	}
 	[aDocument incrementNumDependencies];
 	if (!(self = [self initWithFile:aFile command:aCommand document:aDocument parent:aParent architecture:anArchitecture])) return nil;
 	return self;
-}				 
+}
 
 // private
 - (id) initWithFile:(MachO*)aFile command:(DylibCommand*)aCommand document:(MyDocument*)aDocument parent:(MachOModel*)aParent architecture:(MachOArchitecture*)anArchitecture {
@@ -77,8 +77,8 @@
 			if (dylibId && command) {
 				[self checkConstraints:dylibId];
 			}
-		} 
-		
+		}
+
 	} return self;
 }
 
@@ -88,7 +88,7 @@
 	if (isWarning) {
 		newState = StateWarning;
 	}
-	
+
 	if (self->state < newState) {
 		self->state = newState;
 	}
@@ -103,39 +103,39 @@
 	unsigned int minVersion = dylibId->getCompatibleVersion();
 	unsigned int requestedMinVersion = command->getCompatibleVersion();
 	unsigned int requestedMaxVersion = command->getCurrentVersion();
-	
+
 	VersionFormatter* versionFormatter = [[VersionFormatter alloc] init];
-	
+
 	BOOL isWeakReference = (command && !command->isNecessary());
-	
+
 	NSString* log;
 	// check minimum version
 	if (minVersion != 0 && requestedMinVersion != 0 && minVersion < requestedMinVersion) {
 		[self setStateWithWarning:isWeakReference];
 		log = [NSString stringWithFormat:NSLocalizedString(@"ERR_MINIMUM_VERSION", nil), parent->command->getName().c_str(), [parent name], [versionFormatter stringForObjectValue:[NSNumber numberWithUnsignedInt:requestedMinVersion]], [versionFormatter stringForObjectValue:[NSNumber numberWithUnsignedInt:minVersion]]];
 		[document appendLogLine:log withModel:self state:state];
-		
+
 	}
-	
+
 	// extended checks which are currently not done by dyld
-	
+
 	// check maximum version
 	if (minVersion != 0 && requestedMaxVersion != 0 && minVersion > requestedMaxVersion) {
 		[self setStateWithWarning:YES];
 		log = [NSString stringWithFormat:NSLocalizedString(@"ERR_MAXIMUM_VERSION", nil), command->getName().c_str(), [parent name], [versionFormatter stringForObjectValue:[NSNumber numberWithUnsignedInt:requestedMaxVersion]], [versionFormatter stringForObjectValue:[NSNumber numberWithUnsignedInt:minVersion]]];
 		[document appendLogLine:log withModel:self state:state];
-		
+
 	}
-	
+
 	// check names
 	if (dylibId->getName() != command->getName()) {
 		[self setStateWithWarning:YES];
 		log = [NSString stringWithFormat:NSLocalizedString(@"ERR_NAME_MISMATCH", nil), command->getName().c_str(), [parent name], dylibId->getName().c_str()];
 		[document appendLogLine:log withModel:self state:state];
 	}
-	
+
 	// TODO: check for relative paths, since they can lead to problems
-} 
+}
 
 - (NSArray*)children {
 	if (children == nil) {
@@ -152,7 +152,7 @@
 		for (MachOArchitecture::LoadCommandsConstIterator it = architecture->getLoadCommandsBegin();
 			 it != architecture->getLoadCommandsEnd();
 			 ++it) {
-			
+
 			LoadCommand* childLoadCommand = (*it);
 			// check if it is dylibcommand
 			DylibCommand* dylibCommand = dynamic_cast<DylibCommand*> (childLoadCommand);
@@ -176,13 +176,13 @@
 	NSColor* color;
 	switch(state) {
 		case StateWarning:
-			color = [NSColor blueColor];
+			color = [NSColor systemOrangeColor];
 			break;
 		case StateError:
-			color = [NSColor redColor];
+			color = [NSColor systemOrangeColor];
 			break;
 		default:
-			color= [NSColor blackColor];
+			color = [NSColor labelColor];
 	}
 	return color;
 }
@@ -243,14 +243,14 @@
 		return @"";
 	}
 	switch(command->getType()) {
-			
-		case DylibCommand::DependencyWeak:		
+
+		case DylibCommand::DependencyWeak:
 			type = NSLocalizedString(@"DEPENDENCY_TYPE_WEAK", nil);
 			break;
-		case DylibCommand::DependencyDelayed:   
+		case DylibCommand::DependencyDelayed:
 			type = NSLocalizedString(@"DEPENDENCY_TYPE_DELAYED", nil);
 			break;
-		case DylibCommand::DependencyNormal:  		
+		case DylibCommand::DependencyNormal:
 			type = NSLocalizedString(@"DEPENDENCY_TYPE_NORMAL", nil);
 			break;
 		default:
@@ -261,7 +261,7 @@
 
 - (NSArray*) architectures {
 	NSMutableArray* architectures = [NSMutableArray arrayWithCapacity:4];
-	
+
 	if (file) {
 		for (MachO::MachOArchitecturesIterator iter = file->getArchitecturesBegin(); iter != file->getArchitecturesEnd(); iter++) {
 			// create model for architecture
@@ -272,7 +272,7 @@
 			} else {
 				[architectures addObject:currentArchitecture]; // insert at end
 			}
-			
+
 		}
 	}
 	return  architectures;
