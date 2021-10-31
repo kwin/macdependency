@@ -46,7 +46,7 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <outlineView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowHeight="20" headerView="100091" indentationPerLevel="14" autoresizesOutlineColumn="YES" outlineTableColumn="bfD-30-twJ" id="100036" customClass="AutoExpandOutlineView">
-                                                    <rect key="frame" x="0.0" y="0.0" width="781" height="649"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="768" height="649"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <size key="intercellSpacing" width="3" height="0.0"/>
                                                     <color key="backgroundColor" name="_sourceListBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -114,7 +114,7 @@
                                                                 <binding destination="100084" name="textColor" keyPath="arrangedObjects.textColor" id="100366"/>
                                                             </connections>
                                                         </tableColumn>
-                                                        <tableColumn editable="NO" width="330" minWidth="10" maxWidth="3.4028229999999999e+38" id="100089">
+                                                        <tableColumn editable="NO" width="301" minWidth="10" maxWidth="3.4028229999999999e+38" id="100089">
                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Compatible Version">
                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -138,7 +138,7 @@
                                             </subviews>
                                             <nil key="backgroundColor"/>
                                         </clipView>
-                                        <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="100035">
+                                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="100035">
                                             <rect key="frame" x="1" y="657" width="768" height="16"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
@@ -147,7 +147,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
                                         <tableHeaderView key="headerView" wantsLayer="YES" id="100091">
-                                            <rect key="frame" x="0.0" y="0.0" width="781" height="23"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="768" height="23"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableHeaderView>
                                     </scrollView>
@@ -170,7 +170,7 @@
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="100352" id="100350">
                                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                                            <font key="font" metaFont="system" size="12"/>
+                                                            <font key="font" metaFont="cellTitle"/>
                                                             <menu key="menu" title="OtherViews" id="100351">
                                                                 <items>
                                                                     <menuItem title="Item 1" state="on" id="100352"/>
@@ -394,7 +394,7 @@
                                                                                 </binding>
                                                                             </connections>
                                                                         </tableColumn>
-                                                                        <tableColumn editable="NO" width="530" minWidth="40" maxWidth="1000" id="100079">
+                                                                        <tableColumn editable="NO" width="501" minWidth="40" maxWidth="1000" id="100079">
                                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Name">
                                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                                 <color key="backgroundColor" white="0.33333299" alpha="1" colorSpace="calibratedWhite"/>
@@ -1367,7 +1367,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <popUpButtonCell key="cell" type="roundTextured" title="Item 1" bezelStyle="texturedRounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="100318" id="100316">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                <font key="font" metaFont="system" size="12"/>
+                                <font key="font" metaFont="cellTitle"/>
                                 <menu key="menu" title="OtherViews" id="100317">
                                     <items>
                                         <menuItem title="Item 1" state="on" id="100318"/>
