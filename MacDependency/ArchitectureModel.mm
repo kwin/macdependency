@@ -85,10 +85,16 @@
 }
 
 - (NSString*) uuid {
-	// use CFUUID
-	CFUUIDRef uuid = CFUUIDCreateFromUUIDBytes(kCFAllocatorDefault, *((CFUUIDBytes*)architecture->getUuid()));
-	CFStringRef result = CFUUIDCreateString(kCFAllocatorDefault, uuid);
-	CFRelease(uuid);
+	CFStringRef result;
+	CFUUIDBytes* uuidPtr = (CFUUIDBytes*)architecture->getUuid();
+	if (uuidPtr) {
+		// use CFUUID
+		CFUUIDRef uuid = CFUUIDCreateFromUUIDBytes(kCFAllocatorDefault, *uuidPtr);
+		result = CFUUIDCreateString(kCFAllocatorDefault, uuid);
+		CFRelease(uuid);
+	} else {
+		result = CFStringCreateWithCString(NULL, "[No UUID]", kCFStringEncodingASCII);
+	}
 	return (NSString*) CFBridgingRelease(result);
 }
 
