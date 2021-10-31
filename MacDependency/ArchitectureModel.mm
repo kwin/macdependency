@@ -29,14 +29,14 @@
 	file = aFile;
 	document = aDocument;
 	symbolEntries = nil;
-	
+
 	// create model with the current architecture selected (create from existing model)
 	if (isRoot) {
 		machOModel = nil;
 	} else {
 		machOModel = [[MachOModel alloc]initWithFile:aFile document:aDocument architecture:anArchitecture loadChildren:NO];
 	}
-	
+
 	return self;
 }
 
@@ -63,10 +63,19 @@
 		case MachOHeader::CpuTypeX8664:
 			label = NSLocalizedString(@"CPU_TYPE_X8664", nil);
 			break;
+		case MachOHeader::CpuTypeArm:
+			label = NSLocalizedString(@"CPU_TYPE_ARM", nil);
+			break;
+		case MachOHeader::CpuTypeArm64:
+			label = NSLocalizedString(@"CPU_TYPE_ARM64", nil);
+			break;
+		case MachOHeader::CpuTypeArm6432:
+			label = NSLocalizedString(@"CPU_TYPE_ARM6432", nil);
+			break;
 		default:
 			label = NSLocalizedString(@"UNDEFINED", nil);
 			break;
-			
+
 	}
 	return label;
 }
@@ -146,9 +155,9 @@
 	for (std::vector<std::string*>::iterator it = rpaths.begin();
 		 it != rpaths.end();
 		 ++it)
-    {
-        [rpath appendFormat:@"%@; ", [NSString stringWithStdString:**it]];
-    }
+	{
+		[rpath appendFormat:@"%@; ", [NSString stringWithStdString:**it]];
+	}
 	return rpath;
 }
 
@@ -168,10 +177,10 @@
 	unsigned int architectureSize = architecture->getSize();
 	unsigned long long fileSize = file->getSize();
 	if (fileSize != architectureSize) {
-		size = [NSString stringWithFormat:NSLocalizedString(@"SIZE_FORMAT_ARCHITECTURE", nil), 
+		size = [NSString stringWithFormat:NSLocalizedString(@"SIZE_FORMAT_ARCHITECTURE", nil),
 				fileSize/1024L, architectureSize/1024];
 	} else {
-		size = [NSString stringWithFormat:NSLocalizedString(@"SIZE_FORMAT", nil), 
+		size = [NSString stringWithFormat:NSLocalizedString(@"SIZE_FORMAT", nil),
 				fileSize/1024L];
 	}
 	return size;
@@ -182,26 +191,26 @@
 	DylibCommand* dynamicLibraryIdCommand = architecture->getDynamicLibIdCommand();
 	if (dynamicLibraryIdCommand != NULL) {
 		VersionFormatter* versionFormatter = [[VersionFormatter alloc] init];
-		
+
 		time_t timestamp = dynamicLibraryIdCommand->getTimeStamp();
 		NSString* currentVersion = [versionFormatter stringForObjectValue:[NSNumber numberWithUnsignedInt:dynamicLibraryIdCommand->getCurrentVersion()]];
 		NSString* compatibleVersion = [versionFormatter stringForObjectValue:[NSNumber numberWithUnsignedInt:dynamicLibraryIdCommand->getCompatibleVersion()]];
 		if ([currentVersion length]+[compatibleVersion length] > 0) {
 			if (timestamp > 1) {
 				NSDate* date = [NSDate dateWithTimeIntervalSince1970:timestamp];
-				
+
 				// this date formatter should be identical to NSDateFormatter in IB
 				NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 				[dateFormatter setDateStyle:NSDateFormatterMediumStyle];
 				[dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
-				
-				version = [NSString stringWithFormat:NSLocalizedString(@"VERSION_FORMAT_TIMESTAMP", nil), 
+
+				version = [NSString stringWithFormat:NSLocalizedString(@"VERSION_FORMAT_TIMESTAMP", nil),
 						   currentVersion,
 						   compatibleVersion,
 						   [dateFormatter stringFromDate:date]];
 			}
 			else {
-				version = [NSString stringWithFormat:NSLocalizedString(@"VERSION_FORMAT", nil), 
+				version = [NSString stringWithFormat:NSLocalizedString(@"VERSION_FORMAT", nil),
 						   currentVersion,
 						   compatibleVersion];
 			}

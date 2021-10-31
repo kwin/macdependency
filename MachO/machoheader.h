@@ -15,6 +15,9 @@ public:
         CpuTypeI386,
         CpuTypePowerPc64,
         CpuTypeX8664,
+        CpuTypeArm,
+        CpuTypeArm64,
+        CpuTypeArm6432,
         CpuTypeOther,
         NumCpuTypes
     };
