@@ -1,7 +1,7 @@
 #ifndef RPATHCOMMAND_H
 #define RPATHCOMMAND_H
 
-#include "MachO_global.h"
+#include "macho_global.h"
 #include "loadcommand.h"
 
 class EXPORT RpathCommand : public LoadCommand
