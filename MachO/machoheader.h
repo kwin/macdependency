@@ -1,7 +1,7 @@
 #ifndef MACHOHEADER_H
 #define MACHOHEADER_H
 
-#include "MachO_global.h"
+#include "macho_global.h"
 #include "machofile.h"
 
 class EXPORT MachOHeader
