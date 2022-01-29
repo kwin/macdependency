@@ -1,0 +1,13 @@
+name: build
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      # https://github.com/mxcl/xcodebuild
+      - uses: mxcl/xcodebuild@v1
+        with:
+          platform: macOS
+          working-directory: MacDependency
+          action: build # default = `test`
