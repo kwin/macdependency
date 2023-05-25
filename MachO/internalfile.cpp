@@ -1,6 +1,8 @@
 #include "internalfile.h"
 #include "machoexception.h"
 
+#include <dlfcn.h>
+
 // use reference counting to reuse files for all used architectures
 InternalFile* InternalFile::create(InternalFile* file) {
   file->counter++;
@@ -24,9 +26,13 @@ filename(filename), counter(1)
   // open file handle
   file.open(this->filename, std::ios_base::in | std::ios_base::binary);
   if (file.fail()) {
-    std::ostringstream error;
-    error << "Couldn't open file '" << filename << "'.";
-    throw MachOException(error.str());
+    void* dylib = dlopen(this->filename.c_str(), RTLD_LAZY);
+    if (dylib) {
+      dlclose(dylib);
+      throw MachOException("System cached library '" + filename + "'.", true);
+    } else {
+      throw MachOException("Couldn't open file '" + filename + "'.");
+    }
   }
   
   struct stat buffer;

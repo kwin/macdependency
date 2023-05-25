@@ -51,9 +51,8 @@
 			NSString* log = [NSString stringWithFormat:NSLocalizedString(@"ERR_ARCHITECTURE_MISMATCH", nil), filename.c_str(), [parent name]];
 			[aDocument appendLogLine:log withModel:self state:state];
 		}
-
-	}  catch (MachOException& exc) {
-		[self setStateWithWarning:isWeakReference];
+	} catch (MachOException& exc) {
+		[self setStateWithWarning:isWeakReference || exc.isWarning()];
 		NSString* log = [NSString stringWithStdString:exc.getCause()];
 		[aDocument appendLogLine:log withModel:self state:state];
 		// distinguish between weak and strong. In both cases append to tree with a status color
@@ -176,10 +175,10 @@
 	NSColor* color;
 	switch(state) {
 		case StateWarning:
-			color = [NSColor systemOrangeColor];
+			color = [NSColor systemYellowColor];
 			break;
 		case StateError:
-			color = [NSColor systemOrangeColor];
+			color = [NSColor systemRedColor];
 			break;
 		default:
 			color = [NSColor labelColor];
