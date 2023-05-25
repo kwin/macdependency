@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "MachOModel.h"
-#include "macho/machoarchitecture.h"
+#include "MachO/machoarchitecture.h"
 #include "MachO/machoheader.h"
 
 @class MyDocument;
